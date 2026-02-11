@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE `bpu_items` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`code` varchar(20) NOT NULL,\n\t`category` varchar(100) NOT NULL,\n\t`name` text NOT NULL,\n\t`detail` text,\n\t`priceHT` decimal(12,2) NOT NULL,\n\t`unit` varchar(200),\n\t`lotCode` varchar(10) NOT NULL,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `bpu_items_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `bpu_items_code_unique` UNIQUE(`code`)\n);\n\nCREATE TABLE `intervention_bpu_lines` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`interventionId` int NOT NULL,\n\t`bpuItemId` int NOT NULL,\n\t`quantity` decimal(10,2) NOT NULL,\n\t`unitPriceHT` decimal(12,2) NOT NULL,\n\t`totalHT` decimal(12,2) NOT NULL,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `intervention_bpu_lines_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute CREATE TABLE `bpu_items` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`code` varchar(20) NOT NULL,\n\t`category` varchar(100) NOT NULL,\n\t`name` text NOT NULL,\n\t`detail` text,\n\t`priceHT` decimal(12,2) NOT NULL,\n\t`unit` varchar(200),\n\t`lotCode` varchar(10) NOT NULL,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `bpu_items_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `bpu_items_code_unique` UNIQUE(`code`)\n);\n\nCREATE TABLE `intervention_bpu_lines` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`interventionId` int NOT NULL,\n\t`bpuItemId` int NOT NULL,\n\t`quantity` decimal(10,2) NOT NULL,\n\t`unitPriceHT` decimal(12,2) NOT NULL,\n\t`totalHT` decimal(12,2) NOT NULL,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `intervention_bpu_lines_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 728
+}

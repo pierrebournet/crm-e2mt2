@@ -3,7 +3,10 @@ import { drizzle } from "drizzle-orm/mysql2";
 import {
   InsertUser, users,
   lots, buildings, workTypes, interventions, comments, interventionHistory, alerts,
-  type InsertBuilding, type InsertIntervention,
+  bpuItems, interventionBpuLines,
+  devisAnalyses, devisLines,
+  type InsertBuilding, type InsertIntervention, type InsertInterventionBpuLine,
+  type InsertDevisAnalyse, type InsertDevisLine,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -275,6 +278,20 @@ export async function getInterventionById(id: number) {
     d1Met: interventions.d1Met,
     d2Met: interventions.d2Met,
     assignedTo: interventions.assignedTo,
+    contractor: interventions.contractor,
+    quoteNumber: interventions.quoteNumber,
+    amount: interventions.amount,
+    validationKnitiv: interventions.validationKnitiv,
+    connectImmoRef: interventions.connectImmoRef,
+    daNumber: interventions.daNumber,
+    cdaNumber: interventions.cdaNumber,
+    pvNumber: interventions.pvNumber,
+    receptionNumber: interventions.receptionNumber,
+    atNumber: interventions.atNumber,
+    axeLocal: interventions.axeLocal,
+    axeCentral: interventions.axeCentral,
+    dateDacia: interventions.dateDacia,
+    clotureAt: interventions.clotureAt,
     createdBy: interventions.createdBy,
     alertSent: interventions.alertSent,
     createdAt: interventions.createdAt,
@@ -504,6 +521,75 @@ export async function acknowledgeAlert(id: number) {
   await db.update(alerts).set({ acknowledged: 1 }).where(eq(alerts.id, id));
 }
 
+// ===== BPU =====
+export async function getBpuItems(filters: {
+  category?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+}) {
+  const db = await getDb();
+  if (!db) return { items: [], total: 0 };
+  const { category, search, page = 1, limit = 50 } = filters;
+  const conditions = [];
+  if (category) conditions.push(eq(bpuItems.category, category));
+  if (search) conditions.push(or(like(bpuItems.code, `%${search}%`), like(bpuItems.name, `%${search}%`)));
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  const [items, totalResult] = await Promise.all([
+    db.select().from(bpuItems).where(where).orderBy(asc(bpuItems.code)).limit(limit).offset((page - 1) * limit),
+    db.select({ count: count() }).from(bpuItems).where(where),
+  ]);
+  return { items, total: totalResult[0]?.count ?? 0 };
+}
+
+export async function getAllBpuCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.selectDistinct({ category: bpuItems.category }).from(bpuItems).orderBy(asc(bpuItems.category));
+  return result.map(r => r.category);
+}
+
+export async function getBpuItemById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(bpuItems).where(eq(bpuItems.id, id)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function getInterventionBpuLines(interventionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({
+    id: interventionBpuLines.id,
+    interventionId: interventionBpuLines.interventionId,
+    bpuItemId: interventionBpuLines.bpuItemId,
+    bpuCode: bpuItems.code,
+    bpuName: bpuItems.name,
+    bpuCategory: bpuItems.category,
+    quantity: interventionBpuLines.quantity,
+    unitPriceHT: interventionBpuLines.unitPriceHT,
+    totalHT: interventionBpuLines.totalHT,
+    unit: bpuItems.unit,
+    createdAt: interventionBpuLines.createdAt,
+  })
+    .from(interventionBpuLines)
+    .leftJoin(bpuItems, eq(interventionBpuLines.bpuItemId, bpuItems.id))
+    .where(eq(interventionBpuLines.interventionId, interventionId))
+    .orderBy(asc(interventionBpuLines.id));
+}
+
+export async function addBpuLine(data: InsertInterventionBpuLine) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.insert(interventionBpuLines).values(data);
+}
+
+export async function removeBpuLine(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.delete(interventionBpuLines).where(eq(interventionBpuLines.id, id));
+}
+
 // ===== EXPORT DATA =====
 export async function getAllInterventionsForExport(filters: {
   lotId?: number;
@@ -544,6 +630,18 @@ export async function getAllInterventionsForExport(filters: {
     d1Met: interventions.d1Met,
     d2Met: interventions.d2Met,
     assignedTo: interventions.assignedTo,
+    contractor: interventions.contractor,
+    quoteNumber: interventions.quoteNumber,
+    amount: interventions.amount,
+    validationKnitiv: interventions.validationKnitiv,
+    connectImmoRef: interventions.connectImmoRef,
+    daNumber: interventions.daNumber,
+    cdaNumber: interventions.cdaNumber,
+    pvNumber: interventions.pvNumber,
+    receptionNumber: interventions.receptionNumber,
+    atNumber: interventions.atNumber,
+    axeLocal: interventions.axeLocal,
+    axeCentral: interventions.axeCentral,
     createdAt: interventions.createdAt,
   })
     .from(interventions)
@@ -552,4 +650,70 @@ export async function getAllInterventionsForExport(filters: {
     .leftJoin(workTypes, eq(interventions.workTypeId, workTypes.id))
     .where(where)
     .orderBy(desc(interventions.createdAt));
+}
+
+// ===== DEVIS ANALYSES =====
+
+export async function createDevisAnalyse(data: InsertDevisAnalyse) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const result = await db.insert(devisAnalyses).values(data);
+  return result[0].insertId;
+}
+
+export async function updateDevisAnalyse(id: number, data: Partial<InsertDevisAnalyse>) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(devisAnalyses).set(data).where(eq(devisAnalyses.id, id));
+}
+
+export async function getDevisAnalyseById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(devisAnalyses).where(eq(devisAnalyses.id, id)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function listDevisAnalyses(params: { page: number; limit: number; verdict?: string }) {
+  const db = await getDb();
+  if (!db) return { items: [], total: 0 };
+  const conditions: any[] = [];
+  if (params.verdict) conditions.push(eq(devisAnalyses.verdict, params.verdict as any));
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  const offset = (params.page - 1) * params.limit;
+  const [items, totalResult] = await Promise.all([
+    db.select().from(devisAnalyses).where(where).orderBy(desc(devisAnalyses.createdAt)).limit(params.limit).offset(offset),
+    db.select({ count: count() }).from(devisAnalyses).where(where),
+  ]);
+  return { items, total: totalResult[0]?.count ?? 0 };
+}
+
+export async function deleteDevisAnalyse(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.delete(devisLines).where(eq(devisLines.devisId, id));
+  await db.delete(devisAnalyses).where(eq(devisAnalyses.id, id));
+}
+
+// ===== DEVIS LINES =====
+
+export async function createDevisLines(lines: InsertDevisLine[]) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  if (lines.length === 0) return;
+  await db.insert(devisLines).values(lines);
+}
+
+export async function getDevisLines(devisId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(devisLines).where(eq(devisLines.devisId, devisId)).orderBy(asc(devisLines.id));
+}
+
+// ===== BPU SEARCH (for matching) =====
+
+export async function getAllBpuItems() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(bpuItems).orderBy(asc(bpuItems.code));
 }

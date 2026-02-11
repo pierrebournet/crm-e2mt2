@@ -19,7 +19,10 @@ function downloadCSV(data: any[], filename: string) {
     "Référence", "Bâtiment", "Code Bâtiment", "Lot", "Région", "Portefeuille",
     "Type Travaux (Code)", "Type Travaux", "Criticité", "Type Maintenance",
     "Titre", "Statut", "Date Planifiée", "Date Début", "Date Fin",
-    "Durée (min)", "D1 Respecté", "D2 Respecté", "Assigné à", "Date Création"
+    "Durée (min)", "D1 Respecté", "D2 Respecté", "Assigné à",
+    "Prestataire", "N° Devis", "Montant", "Validation Knitiv",
+    "Réf. Connect Immo", "N° DA", "N° CDA", "N° PV", "N° Réception",
+    "N° AT", "Axe Local", "Axe Central", "Date Création"
   ];
 
   const formatDate = (ts: any) => {
@@ -47,6 +50,18 @@ function downloadCSV(data: any[], filename: string) {
     row.d1Met === 1 ? "Oui" : row.d1Met === 0 ? "Non" : "",
     row.d2Met === 1 ? "Oui" : row.d2Met === 0 ? "Non" : "",
     row.assignedTo || "",
+    row.contractor || "",
+    row.quoteNumber || "",
+    row.amount || "",
+    row.validationKnitiv || "",
+    row.connectImmoRef || "",
+    row.daNumber || "",
+    row.cdaNumber || "",
+    row.pvNumber || "",
+    row.receptionNumber || "",
+    row.atNumber || "",
+    row.axeLocal || "",
+    row.axeCentral || "",
     row.createdAt ? new Date(row.createdAt).toLocaleDateString("fr-FR") : "",
   ]);
 

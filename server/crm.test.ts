@@ -51,6 +51,33 @@ vi.mock("./db", () => ({
   createAlert: vi.fn().mockResolvedValue(undefined),
   acknowledgeAlert: vi.fn().mockResolvedValue(undefined),
   getAllInterventionsForExport: vi.fn().mockResolvedValue([]),
+  getBpuItems: vi.fn().mockResolvedValue({
+    items: [
+      { id: 1, code: "CVCD-01", name: "Split-system", category: "CVC", priceHT: "1250.00", unit: "U" },
+      { id: 2, code: "PB-01", name: "Robinet", category: "Plomberie", priceHT: "85.00", unit: "U" },
+    ],
+    total: 2,
+  }),
+  getAllBpuCategories: vi.fn().mockResolvedValue(["CVC", "Plomberie", "Protection incendie"]),
+  getBpuItemById: vi.fn().mockResolvedValue({ id: 1, code: "CVCD-01", name: "Split-system", category: "CVC", priceHT: "1250.00", unit: "U" }),
+  getAllBpuItems: vi.fn().mockResolvedValue([
+    { id: 1, code: "CVCD-01", name: "Split-system", category: "CVC", priceHT: "1250.00", unit: "U" },
+    { id: 2, code: "PB-01", name: "Robinet", category: "Plomberie", priceHT: "85.00", unit: "U" },
+  ]),
+  getInterventionBpuLines: vi.fn().mockResolvedValue([]),
+  addBpuLine: vi.fn().mockResolvedValue(undefined),
+  removeBpuLine: vi.fn().mockResolvedValue(undefined),
+  createDevisAnalyse: vi.fn().mockResolvedValue(1),
+  updateDevisAnalyse: vi.fn().mockResolvedValue(undefined),
+  getDevisAnalyseById: vi.fn().mockResolvedValue({
+    id: 1, fileName: "devis-test.pdf", fileUrl: "https://example.com/devis.pdf",
+    status: "termine", verdict: "valide", totalDevis: "1500.00", totalBpu: "1250.00",
+    ecartPercent: "20.00", createdAt: new Date(), updatedAt: new Date(),
+  }),
+  listDevisAnalyses: vi.fn().mockResolvedValue([]),
+  deleteDevisAnalyse: vi.fn().mockResolvedValue(undefined),
+  createDevisLines: vi.fn().mockResolvedValue(undefined),
+  getDevisLines: vi.fn().mockResolvedValue([]),
   upsertUser: vi.fn(),
   getUserByOpenId: vi.fn(),
   getDb: vi.fn(),
@@ -59,6 +86,18 @@ vi.mock("./db", () => ({
 // Mock notification
 vi.mock("./_core/notification", () => ({
   notifyOwner: vi.fn().mockResolvedValue(true),
+}));
+
+// Mock LLM
+vi.mock("./_core/llm", () => ({
+  invokeLLM: vi.fn().mockResolvedValue({
+    choices: [{ message: { content: "Le d\u00e9lai D1 pour une intervention C1 est de 8 heures." } }],
+  }),
+}));
+
+// Mock storage
+vi.mock("./storage", () => ({
+  storagePut: vi.fn().mockResolvedValue({ key: "test-key", url: "https://example.com/file.pdf" }),
 }));
 
 import { appRouter } from "./routers";
@@ -255,12 +294,100 @@ describe("CRM E2MT² - Contractual Delays", () => {
   });
 });
 
-describe("CRM E2MT² - Export", () => {
+describe("CRM E2MT\u00b2 - Export", () => {
   it("exports interventions data", async () => {
     const ctx = createAuthContext();
     const caller = appRouter.createCaller(ctx);
     const data = await caller.export.interventions({});
     expect(Array.isArray(data)).toBe(true);
     expect(db.getAllInterventionsForExport).toHaveBeenCalled();
+  });
+});
+
+describe("CRM E2MT\u00b2 - BPU", () => {
+  it("lists BPU items with pagination", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.bpu.list({ page: 1, limit: 20 });
+    expect(result).toHaveProperty("items");
+    expect(result).toHaveProperty("total", 2);
+    expect(result.items).toHaveLength(2);
+    expect(result.items[0]).toHaveProperty("code", "CVCD-01");
+  });
+
+  it("lists BPU categories", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const categories = await caller.bpu.categories();
+    expect(Array.isArray(categories)).toBe(true);
+    expect(categories).toContain("CVC");
+  });
+
+  it("gets a BPU item by id", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const item = await caller.bpu.getById({ id: 1 });
+    expect(item).toHaveProperty("code", "CVCD-01");
+    expect(item).toHaveProperty("priceHT", "1250.00");
+  });
+});
+
+describe("CRM E2MT\u00b2 - Devis", () => {
+  it("lists devis analyses", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.devis.list({ page: 1, limit: 20 });
+    expect(result).toBeDefined();
+  });
+
+  it("gets a devis by id", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const devis = await caller.devis.getById({ id: 1 });
+    expect(devis).toHaveProperty("fileName", "devis-test.pdf");
+    expect(devis).toHaveProperty("verdict", "valide");
+  });
+
+  it("gets devis detail with lines", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const devis = await caller.devis.getById({ id: 1 });
+    expect(devis).toHaveProperty("lines");
+    expect(Array.isArray(devis?.lines)).toBe(true);
+  });
+
+  it("deletes a devis", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.devis.delete({ id: 1 });
+    expect(result).toEqual({ success: true });
+    expect(db.deleteDevisAnalyse).toHaveBeenCalledWith(1);
+  });
+});
+
+describe("CRM E2MT\u00b2 - Assistant IA", () => {
+  it("answers a question about the contract", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Quel est le d\u00e9lai D1 pour une intervention C1 ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers with conversation history", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Et pour la C2 ?",
+      conversationHistory: [
+        { role: "user", content: "Quel est le d\u00e9lai D1 pour une intervention C1 ?" },
+        { role: "assistant", content: "Le d\u00e9lai D1 pour une intervention C1 est de 8 heures." },
+      ],
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
   });
 });

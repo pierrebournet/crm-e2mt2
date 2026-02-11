@@ -89,7 +89,22 @@ export const interventions = mysqlTable("interventions", {
   d2Met: int("d2Met"),
   // Assignation
   assignedTo: varchar("assignedTo", { length: 200 }),
+  contractor: varchar("contractor", { length: 200 }),
   createdBy: int("createdBy"),
+  // Suivi administratif et financier
+  quoteNumber: varchar("quoteNumber", { length: 100 }),
+  amount: decimal("amount", { precision: 12, scale: 2 }),
+  validationKnitiv: varchar("validationKnitiv", { length: 200 }),
+  connectImmoRef: varchar("connectImmoRef", { length: 100 }),
+  daNumber: varchar("daNumber", { length: 100 }),
+  cdaNumber: varchar("cdaNumber", { length: 100 }),
+  pvNumber: varchar("pvNumber", { length: 100 }),
+  receptionNumber: varchar("receptionNumber", { length: 100 }),
+  atNumber: varchar("atNumber", { length: 100 }),
+  axeLocal: varchar("axeLocal", { length: 100 }),
+  axeCentral: varchar("axeCentral", { length: 100 }),
+  dateDacia: bigint("dateDacia", { mode: "number" }),
+  clotureAt: bigint("clotureAt", { mode: "number" }),
   // Alertes
   alertSent: int("alertSent").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -140,3 +155,94 @@ export const alerts = mysqlTable("alerts", {
 });
 
 export type Alert = typeof alerts.$inferSelect;
+
+/**
+ * Bordereau de Prix Unitaires (BPU)
+ */
+export const bpuItems = mysqlTable("bpu_items", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 20 }).notNull().unique(),
+  category: varchar("category", { length: 100 }).notNull(),
+  name: text("name").notNull(),
+  detail: text("detail"),
+  priceHT: decimal("priceHT", { precision: 12, scale: 2 }).notNull(),
+  unit: varchar("unit", { length: 200 }),
+  lotCode: varchar("lotCode", { length: 10 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type BpuItem = typeof bpuItems.$inferSelect;
+export type InsertBpuItem = typeof bpuItems.$inferInsert;
+
+/**
+ * Ligne de prestation BPU liée à une intervention
+ */
+export const interventionBpuLines = mysqlTable("intervention_bpu_lines", {
+  id: int("id").autoincrement().primaryKey(),
+  interventionId: int("interventionId").notNull(),
+  bpuItemId: int("bpuItemId").notNull(),
+  quantity: decimal("quantity", { precision: 10, scale: 2 }).notNull(),
+  unitPriceHT: decimal("unitPriceHT", { precision: 12, scale: 2 }).notNull(),
+  totalHT: decimal("totalHT", { precision: 12, scale: 2 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type InterventionBpuLine = typeof interventionBpuLines.$inferSelect;
+export type InsertInterventionBpuLine = typeof interventionBpuLines.$inferInsert;
+
+/**
+ * Analyses de devis
+ */
+export const devisAnalyses = mysqlTable("devis_analyses", {
+  id: int("id").autoincrement().primaryKey(),
+  fileName: varchar("fileName", { length: 300 }).notNull(),
+  fileUrl: text("fileUrl").notNull(),
+  contractor: varchar("contractor", { length: 200 }),
+  devisNumber: varchar("devisNumber", { length: 100 }),
+  devisDate: varchar("devisDate", { length: 50 }),
+  totalHT: decimal("totalHT", { precision: 12, scale: 2 }),
+  totalTTC: decimal("totalTTC", { precision: 12, scale: 2 }),
+  // Verdict: valide, a_reverifier, rejete
+  verdict: mysqlEnum("verdict", ["valide", "a_reverifier", "rejete", "en_cours"]).default("en_cours").notNull(),
+  verdictReason: text("verdictReason"),
+  // Ecart global par rapport au BPU (%)
+  ecartGlobalPct: decimal("ecartGlobalPct", { precision: 8, scale: 2 }),
+  // Données brutes extraites par l'IA
+  rawExtraction: json("rawExtraction"),
+  // Lien optionnel vers une intervention
+  interventionId: int("interventionId"),
+  // Utilisateur qui a uploadé
+  uploadedBy: int("uploadedBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DevisAnalyse = typeof devisAnalyses.$inferSelect;
+export type InsertDevisAnalyse = typeof devisAnalyses.$inferInsert;
+
+/**
+ * Lignes extraites d'un devis avec comparaison BPU
+ */
+export const devisLines = mysqlTable("devis_lines", {
+  id: int("id").autoincrement().primaryKey(),
+  devisId: int("devisId").notNull(),
+  // Données extraites du devis
+  description: text("description").notNull(),
+  quantity: decimal("quantity", { precision: 10, scale: 2 }),
+  unitPrice: decimal("unitPrice", { precision: 12, scale: 2 }),
+  totalPrice: decimal("totalPrice", { precision: 12, scale: 2 }),
+  unit: varchar("unit", { length: 100 }),
+  // Correspondance BPU trouvée
+  matchedBpuId: int("matchedBpuId"),
+  matchedBpuCode: varchar("matchedBpuCode", { length: 20 }),
+  bpuUnitPrice: decimal("bpuUnitPrice", { precision: 12, scale: 2 }),
+  // Ecart en % par rapport au BPU
+  ecartPct: decimal("ecartPct", { precision: 8, scale: 2 }),
+  // Statut de la ligne: conforme, ecart_faible, ecart_fort, non_trouve
+  lineStatus: mysqlEnum("lineStatus", ["conforme", "ecart_faible", "ecart_fort", "non_trouve"]).default("non_trouve").notNull(),
+  matchConfidence: decimal("matchConfidence", { precision: 5, scale: 2 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type DevisLine = typeof devisLines.$inferSelect;
+export type InsertDevisLine = typeof devisLines.$inferInsert;

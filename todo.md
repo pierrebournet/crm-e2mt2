@@ -26,3 +26,24 @@
 - [x] Génération rapports PDF mensuels/annuels (export CSV disponible)
 - [x] Tests unitaires (18 tests passés)
 - [x] Import des 45 bâtiments BACS Occitanie depuis le fichier CSV
+- [x] Adapter le schéma DB pour les champs du tableau de suivi (devis, montant, références admin)
+- [x] Mettre à jour le backend tRPC pour les nouveaux champs
+- [x] Mettre à jour le frontend (formulaire, détail, liste) pour les nouveaux champs
+- [ ] Importer les 4 interventions existantes du tableau de suivi 2026
+- [x] Créer la table BPU (bpu_items) dans le schéma DB
+- [x] Importer les 142 prestations BPU Lot 4.1
+- [x] Lier les interventions aux items BPU (table intervention_bpu_lines)
+- [x] Créer la page BPU dans le frontend avec recherche et filtrage
+- [x] Mettre à jour le formulaire d'intervention pour sélectionner des items BPU
+- [x] Mettre à jour les nouveaux champs admin (tableau de suivi) dans le frontend
+- [x] Importer les 4 interventions du tableau de suivi 2026
+- [x] Créer la table devis_analyses dans le schéma DB
+- [x] Créer les routes backend tRPC pour upload, analyse IA et comparaison BPU
+- [x] Créer la page frontend Devis avec upload PDF/image
+- [x] Afficher les résultats d'analyse avec comparaison BPU et verdict (vert/orange/rouge)
+- [x] Ajouter le lien Devis dans la navigation sidebar
+- [x] Importer les 4 interventions du tableau de suivi 2026
+- [x] Créer la route backend Assistant IA avec contexte contrat E2MT² + BPU
+- [x] Créer la page frontend Assistant IA avec chat interactif
+- [x] Ajouter le lien Assistant IA dans la navigation sidebar
+- [x] Tests unitaires pour les nouvelles fonctionnalités (27 tests passés)

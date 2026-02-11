@@ -1,0 +1,264 @@
+﻿;;;;;;
+Entretien, exploitation et maintenance des installations techniques des bâtiments;;;;;;
+CPS E2MT²;;;;;;
+Annexe 4 : Bordereau des Prix Unitaires, Scénario de Commande et Minimum Garanti;;;;;;
+LOT 4.1 - Mission D - BPU Prestations connexes - Rubrique 1;;;;;;
+;;;;;;
+"Attention, les prestations ci-dessous ne sont utilisables que dans les niveaux de maitenance non inclus au contrat ou pour des travaux neufs (si la main d'oeuvre et la franchise doivent être déduites, alors il faut recourir aux onglets 2 et 3).
+Les prestations listées ci-dessous peuvent être commandées par SNCF sans qu'obligatoirement les missions correspondantes en prestations récurrentes soient actives au contrat.";;;;;;
+Code PU;Prestation;;Détail Prestation;;Prix en €HT;Unité
+CVCD;;;;;;
+CVCD-01;"Remplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique inférieure à 6 kW froid
+1 unité intérieure en allège";;"Dépose et évacuation de l'équipement défaillant (unité intérieure et unité extérieure).
+Fourniture et pose d'un split système de puissance qualité technique équivalentee à l'existant de marque DAIKIN, MITSUBISHI ou qualité technique équivalente y compris raccordement électrique et toutes sujétions.";;3262,50;"Unité
+(pièces et main d'œuvre)"
+CVCD-02;"Remplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique inférieure à 6 kW froid
+1 unité intérieure plafonnière";;;;3385,23;
+CVCD-03;"Remplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid
+1 unité intérieure en allège";;;;6117,05;
+CVCD-04;"Remplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid
+1 unité intérieure plafonnière";;;;6378,41;
+CVCD-05;Remplacement du réseau du fluide frigorigène pour un split system froid seul ou réversible;;"Dépose et évacuation du réseau existant.
+Fourniture et pose d'un nouveau réseau frigorifique y compris isolant et toutes sujétions.";;95,35;"ml
+(mètre linéaire de réseau, pièces et main d'oeuvre)"
+CVCD-06;"Remplacement d'un BI split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid
+2 unités intérieures en allège";;"Dépose et évacuation de l'équipement défaillant (unité intérieure et unités extérieures).
+Fourniture et pose d'un split système de puissance qualité technique équivalentee à l'existant de marque DAIKIN, MITSUBISHI ou qualité technique équivalente y compris raccordement électrique et toutes sujétions.";;6363,34;"Unité
+(pièces et main d'œuvre)"
+CVCD-07;"Remplacement d'un BI split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid
+2 unités intérieures plafonnières";;;;6569,47;
+CVCD-08;Remplacement du réseau du fluide frigorigène pour un BI split system froid seul ou réversible;;"Dépose et évacuation du réseau existant.
+Fourniture et pose d'un nouveau réseau frigorifique y compris isolant et toutes sujétions.";;143,03;"ml
+(mètre linéaire de réseau, pièces et main d'oeuvre)"
+CVCD-09;Remplacement d'une chaudière murale gaz d'une puissance de 5 à 10kW ;;"Dépose et évacuation des équipements existants défectueux.
+Fourniture et pose d'une chaudière murale à condensation d'une puissance identique à l'existant type VIESSMANN, FRISQUET ou qualité technique équivalente y compris tous accessoires et toutes sujétions.";;3398,86;Forfait pièces et main d'œuvre
+CVCD-10;Remplacement d'une chaudière murale gaz d'une puissance de 11 à 20kW;;;;4350,00;
+CVCD-11;Remplacement d'une chaudière murale gaz d'une puissance de 21 à 30kW;;"Dépose et évacuation des équipements existants défectueux.
+Fourniture et pose d'une chaudière murale à condensation d'une puissance identique à l'existant type VIESSMANN, FRISQUET ou qualité technique équivalente y compris tous accessoires et toutes sujétions.
+Mise en service par le constructeur ou par une société agréée par ce dernier.";;4894,32;Forfait pièces et main d'œuvre
+CVCD-12;Remplacement d'une chaudière murale gaz d'une puissance de 31 à 45kW;;;;6797,73;
+CVCD-13;Remplacement d'un préparateur ECS Gaz d'une capacité inférieure à 100 L;;"Dépose et évacuation des équipements existants défectueux.
+Fourniture et pose d'un préparateur ECS gaz de puissance identique à l'existant type STYX ou qualité technique équivalente y compris tous accessoires et toutes sujétions.
+Raccordement gaz et mise en service.";;5368,18;Forfait pièces et main d'œuvre
+CVCD-14;Remplacement d'un préparateur ECS Gaz d'une capacité comprise entre 100 et 199 L;;;;6071,59;
+CVCD-15;Remplacement d'un préparateur ECS Gaz d'une capacité comprise entre 200 et 300 L;;;;6393,18;
+CVCD-16;Remplacement d'un radiateur eau chaude horizontal ou vertical d'une puissance inférieure ou égale à 1000 W;;"Dépose et évacuation de l'équipement défectueux.
+Fourniture et pose d'un radiateur à eau chaude de marque FINIMETAL, CHAPPEE ou qualité technique équivalente.
+Y compris raccordement hydraulique, tous accessoires et toutes sujétions.";;781,82;Forfait pièces et main d'œuvre
+CVCD-17;Remplacement d'un radiateur eau chaude horizontal ou vertical d'une puissance de 1001 à 2000 W;;;;1067,05;
+CVCD-18;Remplacement d'un convecteur électrique d'une puissance inférieure ou égale à 750 W;;"Dépose et évacuation de l'équipement défectueux.
+Fourniture et pose d'un convecteur électrique de marque ATLANTIC, NOIROT, THERMOR, AIRELEC ou qualité technique équivalente.
+Y compris raccordement électrique, tous accessoires et toutes sujétions.";;265,91;
+CVCD-19;Remplacement d'un convecteur électrique d'une puissance de 751 à 1250 W;;;;281,82;
+CVCD-20;Remplacement d'un convecteur électrique d'une puissance de 1251 à 2000 W;;;;302,27;
+CVCD-21;Remplacement d'un vase d'expansion d'une capacité entre 1 et 15 L;;"Dépose de l'équipement défectueux.
+Fourniture et pose du vase d'expansion type CHARLATTE, ZILMET, FLAMCO, GITRAL ou qualité technique équivalente y compris tous accessoires.";;226,65;Forfait pièces et main d'œuvre
+CVCD-22;Remplacement d'un vase d'expansion d'une capacité entre 16 et 50 L;;;;329,28;
+CVCD-23;Remplacement d'un vase d'expansion d'une capacité entre 51 et 100 L;;;;395,40;
+CVCD-24;Remplacement d'un vase d'expansion d'une capacité entre 101 et 200 ;;;;498,74;
+CVCD-25;Fourniture et pose d'un compteur gaz à membrane Diamètre 20;;Y compris dépose si remplacement et raccords.;;514,22;Forfait pièces et main d'œuvre
+CVCD-26;Fourniture et pose d'un compteur gaz à membrane Diamètre 32;;;;692,45;
+CVCD-27;Fourniture et pose d'un compteur gaz à membrane Diamètre 50;;;;1467,02;
+CVCD-28;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 25 ;;Marque SAPPEL ou qualité technique équivalente, y compris dépose si remplacement et raccords.;;678,41;Forfait pièces et main d'œuvre
+CVCD-29;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 32 ;;;;985,23;
+CVCD-30;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 40;;;;1087,50;
+CVCD-31;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 50;;;;1228,41;
+CVCD-32;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 65;;;;1307,95;
+CVCD-33;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 80;;;;1477,27;
+CVCD-34;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) mécanique, diamètre 65;;Marque SAPPEL ou qualité technique équivalente, y compris dépose si remplacement, raccords et filtres;;2286,36;Forfait pièces et main d'œuvre
+CVCD-35;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) mécanique, diamètre 80;;;;2600,00;
+CVCD-36;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) mécanique, diamètre 100;;;;2728,41;
+CVCD-37;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) mécanique, diamètre 125;;;;2988,64;
+CVCD-38;Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) mécanique, diamètre 150;;;;3751,14;
+CVCD-39;Remplacement d'un disconnecteur contrôlable de diamètre 15/21;;"Dépose du disconnecteur défaillant et évacuation.
+Fourniture et pose d'un disconnecteur contrôlable de marque SOCLA, WATT ou qualité technique équivalente.
+Compris adaptation de l'évacuation PVC jusqu'au regard et reprise peinture anti-rouille de la tuyauterie.";;407,95;Forfait pièces et main d'œuvre
+CVCD-40;Remplacement d'un disconnecteur contrôlable de diamètre 20/27;;;;407,95;
+CVCD-41;Remplacement d'un disconnecteur contrôlable de diamètre 26/34;;;;517,05;
+CVCD-42;Remplacement d'un disconnecteur contrôlable de diamètre 33/42;;;;611,36;
+CVCD-43;Remplacement d'un disconnecteur contrôlable de diamètre 40/49;;;;815,91;
+CVCD-44;Remplacement d'un disconnecteur contrôlable de diamètre 50/60;;;;1087,50;
+CVCD-45;Réalisation d'une analyse légionelle;;Montant unitaire pour une analyse sur un point de prélèvement (déplacement + prélèvement + analyse + rapport);;150,76;Forfait par prélèvement
+CVCD-46;Pose de calorifuges (réseaux chaud & froid) – Coque aluminium. Conforme au décret 2023-444. Diamètre intérieur ≤ 76mm. Epaisseur isolant ≤ 40mm. ;;Tous accessoires inclus (collier, coude …). Hors dépose éventuelle d'un calorifuge existant.;;96,59;"ml
+(mètre linéaire)"
+CVCD-47;Pose de calorifuges (réseaux chaud & froid) – Coque aluminium. Conforme au décret 2023-444. Diamètre intérieur > 76mm. Epaisseur isolant > 40mm. ;;;;118,18;
+CVCD-48;Pose de calorifuges (réseaux chaud & froid) – Coque souple. Conforme au décret 2023-444. Diamètre intérieur ≤ 100mm. Epaisseur isolant ≤ 19mm. ;;;;101,14;
+CVCD-49;Pose de calorifuges (réseaux chaud & froid) – Coque souple. Conforme au décret 2023-444. Diamètre intérieur > 100mm. Epaisseur isolant > 19mm. ;;;;115,91;
+Protection incendie;;;;;;
+PI-01;Fourniture et pose bouchon avec chainette sur colonne sèche;;;;47,73;Forfait pièces et main d'œuvre
+PI-02;Remplacement d'un poste RIA DN 19/6;;"Dépose de l'existant et évacuation.
+Fourniture et pose d'un nouveau poste RIA y compris vanne barrage, tuyau semi-rigide, dévidoir, lance et toutes sujétions.
+";;679,55;
+PI-03;Remplacement d'un poste RIA DN 25/8;;;;747,73;
+PI-04;Remplacement d'un poste RIA DN 33/12;;;;815,91;
+PI-05;Remplacement d'un poste RIA DN 20;;;;747,73;
+PI-06;Remplacement d'un poste RIA DN 40;;;;815,91;
+PI-07;Remplacement d'un poteau incendie (hydrant) DN100;;"Dépose du poteau existant et évacuation.
+Fourniture et pose d'un nouveau poteau incendie  y compris raccordement au réseau d'eau existant et toutes sujétions.";;3398,86;
+Systèmes de sécurité incendie;;;;;;
+SSI-01;Remplacement de 1 à 10 détecteurs de fumée (ioniques et/ou optiques) avec socle (U = prix pour 1 détecteur);;"Respect règles APSAD.
+Hors coûts de location de moyens d'accès spécifiques.";;260,40;"Forfait pièces et main d'œuvre
+par détecteur"
+SSI-02;Remplacement de 11 à 20 détecteurs de fumée (ioniques et/ou optiques) avec socle (U = prix pour 1 détecteur);;;;253,55;
+Clos et couvert;;;;;;
+CC-01;Nettoyage d'un chéneau;;Y compris des crapaudines;;6,82;"ml
+(mètre linéaire)"
+CC-02;Réfection de l'étanchéité d'une toiture terrasse;;"Dépose et évacuation de l'étanchéité percée
+Fourniture et pose d'un complexe d'étanchéité y compris soudure";;79,55;"m²
+(fournitures et main d'œuvre)"
+CC-03;Révision et entretien de l'étanchéité d'une toiture terrasse;;"Contrôle visuel de l'état du complexe d'étanchéité, désherbage, démoussage, nettoyage.
+Inspection de tous les ouvrages complémentaires et points singuliers tels que les souches, édicules, lanterneaux, ventilations, etc.
+Réfection localisée, si besoin.
+Vérification et nettoyage des chéneaux, gouttières, entrées d'eaux pluviales.";;17,05;"m²
+(fournitures et main d'œuvre)"
+CC-04;Démoussage d'une toiture en tuiles;;Fourniture et pulvérisation d'un produit de démoussage type DALEP 2100 ou qualité technique équivalente;;6,82;"m²
+(fournitures et main d'œuvre)"
+CC-05;Fourniture et pose d'une ligne de vie en toiture;;Conforme à la réglementation et aux préconisations du fabricant, compris toutes sujétions.;;244,32;"ml
+(mètre linéaire)"
+CC-06;Fourniture et pose d'un crochet d'ancrage;;Conforme à la réglementation et aux préconisations du fabricant, compris toutes sujétions.;;122,73;"Unité
+(fournitures et main d'œuvre)"
+CC-07;Fourniture et pose d'une échelle à crinoline pour accès toiture;;Conforme à la réglementation avec panneau de condamnation et cadenas ou équivalent empêchant l'accès à toute personne non autorisée, compris toutes sujétions.;;669,32;"ml
+(fournitures et main d'œuvre)"
+CC-08;Remplacement d'un store extérieur screen  avec manivelle et cordelette de guidage;;"Dépose et évacuation du store hors service.
+Fourniture et pose d'un store screen extérieur identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle par manivelle y compris cordelette de guidage si nécessaire.";;298,86;"Unité
+(fournitures et main d'œuvre)"
+Electricité courants forts;;;;;;
+CFO-01;Remplacement d'une prise de courant (en saillie ou encastrée);;"Dépose et évacuation de l'appareillage défaillant.
+Fourniture et pose d'un appareillage identique à l'existant de marque LEGRAND ou équivalent.
+Essai et contrôle de bon fonctionnement.";;61,56;Forfait pièces et main d'œuvre
+CFO-02;Remplacement d'un arrêt d'urgence (bouton coup de poing);;;;147,48;
+CFO-03;Remplacement d'un interrupteur (en saillie ou encastré);;;;60,30;
+CFO-04;Déplacement d’une prise électrique, d’un interrupteur ou d’un convecteur électrique. ;;"Déplacement dans un même local à une distance maximum de 4 m par rapport à la position d’origine. 
+Compris création réservation dans cloison/mur, obturation de l'ancienne réservation tirage de câble en goulotte ou en cloison quand si possible.";;297,94;
+Fermetures motorisées;;;;;;
+FERM-01;Remplacement d'un moteur électrique d'un rideau métallique, d'un volet roulant ou d'un portail sectionnel;;"Dépose et évacuation du moteur défaillant.
+Fourniture et pose d'un moteur identique à l'existant ou équivalent. 
+Essai et contrôle de bon fonctionnement.";;1971,59;Forfait pièces et main d'œuvre
+FERM-02;Remplacement d'une barre palpeuse sur un rideau métallique ou un portail sectionnel;;"Dépose et évacuation organes défaillants.
+Fourniture et pose d'une barre palpeuse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.";;770,45;
+FERM-03;Remplacement d'une barre palpeuse sur un portail coulissant;;"Dépose et évacuation organes défaillants.
+Fourniture et pose d'une barre palpeuse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.";;826,14;
+FERM-04;Remplacement d'une lame de rideau métallique;;"Dépose et évacuation de la lame cassée ou tordue.
+Fourniture et pose d'une lame identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.";;476,14;
+FERM-05;Remplacement d'une lisse de barrière levante;;"Dépose et évacuation organes défaillants.
+Fourniture et pose d'une lisse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.";;657,95;
+Plomberie;;;;;;
+PB-01;Forfait pour une inspection vidéo de réseaux EU, EV ou EP;;"Forfait pour une intervention dans la limite de 30 m linéaires inspectés y compris toutes sujétions.
+Compris rapport détaillé.";;1223,86;Forfait
+PB-02;Forfait pour un curage de réseaux EU, EV ou EP d'1/2 journée;;"Forfait pour le curage d'un réseau EU, EV ou EP.
+Y compris toutes sujétions dont écacuation et traitement des déchets conformément à la réglementation en vigueur, déplacement et mise en place du matériel sur site.";;802,27;"PU pour 1/2 journée d'intervention
+avec camion hydrocureur"
+PB-03;Forfait pour un curage de réseaux EU, EV ou EP d'1 journée;;;;1604,55;PU pour 1 journée d'intervention avec camion hydrocureur
+PB-04;Réalisation d'une analyse de potabilité de type D1;;"Montant unitaire pour une analyse sur un point de prélèvement (déplacement + prélèvement + analyse + rapport)
+Analyse de potabilité de type D1 conforme au CSP et aux arrêtés du 11/01/2007.";;274,11;Forfait par prélèvement
+PB-05;Remplacement d'un robinet mitigeur double débit pour vasque sanitaire/lavabo, évier, douche;;PIEL, GROHE, PORCHER  ou qualité technique équivalente. Y compris dépose et évacuation du mitigeur hors service.;;235,74;Forfait pièces et main d'œuvre
+PB-06;Remplacement d'un mélangeur pour vasque sanitaire/lavabo, évier, douche;;PIEL, GROHE, PORCHER  ou qualité technique équivalente. Y compris dépose et évacuation du mélangeur hors service.;;160,17;Forfait pièces et main d'œuvre
+PB-07;Remplacement d'un flexible et d'un pommeau de douche;;Dépose et évacuation de l'équipement hors service. Mise en place du flexible et du pommeau de douche de marque GROHE, PORCHER, PIEL ou qualité technique équivalente y compris joints et accessoires.;;116,14;Forfait pièces et main d'œuvre
+PB-08;Remplacement d'un lavabo/vasque complet;;"Dépose de l'ensemble existant.
+Fourniture et mise en œuvre d'un lavabo en porcelaine émaillée (blanc) certifiée ""NF Appareils sanitaires"" type JACOB DELAFON, ALLIA ou qualité technique équivalente. Joint d'étanchéité sur mur.
+Raccordement de la robinetterie sur EF et EC existant ";;544,32;Forfait pièces et main d'œuvre
+PB-09;Lavabos / lave-mains / bac à laver : Fourniture et pose mitigeur temporisé à fermeture automatique. ;;Robinet avec temporisation de 7 secondes - débit préconisé de 3 l/min. Tous accessoires inclus.;;245,00;Forfait pièces et main d'œuvre
+PB-10;Douches : Fourniture et pose mitigeur thermostatique;;Avec robinetterie temporisée de débit 6 l/min maximum à 3 bars. Tous accessoires inclus.;;375,00;Forfait pièces et main d'œuvre
+PB-11;Fourniture et pose mousseur autorégulé de débit inférieur à 7,5 litres/minute. ;;Tous accessoires inclus.;;60,00;Forfait pièces et main d'œuvre
+PB-12;Fourniture et pose pomme de douches hydro-économes de classe ZZ;;Tous accessoires inclus.;;80,00;Forfait pièces et main d'œuvre
+PB-13;Remplacement d'un abattant double de cuvette;;"Remplacement par modèle adapté à la cuvette conservée, fixations réglables et réversibles, avec cache charnières.
+Matériaux en « bois polymérisé » ou en résine thermodurcissable.
+Marque: OLFA, SIAMP ou qualité technique équivalente";;75,50;Forfait pièces et main d'œuvre
+PB-14;Remplacement d'une cuvette de WC fixée au sol;;"Dépose des équipements et accessoires récupérés pour réemploi, remplacement d'une cuvette en porcelaine émaillée blanche certifié ""NF Appareils sanitaires"" seule, de WC sur pied type ALLIA, IDELA STANDARD ou qualité technique équivalente
+Mise en place des fixations spécifiques avec écrous nylon ou comportant une rondelle plastique, ""anticorrosion"". Repose du réservoir de chasse et abattant existant.
+Raccordement EF et évacuation par pipe PVC neuve sur culotte, à proximité..";;251,14;Forfait pièces et main d'œuvre
+PB-15;Remplacement d'une cuvette WC suspendue ;;"Dépose des équipements et accessoires pour réemploi. Evacuation de la cuvette déposée.
+Remplacement d'une cuvette de WC suspendue type ALLIA, IDEAL STANDARD ou qualité technique équivalente avec mise en place des fixations spécifiques au préalable.
+Raccordement sur réservoir y compris joints et tous accessoires et repose de l'abattant existant";;407,95;Forfait pièces et main d'œuvre
+PB-16;Remplacement d'un mécanisme silencieux de chasse double commande;;"Remplacement d'un mécanisme de chasse complet, adaptable à la cuvette conservée; l'équipement du réservoir sera à double commande 3/6 l et à mécanisme silencieux avec robinet flotteur type NF 95, ou qualité technique équivalente
+Raccordement sur alimentation, à proximité
+Remplissage, essai et contrôle après repose couvercle.";;127,76;Forfait pièces et main d'œuvre
+PB-17;Remplacement réservoir de chasse compris mécanisme double commande;;"Dépose et évacuation du réservoir
+Remplacement d'un réservoir de chasse complet, adaptable et de couleur blanc identique à la cuvette conservée, équipé d'un mécanisme de chasse complet à double commande 3/6 l et à mécanisme silencieux avec robinet flotteur type NF 95, ou qualité technique équivalente.
+Raccordement sur alimentation, à proximité.
+Remplissage, essai et contrôle : après repose couvercle.";;232,30;Forfait pièces et main d'œuvre
+PB-18;Remplacement d'un wc complet suspendu avec mécanisme de chasse double commande;;"Dépose de l'ensemble existant
+Remplacement d'une cuvette de WC suspendu en porcelaine émaillée blanche certifié ""NF Appareils sanitaires"", type ALLIA, IDELA STANDARD ou qualité technique équivalente.
+Mise en place des fixations spécifiques avec écrous nylon
+Réservoir de chasse complet, équipé d'un mécanisme de chasse complet à double commande et à mécanisme silencieux
+Remplacement de robinet d'arrêt.
+Raccordement sur alimentation y compris joints et tous accessoires. Abattant compris.";;1494,32;Forfait pièces et main d'œuvre
+PB-19;Remplacement d'un wc complet sur pied avec mécanisme de chasse double commande;;"Dépose de l'ensemble existant.
+Remplacement d'une cuvette de WC sur pied en porcelaine émaillée blanche certifié ""NF Appareils sanitaires"", type ALLIA, JACOB DELAFON ou qualité technique équivalente.
+Mise en place des fixations spécifiques avec écrous nylon
+Réservoir de chasse complet, équipé d'un mécanisme de chasse complet à double commande et à mécanisme silencieux
+Remplacement de robinet d'arrêt.
+Raccordement sur alimentation y compris joints et tous accessoires. Abattant compris.";;715,91;Forfait pièces et main d'œuvre
+PB-20;Remplacement d'un urinoir ;;"Dépose et évacuation .
+Fourniture et pose d'un urinoir type ALLIA, IDEAL STANDARD ou qualité technique équivalente y compris repose de la robinetterie en conservation et toutes sujétions.";;501,14;Forfait pièces et main d'œuvre
+PB-21;Remplacement d'un ballon ECS électrique d'une capacité entre 15 et 49 litres horizontal ou vertical;;"Dépose et évacuation de l'existant.
+Fourniture, pose et raccordement d'un accumulateur certifié NF Électricité Performance, compris groupe de sécurité certifié NF robinetterie de chauffage.
+Marque : Chaffoteaux et Maury – Ariston – Fagor - Atlantic ou qualité technique équivalente.";;354,81;Forfait pièces et main d'œuvre
+PB-22;Fourniture et pose d'un ballon ECS électrique d'une capacité de 50 à 99 litres horizontal ou vertical;;;;459,09;
+PB-23;Fourniture et pose d'un ballon ECS électrique d'une capacité de 100 à 200 litres horizontal ou vertical;;;;614,77;
+Eclairage;;;;;;
+ECL-01;Remplacement d'un bloc autonome d'éclairage de sécurité ;;Dépose et évacuation de l'équipement défectueux, Fourniture et pose d'un BAES équipé d'un système automatique de test intégré (SATI) et à LED  conforme à la norme NFC 71-820 et compatible avec la télécommande en place, de type KAUFEL, LUMINOX, URA ou qualité technique équivalente, Compris raccordement électrique et toutes fixations.;;126,48;Forfait pièces et main d'œuvre
+Second-œuvre;;;;;;
+SOE-01;Remplacement d'un ferme-porte avec bras à compas;;"Dépose et évacuation du matériel défectueux.
+Fourniture et pose d'un ferme-porte VACHETTE, GEZE, DORMA ou qualité technique équivalentee - Compris matériel de montage et accessoires.";;244,10;Forfait pièces et main d'œuvre
+SOE-02;Remplacement d'un ferme-porte avec bras à coulisse;;;;333,69;
+SOE-03;Remplacement d'une ventouse électromagnétique;;"Dépose et évacuation du matériel défectueux.
+Fourniture et pose d'une ventouse type INTEGRAL SYSTEM 300 kg 12 ou 24 V ou qualité technique équivalente  y compris branchement et toutes sujétions.";;262,19;
+SOE-04;Remplacement d'un cylindre européen tous types;;"Dépose et évacuation du matériel défectueux.
+Fourniture et pose d'un cylindre type VACHETTE, JPM ou qualité technique équivalente y compris fourniture de 3 clefs.";;133,49;
+SOE-05;Remplacement d'une barre anti-panique un point sur menuiserie bois ou aluminium (vitrée ou non);;Compris dépose de la barre hors service, fourniture et pose d'une barre anti-panique et de la serrurerie associée et repose du canon en conservation (portes issues de secours).;;440,95;
+SOE-06;Remplacement d'une barre anti-panique 3 points sur menuiserie bois ou aluminium (vitrée ou non);;;;440,95;
+SOE-07;Remplacement d'un store intérieur screen  avec manivelle et cordelette de guidage;;"Dépose et évacuation du store hors service.
+Fourniture et pose d'un store screen intérieur identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle par manivelle y compris cordelette de guidage si nécessaire.";;239,77;Forfait pièces et main d'œuvre
+SOE-08;Remplacement d'un store vénitien intérieur  de bureau ;;"Dépose et évacuation du store hors service.
+Fourniture et pose d'un store vénitien identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle .";;94,32;Forfait pièces et main d'œuvre
+SOE-09;Remplacement d'un store intérieur  à lamelles verticales  ;;"Dépose et évacuation du store hors service.
+Fourniture et pose d'un store à lamelles verticales identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle.";;281,82;Forfait pièces et main d'œuvre
+Extincteurs;;;;;;
+EXT-01;Fourniture appareil neuf - Eau - 6 litres (Remplacement de l'équipement pièce et main d'oeuvre, support inclus);;;;65,11;Appareil
+EXT-02;Fourniture appareil neuf - Eau - 9 litres (Remplacement de l'équipement pièce et main d'oeuvre, support inclus);;;;67,90;Appareil
+EXT-03;Fourniture appareil neuf - CO2 - 2 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus);;;;78,13;Appareil
+EXT-04;Fourniture appareil neuf - CO2 - 5 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus);;;;130,21;Appareil
+EXT-05;Fourniture appareil neuf - Poudre ABC - 6 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus);;;;121,95;Appareil
+EXT-06;Fourniture appareil neuf - Poudre ABC - 9 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus);;;;154,77;Appareil
+EXT-07;Recharge suite malveillance ou sinistre - Eau - 6 litres;;;;21,59;Appareil
+EXT-08;recharge suite malveillance ou sinistre - Eau - 9 litres;;;;25,00;Appareil
+EXT-09;Recharge suite malveillance ou sinistre - CO2 - 2 kg;;;;22,73;Appareil
+EXT-10;Recharge suite malveillance ou sinistre - CO2 - 5 kg;;;;35,23;Appareil
+EXT-11;Recharge suite malveillance ou sinistre - Poudre ABC - 6 kg;;;;32,95;Appareil
+EXT-12;Recharge suite malveillance ou sinistre - Poudre ABC - 9 kg;;;;37,50;Appareil
+Amiante;;;;;;
+AM-01;Analyse amiante;;Compris prélèvement in situ, analyse en laboratoire et rapport.;;80,68;Forfait par prélèvement
+Location de moyens d'accès nécessaires pour la réalisation des prestations connexes (1);;;;;;
+ACC-01;Nacelle ou plate forme mobile jusqu'à 6 m;;;;313,28;Journée
+ACC-02;Nacelle ou plate forme mobile jusqu'à 9 m;;;;321,78;Journée
+ACC-03;Camion nacelle 20 m (avec conducteur);;;;1 214,27;Journée
+ACC-04;Camion nacelle 30 m (avec conducteur);;;;1 359,97;Journée
+(1)    Il est rappelé que l'intégralité des moyens d'accès nécessaires à la réalisation des prestations récurrentes est à la charge du Prestataire;;;;;;
+Management de l'énergie;;;;;;
+E-01;Installation d'un thermostat programmable conforme au décret 2023-444,;;Système d’ajustement de la température ambiante au dixième de degré pas minimum horaire et programmation des périodes (Réduit de nuit ou en cas d’absence et en cas de présence). 4 modes d’allures. Raccordement et tous accessoires inclus.;;268,18;"Unité
+(fournitures et main d'œuvre)"
+E-02;Installation d'un système de pilotage de l'éclairage extérieur;;Fourniture, pose et paramétrage optimum d’une horloge astronomique digital 230V (lieu d’implantation, date/heure, programmation horaire d’extinction). Programme 24h/7j – 1 contact 16A.;;545,45;"Unité
+(fournitures et main d'œuvre)"
+E-03;Mise en œuvre d'une campagne d'éco-gestes (pose d'étiquettes, affiches…);;Proposition de support (affiche, étiquette, …) à la chartre et mise en place aux emplacements dédiés (Interrupteurs, consommateurs, lieu de passage …).;;0,23;"m²
+(fournitures et main d'œuvre)"
+E-04;Campagne de réglage des ballons ECS;;Prestation de réglage de la consigne de température et de vérification du groupes de sécurité d’un ballon d’ESC. Déplacement inclus.;;94,32;"Unité
+(fournitures et main d'œuvre)"
+E-05;Fourniture et pose d'un sous-compteur connecté électrique;;Certifié MID classe 0,1S. Marque de type Itron Aquadis, Elster Bk et Sodomec Coutins. Communication filaire, RS485 Modbus ou Lora VPN privé. Paramétrage plateforme prestataire.;;1223,86;"Unité
+(fournitures et main d'œuvre)"
+E-06;Fourniture et pose d'un sous-compteur connecté gaz;;;;4431,82;
+E-07;Fourniture et pose d'un sous-compteur connecté eau;;;;2306,82;
+E-08;Fourniture et pose d'une sonde connectée de température;;Y compris paramétrage plateforme prestataire.;;532,63;"Unité
+(fournitures et main d'œuvre)"
+E-09;Fourniture et pose d'une sonde connectée de CO2;;;;775,77;
+E-10;Fourniture et pose d'une sonde connectée de luminosité;;;;1419,22;
+E-11;Fourniture et pose d'une sonde connectée de détection;;;;1419,22;
+E-12;Fourniture et pose d'une tête thermostatique;;Tous accessoires inclus.;;88,64;"Unité
+(fournitures et main d'œuvre)"
+E-13;Prestation de détection de fuite d'eau - Relevé de débit par appareillage ponctuel à ultrasons et enregistreur.;;Relevés sur 24h permettant ainsi de vérifier la présence éventuelle de fuites. Vérification de la bonne fermeture des consommateurs avant mesure le cas échéant.;;681,82;Unité
+E-14;Prestation de détection de fuite d'eau - Relevés par mesures de consommation;;Relevé de compteur à la fermeture du site. Relevé de compteur avant ouverture du site et avant toute utilisation d’eau. Vérification de la bonne fermeture des consommations avant mesure le cas échéant.;;227,27;"Unité
+"
+E-15;Fourniture et pose d'un disjoncteur d'eau DN15 à DN25;;Y compris interface de pilotage;;5048,86;"Unité
+(fournitures et main d'œuvre)"
+E-16;Fourniture et pose d'un disjoncteur d'eau DN32 à DN40;;;;6611,36;
+E-17;Connexion d'un disjoncteur d'eau à la GTB/GTC;;LORA sur VPN privé, filaire modbus ou filaire sur automate.;;3465,91;

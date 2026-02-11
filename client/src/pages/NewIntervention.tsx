@@ -32,6 +32,7 @@ export default function NewIntervention() {
     title: "",
     description: "",
     assignedTo: "",
+    contractor: "",
     startNow: false,
   });
 
@@ -133,14 +134,25 @@ export default function NewIntervention() {
             </div>
           </div>
 
-          <div>
-            <Label>Assigné à</Label>
-            <Input
-              value={form.assignedTo}
-              onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
-              placeholder="Nom du technicien ou de l'entreprise"
-              className="mt-1"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Label>Assigné à</Label>
+              <Input
+                value={form.assignedTo}
+                onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
+                placeholder="Nom du technicien"
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label>Prestataire</Label>
+              <Input
+                value={form.contractor}
+                onChange={(e) => setForm({ ...form, contractor: e.target.value })}
+                placeholder="Entreprise prestataire"
+                className="mt-1"
+              />
+            </div>
           </div>
 
           <div>

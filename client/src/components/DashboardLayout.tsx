@@ -30,6 +30,9 @@ import {
   PlusCircle,
   Bell,
   FileSpreadsheet,
+  Package,
+  FileSearch,
+  Bot,
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -41,7 +44,10 @@ const menuItems = [
   { icon: Building2, label: "Bâtiments", path: "/batiments" },
   { icon: Wrench, label: "Interventions", path: "/interventions" },
   { icon: PlusCircle, label: "Nouvelle intervention", path: "/interventions/new" },
+  { icon: FileSearch, label: "Analyse de devis", path: "/devis" },
   { icon: Bell, label: "Alertes", path: "/alertes" },
+  { icon: Bot, label: "Assistant IA", path: "/assistant" },
+  { icon: Package, label: "BPU", path: "/bpu" },
   { icon: FileSpreadsheet, label: "Export", path: "/export" },
 ];
 
