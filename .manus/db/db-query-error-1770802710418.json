@@ -1,0 +1,8 @@
+{
+  "query": "DELETE FROM intervention_comments WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM intervention_history WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM alerts WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM intervention_bpu_lines WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM interventions;\nDELETE FROM buildings;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute DELETE FROM intervention_comments WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM intervention_history WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM alerts WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM intervention_bpu_lines WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM interventions;\nDELETE FROM buildings;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 1: Table 'awswytpyynqee6v8ygdsye.intervention_comments' doesn't exist"
+  ]
+}

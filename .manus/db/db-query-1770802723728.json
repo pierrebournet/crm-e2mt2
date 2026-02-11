@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM comments WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM intervention_history WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM alerts WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM intervention_bpu_lines WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM interventions;\nDELETE FROM buildings;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute DELETE FROM comments WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM intervention_history WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM alerts WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM intervention_bpu_lines WHERE interventionId IN (SELECT id FROM interventions);\nDELETE FROM interventions;\nDELETE FROM buildings;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 665
+}

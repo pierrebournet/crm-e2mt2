@@ -29,7 +29,7 @@
 - [x] Adapter le schéma DB pour les champs du tableau de suivi (devis, montant, références admin)
 - [x] Mettre à jour le backend tRPC pour les nouveaux champs
 - [x] Mettre à jour le frontend (formulaire, détail, liste) pour les nouveaux champs
-- [ ] Importer les 4 interventions existantes du tableau de suivi 2026
+- [x] Importer les 4 interventions existantes du tableau de suivi 2026
 - [x] Créer la table BPU (bpu_items) dans le schéma DB
 - [x] Importer les 142 prestations BPU Lot 4.1
 - [x] Lier les interventions aux items BPU (table intervention_bpu_lines)
@@ -47,3 +47,4 @@
 - [x] Créer la page frontend Assistant IA avec chat interactif
 - [x] Ajouter le lien Assistant IA dans la navigation sidebar
 - [x] Tests unitaires pour les nouvelles fonctionnalités (27 tests passés)
+- [x] Supprimer les bâtiments du Lot 4.1 (Occitanie) et importer les 430 bâtiments du Lot 4.2 (PACA)
