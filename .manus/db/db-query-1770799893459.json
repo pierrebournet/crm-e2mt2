@@ -1,0 +1,118 @@
+{
+  "query": "SELECT id, code, name, region FROM lots ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT id, code, name, region FROM lots ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "code": "1.1",
+      "name": "Lot 1.1",
+      "region": "Hauts de France"
+    },
+    {
+      "id": "2",
+      "code": "1.2",
+      "name": "Lot 1.2",
+      "region": "Normandie"
+    },
+    {
+      "id": "3",
+      "code": "2.1",
+      "name": "Lot 2.1",
+      "region": "Champagne-Ardenne-Lorraine"
+    },
+    {
+      "id": "4",
+      "code": "2.2",
+      "name": "Lot 2.2",
+      "region": "Alsace"
+    },
+    {
+      "id": "5",
+      "code": "3.1",
+      "name": "Lot 3.1",
+      "region": "Auvergne-Rhône-Alpes"
+    },
+    {
+      "id": "6",
+      "code": "3.2",
+      "name": "Lot 3.2",
+      "region": "Bourgogne-Franche-Comté"
+    },
+    {
+      "id": "7",
+      "code": "4.1",
+      "name": "Lot 4.1",
+      "region": "Occitanie"
+    },
+    {
+      "id": "8",
+      "code": "4.2",
+      "name": "Lot 4.2",
+      "region": "Provence-Alpes-Côte d'Azur"
+    },
+    {
+      "id": "9",
+      "code": "5.1",
+      "name": "Lot 5.1",
+      "region": "Aquitaine"
+    },
+    {
+      "id": "10",
+      "code": "5.2",
+      "name": "Lot 5.2",
+      "region": "Poitou-Charentes-Limousin"
+    },
+    {
+      "id": "11",
+      "code": "6.1",
+      "name": "Lot 6.1",
+      "region": "Bretagne – Pays de la Loire"
+    },
+    {
+      "id": "12",
+      "code": "6.2",
+      "name": "Lot 6.2",
+      "region": "Centre"
+    },
+    {
+      "id": "13",
+      "code": "7.1",
+      "name": "Lot 7.1",
+      "region": "Saint-Denis"
+    },
+    {
+      "id": "14",
+      "code": "7.2",
+      "name": "Lot 7.2",
+      "region": "Paris Rive-Gauche"
+    },
+    {
+      "id": "15",
+      "code": "8.1",
+      "name": "Lot 8.1",
+      "region": "Paris Nord"
+    },
+    {
+      "id": "16",
+      "code": "8.2",
+      "name": "Lot 8.2",
+      "region": "Paris Saint Lazare"
+    },
+    {
+      "id": "17",
+      "code": "9.1",
+      "name": "Lot 9.1",
+      "region": "Paris Est"
+    },
+    {
+      "id": "18",
+      "code": "9.2",
+      "name": "Lot 9.2",
+      "region": "Paris Sud Est"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcode\tname\tregion\n1\t1.1\tLot 1.1\tHauts de France\n2\t1.2\tLot 1.2\tNormandie\n3\t2.1\tLot 2.1\tChampagne-Ardenne-Lorraine\n4\t2.2\tLot 2.2\tAlsace\n5\t3.1\tLot 3.1\tAuvergne-Rhône-Alpes\n6\t3.2\tLot 3.2\tBourgogne-Franche-Comté\n7\t4.1\tLot 4.1\tOccitanie\n8\t4.2\tLot 4.2\tProvence-Alpes-Côte d'Azur\n9\t5.1\tLot 5.1\tAquitaine\n10\t5.2\tLot 5.2\tPoitou-Charentes-Limousin\n11\t6.1\tLot 6.1\tBretagne – Pays de la Loire\n12\t6.2\tLot 6.2\tCentre\n13\t7.1\tLot 7.1\tSaint-Denis\n14\t7.2\tLot 7.2\tParis Rive-Gauche\n15\t8.1\tLot 8.1\tParis Nord\n16\t8.2\tLot 8.2\tParis Saint Lazare\n17\t9.1\tLot 9.1\tParis Est\n18\t9.2\tLot 9.2\tParis Sud Est\n",
+  "stderr": "",
+  "execution_time_ms": 273
+}

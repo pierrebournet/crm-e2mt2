@@ -25,3 +25,4 @@
 - [x] Alertes automatiques dépassement délais
 - [x] Génération rapports PDF mensuels/annuels (export CSV disponible)
 - [x] Tests unitaires (18 tests passés)
+- [x] Import des 45 bâtiments BACS Occitanie depuis le fichier CSV
