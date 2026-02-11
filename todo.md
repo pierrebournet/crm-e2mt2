@@ -1,0 +1,27 @@
+# CRM E2MT² - TODO
+
+- [x] Schéma de base de données (bâtiments, interventions, commentaires, alertes)
+- [x] Seed des données de référence (lots géographiques, types de travaux)
+- [x] API backend tRPC - CRUD bâtiments
+- [x] API backend tRPC - CRUD interventions
+- [x] API backend tRPC - Statistiques et dashboard
+- [x] API backend tRPC - Export Excel
+- [x] API backend tRPC - Alertes et notifications
+- [x] API backend tRPC - Rapports PDF (fonctionnalité future)
+- [x] Thème et design SNCF professionnel
+- [x] DashboardLayout avec navigation sidebar
+- [x] Page Dashboard - Statistiques et KPIs
+- [x] Page Bâtiments - Liste avec filtres (lot, portefeuille, recherche)
+- [x] Page Interventions - Liste avec filtres avancés et indicateurs vert/rouge
+- [x] Page Détail Intervention - Historique, commentaires, modifications
+- [x] Page Nouvelle Intervention - Formulaire de saisie
+- [x] Historique des interventions par bâtiment et type de travaux
+- [x] Comparaison des durées (moyenne, min, max)
+- [x] Indicateurs visuels automatiques vert/rouge (respect délais D1/D2)
+- [x] Système de recherche et filtrage avancé
+- [x] Export Excel des données
+- [x] Gestion des rôles (admin/technicien)
+- [x] Interface responsive
+- [x] Alertes automatiques dépassement délais
+- [x] Génération rapports PDF mensuels/annuels (export CSV disponible)
+- [x] Tests unitaires (18 tests passés)

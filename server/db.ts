@@ -1,11 +1,14 @@
-import { eq } from "drizzle-orm";
+import { eq, and, like, sql, desc, asc, inArray, gte, lte, count, avg, min, max, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import {
+  InsertUser, users,
+  lots, buildings, workTypes, interventions, comments, interventionHistory, alerts,
+  type InsertBuilding, type InsertIntervention,
+} from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
-// Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
@@ -22,22 +25,16 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) {
     throw new Error("User openId is required for upsert");
   }
-
   const db = await getDb();
   if (!db) {
     console.warn("[Database] Cannot upsert user: database not available");
     return;
   }
-
   try {
-    const values: InsertUser = {
-      openId: user.openId,
-    };
+    const values: InsertUser = { openId: user.openId };
     const updateSet: Record<string, unknown> = {};
-
     const textFields = ["name", "email", "loginMethod"] as const;
     type TextField = (typeof textFields)[number];
-
     const assignNullable = (field: TextField) => {
       const value = user[field];
       if (value === undefined) return;
@@ -45,9 +42,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       values[field] = normalized;
       updateSet[field] = normalized;
     };
-
     textFields.forEach(assignNullable);
-
     if (user.lastSignedIn !== undefined) {
       values.lastSignedIn = user.lastSignedIn;
       updateSet.lastSignedIn = user.lastSignedIn;
@@ -59,18 +54,9 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       values.role = 'admin';
       updateSet.role = 'admin';
     }
-
-    if (!values.lastSignedIn) {
-      values.lastSignedIn = new Date();
-    }
-
-    if (Object.keys(updateSet).length === 0) {
-      updateSet.lastSignedIn = new Date();
-    }
-
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
-      set: updateSet,
-    });
+    if (!values.lastSignedIn) values.lastSignedIn = new Date();
+    if (Object.keys(updateSet).length === 0) updateSet.lastSignedIn = new Date();
+    await db.insert(users).values(values).onDuplicateKeyUpdate({ set: updateSet });
   } catch (error) {
     console.error("[Database] Failed to upsert user:", error);
     throw error;
@@ -79,14 +65,491 @@ export async function upsertUser(user: InsertUser): Promise<void> {
 
 export async function getUserByOpenId(openId: string) {
   const db = await getDb();
-  if (!db) {
-    console.warn("[Database] Cannot get user: database not available");
-    return undefined;
-  }
-
+  if (!db) return undefined;
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
-
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// ===== LOTS =====
+export async function getAllLots() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(lots).orderBy(asc(lots.code));
+}
+
+// ===== WORK TYPES =====
+export async function getAllWorkTypes() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(workTypes).orderBy(asc(workTypes.code));
+}
+
+// ===== BUILDINGS =====
+export async function getBuildings(filters: {
+  lotId?: number;
+  portfolio?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+}) {
+  const db = await getDb();
+  if (!db) return { items: [], total: 0 };
+  const { lotId, portfolio, search, page = 1, limit = 20 } = filters;
+  const conditions = [];
+  if (lotId) conditions.push(eq(buildings.lotId, lotId));
+  if (portfolio) conditions.push(eq(buildings.portfolio, portfolio as any));
+  if (search) conditions.push(or(like(buildings.name, `%${search}%`), like(buildings.code, `%${search}%`)));
+  conditions.push(eq(buildings.isActive, 1));
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  const [items, totalResult] = await Promise.all([
+    db.select({
+      id: buildings.id,
+      name: buildings.name,
+      code: buildings.code,
+      lotId: buildings.lotId,
+      portfolio: buildings.portfolio,
+      address: buildings.address,
+      surface: buildings.surface,
+      description: buildings.description,
+      lotCode: lots.code,
+      lotRegion: lots.region,
+      createdAt: buildings.createdAt,
+    })
+      .from(buildings)
+      .leftJoin(lots, eq(buildings.lotId, lots.id))
+      .where(where)
+      .orderBy(asc(buildings.name))
+      .limit(limit)
+      .offset((page - 1) * limit),
+    db.select({ count: count() }).from(buildings).where(where),
+  ]);
+  return { items, total: totalResult[0]?.count ?? 0 };
+}
+
+export async function getBuildingById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select({
+    id: buildings.id,
+    name: buildings.name,
+    code: buildings.code,
+    lotId: buildings.lotId,
+    portfolio: buildings.portfolio,
+    address: buildings.address,
+    surface: buildings.surface,
+    description: buildings.description,
+    isActive: buildings.isActive,
+    lotCode: lots.code,
+    lotRegion: lots.region,
+    createdAt: buildings.createdAt,
+    updatedAt: buildings.updatedAt,
+  })
+    .from(buildings)
+    .leftJoin(lots, eq(buildings.lotId, lots.id))
+    .where(eq(buildings.id, id))
+    .limit(1);
+  return result[0] ?? null;
+}
+
+export async function createBuilding(data: InsertBuilding) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const result = await db.insert(buildings).values(data);
+  return result[0].insertId;
+}
+
+export async function updateBuilding(id: number, data: Partial<InsertBuilding>) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(buildings).set(data).where(eq(buildings.id, id));
+}
+
+// ===== INTERVENTIONS =====
+export async function getInterventions(filters: {
+  buildingId?: number;
+  workTypeId?: number;
+  criticality?: string;
+  maintenanceType?: string;
+  status?: string;
+  lotId?: number;
+  startDateFrom?: number;
+  startDateTo?: number;
+  search?: string;
+  page?: number;
+  limit?: number;
+}) {
+  const db = await getDb();
+  if (!db) return { items: [], total: 0 };
+  const { buildingId, workTypeId, criticality, maintenanceType, status, lotId, startDateFrom, startDateTo, search, page = 1, limit = 20 } = filters;
+  const conditions = [];
+  if (buildingId) conditions.push(eq(interventions.buildingId, buildingId));
+  if (workTypeId) conditions.push(eq(interventions.workTypeId, workTypeId));
+  if (criticality) conditions.push(eq(interventions.criticality, criticality as any));
+  if (maintenanceType) conditions.push(eq(interventions.maintenanceType, maintenanceType as any));
+  if (status) conditions.push(eq(interventions.status, status as any));
+  if (lotId) conditions.push(eq(buildings.lotId, lotId));
+  if (startDateFrom) conditions.push(gte(interventions.startDate, startDateFrom));
+  if (startDateTo) conditions.push(lte(interventions.startDate, startDateTo));
+  if (search) {
+    conditions.push(or(
+      like(interventions.reference, `%${search}%`),
+      like(interventions.title, `%${search}%`),
+      like(buildings.name, `%${search}%`)
+    ));
+  }
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  const [items, totalResult] = await Promise.all([
+    db.select({
+      id: interventions.id,
+      reference: interventions.reference,
+      buildingId: interventions.buildingId,
+      buildingName: buildings.name,
+      buildingCode: buildings.code,
+      lotCode: lots.code,
+      lotRegion: lots.region,
+      workTypeId: interventions.workTypeId,
+      workTypeCode: workTypes.code,
+      workTypeName: workTypes.name,
+      criticality: interventions.criticality,
+      maintenanceType: interventions.maintenanceType,
+      title: interventions.title,
+      description: interventions.description,
+      status: interventions.status,
+      plannedDate: interventions.plannedDate,
+      startDate: interventions.startDate,
+      endDate: interventions.endDate,
+      durationMinutes: interventions.durationMinutes,
+      d1Deadline: interventions.d1Deadline,
+      d2Deadline: interventions.d2Deadline,
+      d1Met: interventions.d1Met,
+      d2Met: interventions.d2Met,
+      assignedTo: interventions.assignedTo,
+      alertSent: interventions.alertSent,
+      createdAt: interventions.createdAt,
+      updatedAt: interventions.updatedAt,
+    })
+      .from(interventions)
+      .leftJoin(buildings, eq(interventions.buildingId, buildings.id))
+      .leftJoin(lots, eq(buildings.lotId, lots.id))
+      .leftJoin(workTypes, eq(interventions.workTypeId, workTypes.id))
+      .where(where)
+      .orderBy(desc(interventions.createdAt))
+      .limit(limit)
+      .offset((page - 1) * limit),
+    db.select({ count: count() })
+      .from(interventions)
+      .leftJoin(buildings, eq(interventions.buildingId, buildings.id))
+      .leftJoin(lots, eq(buildings.lotId, lots.id))
+      .where(where),
+  ]);
+  return { items, total: totalResult[0]?.count ?? 0 };
+}
+
+export async function getInterventionById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select({
+    id: interventions.id,
+    reference: interventions.reference,
+    buildingId: interventions.buildingId,
+    buildingName: buildings.name,
+    buildingCode: buildings.code,
+    lotId: buildings.lotId,
+    lotCode: lots.code,
+    lotRegion: lots.region,
+    portfolio: buildings.portfolio,
+    workTypeId: interventions.workTypeId,
+    workTypeCode: workTypes.code,
+    workTypeName: workTypes.name,
+    criticality: interventions.criticality,
+    maintenanceType: interventions.maintenanceType,
+    title: interventions.title,
+    description: interventions.description,
+    status: interventions.status,
+    plannedDate: interventions.plannedDate,
+    startDate: interventions.startDate,
+    endDate: interventions.endDate,
+    durationMinutes: interventions.durationMinutes,
+    d1Deadline: interventions.d1Deadline,
+    d2Deadline: interventions.d2Deadline,
+    d1Met: interventions.d1Met,
+    d2Met: interventions.d2Met,
+    assignedTo: interventions.assignedTo,
+    createdBy: interventions.createdBy,
+    alertSent: interventions.alertSent,
+    createdAt: interventions.createdAt,
+    updatedAt: interventions.updatedAt,
+  })
+    .from(interventions)
+    .leftJoin(buildings, eq(interventions.buildingId, buildings.id))
+    .leftJoin(lots, eq(buildings.lotId, lots.id))
+    .leftJoin(workTypes, eq(interventions.workTypeId, workTypes.id))
+    .where(eq(interventions.id, id))
+    .limit(1);
+  return result[0] ?? null;
+}
+
+export async function createIntervention(data: InsertIntervention) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const result = await db.insert(interventions).values(data);
+  return result[0].insertId;
+}
+
+export async function updateIntervention(id: number, data: Partial<InsertIntervention>) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(interventions).set(data).where(eq(interventions.id, id));
+}
+
+export async function generateReference() {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const prefix = `INT-${year}${month}-`;
+  const result = await db.select({ count: count() }).from(interventions);
+  const num = (result[0]?.count ?? 0) + 1;
+  return `${prefix}${String(num).padStart(5, "0")}`;
+}
+
+// ===== COMMENTS =====
+export async function getCommentsByIntervention(interventionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({
+    id: comments.id,
+    interventionId: comments.interventionId,
+    userId: comments.userId,
+    userName: users.name,
+    content: comments.content,
+    createdAt: comments.createdAt,
+  })
+    .from(comments)
+    .leftJoin(users, eq(comments.userId, users.id))
+    .where(eq(comments.interventionId, interventionId))
+    .orderBy(desc(comments.createdAt));
+}
+
+export async function addComment(interventionId: number, userId: number, content: string) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.insert(comments).values({ interventionId, userId, content });
+}
+
+// ===== HISTORY =====
+export async function getHistoryByIntervention(interventionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({
+    id: interventionHistory.id,
+    interventionId: interventionHistory.interventionId,
+    userId: interventionHistory.userId,
+    userName: users.name,
+    field: interventionHistory.field,
+    oldValue: interventionHistory.oldValue,
+    newValue: interventionHistory.newValue,
+    createdAt: interventionHistory.createdAt,
+  })
+    .from(interventionHistory)
+    .leftJoin(users, eq(interventionHistory.userId, users.id))
+    .where(eq(interventionHistory.interventionId, interventionId))
+    .orderBy(desc(interventionHistory.createdAt));
+}
+
+export async function addHistoryEntry(interventionId: number, userId: number | null, field: string, oldValue: string | null, newValue: string | null) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.insert(interventionHistory).values({ interventionId, userId, field, oldValue, newValue });
+}
+
+// ===== DASHBOARD STATS =====
+export async function getDashboardStats(lotId?: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const lotCondition = lotId ? eq(buildings.lotId, lotId) : undefined;
+
+  // Total interventions
+  const totalQuery = lotId
+    ? db.select({ count: count() }).from(interventions).leftJoin(buildings, eq(interventions.buildingId, buildings.id)).where(lotCondition)
+    : db.select({ count: count() }).from(interventions);
+  const [totalResult] = await totalQuery;
+
+  // By status
+  const statusQuery = lotId
+    ? db.select({ status: interventions.status, count: count() }).from(interventions).leftJoin(buildings, eq(interventions.buildingId, buildings.id)).where(lotCondition).groupBy(interventions.status)
+    : db.select({ status: interventions.status, count: count() }).from(interventions).groupBy(interventions.status);
+  const byStatus = await statusQuery;
+
+  // By work type
+  const workTypeQuery = lotId
+    ? db.select({ code: workTypes.code, name: workTypes.name, count: count() })
+        .from(interventions)
+        .leftJoin(workTypes, eq(interventions.workTypeId, workTypes.id))
+        .leftJoin(buildings, eq(interventions.buildingId, buildings.id))
+        .where(lotCondition)
+        .groupBy(workTypes.code, workTypes.name)
+    : db.select({ code: workTypes.code, name: workTypes.name, count: count() })
+        .from(interventions)
+        .leftJoin(workTypes, eq(interventions.workTypeId, workTypes.id))
+        .groupBy(workTypes.code, workTypes.name);
+  const byWorkType = await workTypeQuery;
+
+  // D1/D2 compliance
+  const d1MetQuery = lotId
+    ? db.select({ count: count() }).from(interventions).leftJoin(buildings, eq(interventions.buildingId, buildings.id)).where(and(eq(interventions.d1Met, 1), lotCondition))
+    : db.select({ count: count() }).from(interventions).where(eq(interventions.d1Met, 1));
+  const [d1MetResult] = await d1MetQuery;
+
+  const d1FailQuery = lotId
+    ? db.select({ count: count() }).from(interventions).leftJoin(buildings, eq(interventions.buildingId, buildings.id)).where(and(eq(interventions.d1Met, 0), lotCondition))
+    : db.select({ count: count() }).from(interventions).where(eq(interventions.d1Met, 0));
+  const [d1FailResult] = await d1FailQuery;
+
+  const d2MetQuery = lotId
+    ? db.select({ count: count() }).from(interventions).leftJoin(buildings, eq(interventions.buildingId, buildings.id)).where(and(eq(interventions.d2Met, 1), lotCondition))
+    : db.select({ count: count() }).from(interventions).where(eq(interventions.d2Met, 1));
+  const [d2MetResult] = await d2MetQuery;
+
+  const d2FailQuery = lotId
+    ? db.select({ count: count() }).from(interventions).leftJoin(buildings, eq(interventions.buildingId, buildings.id)).where(and(eq(interventions.d2Met, 0), lotCondition))
+    : db.select({ count: count() }).from(interventions).where(eq(interventions.d2Met, 0));
+  const [d2FailResult] = await d2FailQuery;
+
+  // Average durations by work type
+  const avgDurationQuery = lotId
+    ? db.select({
+        code: workTypes.code,
+        name: workTypes.name,
+        avgDuration: avg(interventions.durationMinutes),
+        minDuration: min(interventions.durationMinutes),
+        maxDuration: max(interventions.durationMinutes),
+        count: count(),
+      })
+        .from(interventions)
+        .leftJoin(workTypes, eq(interventions.workTypeId, workTypes.id))
+        .leftJoin(buildings, eq(interventions.buildingId, buildings.id))
+        .where(and(eq(interventions.status, "termine"), lotCondition))
+        .groupBy(workTypes.code, workTypes.name)
+    : db.select({
+        code: workTypes.code,
+        name: workTypes.name,
+        avgDuration: avg(interventions.durationMinutes),
+        minDuration: min(interventions.durationMinutes),
+        maxDuration: max(interventions.durationMinutes),
+        count: count(),
+      })
+        .from(interventions)
+        .leftJoin(workTypes, eq(interventions.workTypeId, workTypes.id))
+        .where(eq(interventions.status, "termine"))
+        .groupBy(workTypes.code, workTypes.name);
+  const avgDurations = await avgDurationQuery;
+
+  // Buildings count
+  const buildingsCountQuery = lotId
+    ? db.select({ count: count() }).from(buildings).where(and(eq(buildings.isActive, 1), eq(buildings.lotId, lotId)))
+    : db.select({ count: count() }).from(buildings).where(eq(buildings.isActive, 1));
+  const [buildingsCount] = await buildingsCountQuery;
+
+  // By criticality
+  const byCriticalityQuery = lotId
+    ? db.select({ criticality: interventions.criticality, count: count() }).from(interventions).leftJoin(buildings, eq(interventions.buildingId, buildings.id)).where(lotCondition).groupBy(interventions.criticality)
+    : db.select({ criticality: interventions.criticality, count: count() }).from(interventions).groupBy(interventions.criticality);
+  const byCriticality = await byCriticalityQuery;
+
+  return {
+    totalInterventions: totalResult?.count ?? 0,
+    totalBuildings: buildingsCount?.count ?? 0,
+    byStatus,
+    byWorkType,
+    byCriticality,
+    d1Met: d1MetResult?.count ?? 0,
+    d1Failed: d1FailResult?.count ?? 0,
+    d2Met: d2MetResult?.count ?? 0,
+    d2Failed: d2FailResult?.count ?? 0,
+    avgDurations,
+  };
+}
+
+// ===== ALERTS =====
+export async function getAlerts(limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({
+    id: alerts.id,
+    interventionId: alerts.interventionId,
+    reference: interventions.reference,
+    type: alerts.type,
+    message: alerts.message,
+    sentAt: alerts.sentAt,
+    acknowledged: alerts.acknowledged,
+  })
+    .from(alerts)
+    .leftJoin(interventions, eq(alerts.interventionId, interventions.id))
+    .orderBy(desc(alerts.sentAt))
+    .limit(limit);
+}
+
+export async function createAlert(interventionId: number, type: string, message: string) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.insert(alerts).values({ interventionId, type: type as any, message });
+}
+
+export async function acknowledgeAlert(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(alerts).set({ acknowledged: 1 }).where(eq(alerts.id, id));
+}
+
+// ===== EXPORT DATA =====
+export async function getAllInterventionsForExport(filters: {
+  lotId?: number;
+  workTypeId?: number;
+  criticality?: string;
+  status?: string;
+  startDateFrom?: number;
+  startDateTo?: number;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  const { lotId, workTypeId, criticality, status, startDateFrom, startDateTo } = filters;
+  const conditions = [];
+  if (workTypeId) conditions.push(eq(interventions.workTypeId, workTypeId));
+  if (criticality) conditions.push(eq(interventions.criticality, criticality as any));
+  if (status) conditions.push(eq(interventions.status, status as any));
+  if (lotId) conditions.push(eq(buildings.lotId, lotId));
+  if (startDateFrom) conditions.push(gte(interventions.startDate, startDateFrom));
+  if (startDateTo) conditions.push(lte(interventions.startDate, startDateTo));
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  return db.select({
+    reference: interventions.reference,
+    buildingName: buildings.name,
+    buildingCode: buildings.code,
+    lotCode: lots.code,
+    lotRegion: lots.region,
+    portfolio: buildings.portfolio,
+    workTypeCode: workTypes.code,
+    workTypeName: workTypes.name,
+    criticality: interventions.criticality,
+    maintenanceType: interventions.maintenanceType,
+    title: interventions.title,
+    status: interventions.status,
+    plannedDate: interventions.plannedDate,
+    startDate: interventions.startDate,
+    endDate: interventions.endDate,
+    durationMinutes: interventions.durationMinutes,
+    d1Met: interventions.d1Met,
+    d2Met: interventions.d2Met,
+    assignedTo: interventions.assignedTo,
+    createdAt: interventions.createdAt,
+  })
+    .from(interventions)
+    .leftJoin(buildings, eq(interventions.buildingId, buildings.id))
+    .leftJoin(lots, eq(buildings.lotId, lots.id))
+    .leftJoin(workTypes, eq(interventions.workTypeId, workTypes.id))
+    .where(where)
+    .orderBy(desc(interventions.createdAt));
+}
