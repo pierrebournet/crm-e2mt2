@@ -16,6 +16,7 @@ import {
   getInterventionBpuLines, addBpuLine, removeBpuLine,
   createDevisAnalyse, updateDevisAnalyse, getDevisAnalyseById, listDevisAnalyses, deleteDevisAnalyse,
   createDevisLines, getDevisLines, getAllBpuItems,
+  getSuiviEntries, getSuiviEntryById, createSuiviEntry, updateSuiviEntry, deleteSuiviEntry, getAllSuiviForExport,
 } from "./db";
 import { CONTRACTUAL_DELAYS } from "@shared/e2mt2";
 import { notifyOwner } from "./_core/notification";
@@ -593,6 +594,98 @@ R\u00e8gles de r\u00e9ponse :
         }
 
         return { answer };
+      }),
+  }),
+
+  // ===== SUIVI (Tableau de suivi Excel) =====
+  suivi: router({
+    list: protectedProcedure
+      .input(z.object({
+        search: z.string().optional(),
+        prestataire: z.string().optional(),
+        page: z.number().default(1),
+        limit: z.number().default(50),
+      }))
+      .query(async ({ input }) => {
+        return getSuiviEntries(input);
+      }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getSuiviEntryById(input.id);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        prestataire: z.string().optional(),
+        ut: z.string().optional(),
+        bat: z.string().optional(),
+        intitule: z.string().optional(),
+        numDevis: z.string().optional(),
+        dateDevis: z.string().optional(),
+        montant: z.string().optional(),
+        validationKnitiv: z.string().optional(),
+        numConnectImmo: z.string().optional(),
+        numDA: z.string().optional(),
+        numCDA: z.string().optional(),
+        pv: z.string().optional(),
+        numReception: z.string().optional(),
+        numAT: z.string().optional(),
+        axeLocal: z.string().optional(),
+        axeCentral: z.string().optional(),
+        dateDacia: z.string().optional(),
+        clotureAT: z.string().optional(),
+        commentaires: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const id = await createSuiviEntry({ ...input, createdBy: ctx.user?.id ?? null } as any);
+        return { id };
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        prestataire: z.string().optional(),
+        ut: z.string().optional(),
+        bat: z.string().optional(),
+        intitule: z.string().optional(),
+        numDevis: z.string().optional(),
+        dateDevis: z.string().optional(),
+        montant: z.string().optional(),
+        validationKnitiv: z.string().optional(),
+        numConnectImmo: z.string().optional(),
+        numDA: z.string().optional(),
+        numCDA: z.string().optional(),
+        pv: z.string().optional(),
+        numReception: z.string().optional(),
+        numAT: z.string().optional(),
+        axeLocal: z.string().optional(),
+        axeCentral: z.string().optional(),
+        dateDacia: z.string().optional(),
+        clotureAT: z.string().optional(),
+        commentaires: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await updateSuiviEntry(id, data as any);
+        return { success: true };
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteSuiviEntry(input.id);
+        return { success: true };
+      }),
+
+    exportAll: protectedProcedure
+      .input(z.object({
+        search: z.string().optional(),
+        prestataire: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        return getAllSuiviForExport(input);
       }),
   }),
 

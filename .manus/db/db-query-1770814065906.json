@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE `suivi_entries` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`prestataire` varchar(200),\n\t`ut` varchar(50),\n\t`bat` varchar(50),\n\t`intitule` text,\n\t`numDevis` varchar(100),\n\t`dateDevis` varchar(50),\n\t`montant` decimal(12,2),\n\t`validationKnitiv` varchar(200),\n\t`numConnectImmo` varchar(100),\n\t`numDA` varchar(100),\n\t`numCDA` varchar(100),\n\t`pv` varchar(100),\n\t`numReception` varchar(100),\n\t`numAT` varchar(100),\n\t`axeLocal` varchar(100),\n\t`axeCentral` varchar(100),\n\t`dateDacia` varchar(50),\n\t`clotureAT` varchar(50),\n\t`commentaires` text,\n\t`createdBy` int,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\t`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `suivi_entries_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute CREATE TABLE `suivi_entries` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`prestataire` varchar(200),\n\t`ut` varchar(50),\n\t`bat` varchar(50),\n\t`intitule` text,\n\t`numDevis` varchar(100),\n\t`dateDevis` varchar(50),\n\t`montant` decimal(12,2),\n\t`validationKnitiv` varchar(200),\n\t`numConnectImmo` varchar(100),\n\t`numDA` varchar(100),\n\t`numCDA` varchar(100),\n\t`pv` varchar(100),\n\t`numReception` varchar(100),\n\t`numAT` varchar(100),\n\t`axeLocal` varchar(100),\n\t`axeCentral` varchar(100),\n\t`dateDacia` varchar(50),\n\t`clotureAT` varchar(50),\n\t`commentaires` text,\n\t`createdBy` int,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\t`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `suivi_entries_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 698
+}

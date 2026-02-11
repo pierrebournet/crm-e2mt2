@@ -78,6 +78,22 @@ vi.mock("./db", () => ({
   deleteDevisAnalyse: vi.fn().mockResolvedValue(undefined),
   createDevisLines: vi.fn().mockResolvedValue(undefined),
   getDevisLines: vi.fn().mockResolvedValue([]),
+  getSuiviEntries: vi.fn().mockResolvedValue({
+    items: [
+      { id: 1, prestataire: "LA PYRENEENE", ut: "003816S", bat: "185", intitule: "NETTOYAGE SUITE SINISTRE", numDevis: "20261201SB", dateDevis: "30/12/2025", montant: "975.33", validationKnitiv: "COMPTE SINISTRE", numConnectImmo: "P-26-1077908", numDA: "6764", numCDA: "", pv: "", numReception: "", numAT: "SINISTRE", axeLocal: "MY006", axeCentral: "A6HJ", dateDacia: "18/01/2026", clotureAT: "", commentaires: "SINISTRE SUITE DEGAT DES EAUX" },
+    ],
+    total: 1,
+  }),
+  getSuiviEntryById: vi.fn().mockResolvedValue({
+    id: 1, prestataire: "LA PYRENEENE", ut: "003816S", bat: "185", intitule: "NETTOYAGE SUITE SINISTRE",
+    numDevis: "20261201SB", montant: "975.33",
+  }),
+  createSuiviEntry: vi.fn().mockResolvedValue(1),
+  updateSuiviEntry: vi.fn().mockResolvedValue(undefined),
+  deleteSuiviEntry: vi.fn().mockResolvedValue(undefined),
+  getAllSuiviForExport: vi.fn().mockResolvedValue([
+    { id: 1, prestataire: "LA PYRENEENE", ut: "003816S", bat: "185", intitule: "NETTOYAGE", montant: "975.33" },
+  ]),
   upsertUser: vi.fn(),
   getUserByOpenId: vi.fn(),
   getDb: vi.fn(),
@@ -362,6 +378,69 @@ describe("CRM E2MT\u00b2 - Devis", () => {
     const result = await caller.devis.delete({ id: 1 });
     expect(result).toEqual({ success: true });
     expect(db.deleteDevisAnalyse).toHaveBeenCalledWith(1);
+  });
+});
+
+describe("CRM E2MT\u00b2 - Suivi", () => {
+  it("lists suivi entries", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.suivi.list({ page: 1, limit: 50 });
+    expect(result).toHaveProperty("items");
+    expect(result).toHaveProperty("total", 1);
+    expect(result.items[0]).toHaveProperty("prestataire", "LA PYRENEENE");
+  });
+
+  it("gets a suivi entry by id", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const entry = await caller.suivi.getById({ id: 1 });
+    expect(entry).toHaveProperty("prestataire", "LA PYRENEENE");
+    expect(entry).toHaveProperty("montant", "975.33");
+  });
+
+  it("creates a suivi entry", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.suivi.create({
+      prestataire: "EQUANS",
+      ut: "003816S",
+      bat: "185",
+      intitule: "Mise en securité Canalisation",
+      numDevis: "1001844512",
+      montant: "322.40",
+    });
+    expect(result).toHaveProperty("id", 1);
+    expect(db.createSuiviEntry).toHaveBeenCalled();
+  });
+
+  it("updates a suivi entry", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.suivi.update({
+      id: 1,
+      montant: "1000.00",
+      commentaires: "Mise à jour du montant",
+    });
+    expect(result).toEqual({ success: true });
+    expect(db.updateSuiviEntry).toHaveBeenCalledWith(1, expect.objectContaining({ montant: "1000.00" }));
+  });
+
+  it("deletes a suivi entry", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.suivi.delete({ id: 1 });
+    expect(result).toEqual({ success: true });
+    expect(db.deleteSuiviEntry).toHaveBeenCalledWith(1);
+  });
+
+  it("exports all suivi entries", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const data = await caller.suivi.exportAll({});
+    expect(Array.isArray(data)).toBe(true);
+    expect(data).toHaveLength(1);
+    expect(data[0]).toHaveProperty("prestataire", "LA PYRENEENE");
   });
 });
 
