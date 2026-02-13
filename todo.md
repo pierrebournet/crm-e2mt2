@@ -64,3 +64,10 @@
 - [x] Intégrer l'assistant dans la page Nommage avec onglet dédié
 - [x] Connecter l'assistant de nommage au formulaire de nouvelle intervention (pré-remplissage automatique sous-type + nature de travaux)
 - [x] Agrandir l'affichage du nommage dans le résultat de l'assistant (sous-type + nature en plus gros)
+- [x] Analyser le fichier NoticeAT-nommageettype.xlsx
+- [x] Enrichir l'assistant de nommage avec les exemples concrets de la notice AT
+- [x] Créer l'onglet Nommage AT avec générateur automatique de noms AT (annuelles et ponctuelles)
+- [x] Intégrer la table des 40 types IMMOSIS répartis en 4 budgets (GE, Amiante/VR TVX, VR, CME/PTP)
+- [x] Ajouter le bouton Copier pour le nom AT généré
+- [x] Ajouter les badges visuels de structure du nom AT
+- [x] Tests unitaires nommage AT (28 tests, 61 tests au total)

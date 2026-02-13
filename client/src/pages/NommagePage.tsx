@@ -23,8 +23,10 @@ import {
   Sparkles,
   ChevronRight,
   PlusCircle,
+  FileText,
 } from "lucide-react";
 import { useLocation } from "wouter";
+import NommageATSection from "./NommageATGenerator";
 
 // ─── Data Types ──────────────────────────────────────────────────
 type NomenclatureItem = {
@@ -839,15 +841,20 @@ export default function NommagePage() {
       <div>
         <h1 className="text-2xl font-bold text-[#0C1E3C]">Nommage</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Nomenclature Immosis 2026 — Sous-types et natures de travaux
+          Nomenclature Immosis 2026 — Sous-types, natures de travaux et convention AT
         </p>
       </div>
 
       <Tabs defaultValue="assistant" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 h-auto">
+        <TabsList className="grid w-full grid-cols-5 h-auto">
           <TabsTrigger value="assistant" className="gap-1.5 text-xs sm:text-sm py-2">
             <Sparkles className="h-4 w-4" />
             <span className="hidden sm:inline">Assistant</span>
+          </TabsTrigger>
+          <TabsTrigger value="nommage-at" className="gap-1.5 text-xs sm:text-sm py-2">
+            <FileText className="h-4 w-4" />
+            <span className="hidden sm:inline">Nommage AT</span>
+            <span className="sm:hidden">AT</span>
           </TabsTrigger>
           <TabsTrigger value="sous-types" className="gap-1.5 text-xs sm:text-sm py-2">
             <Layers className="h-4 w-4" />
@@ -884,6 +891,11 @@ export default function NommagePage() {
             </CardContent>
           </Card>
           <NommageWizard />
+        </TabsContent>
+
+        {/* Nommage AT Tab */}
+        <TabsContent value="nommage-at" className="mt-6">
+          <NommageATSection />
         </TabsContent>
 
         {/* Sous-types Tab */}
