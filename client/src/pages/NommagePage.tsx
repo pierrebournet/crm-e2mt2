@@ -22,7 +22,9 @@ import {
   RotateCcw,
   Sparkles,
   ChevronRight,
+  PlusCircle,
 } from "lucide-react";
+import { useLocation } from "wouter";
 
 // ─── Data Types ──────────────────────────────────────────────────
 type NomenclatureItem = {
@@ -512,6 +514,7 @@ const wizardSteps: WizardStep[] = [
 
 // ─── Wizard Component ────────────────────────────────────────────
 function NommageWizard() {
+  const [, setLocation] = useLocation();
   const [currentStepId, setCurrentStepId] = useState("start");
   const [history, setHistory] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -597,6 +600,20 @@ function NommageWizard() {
           <Button variant="outline" onClick={handleReset} className="gap-2">
             <RotateCcw className="h-4 w-4" />
             Nouvelle recherche
+          </Button>
+          <Button
+            onClick={() => {
+              const params = new URLSearchParams();
+              params.set("sousType", result.sousType);
+              params.set("sousTypeCode", result.code);
+              params.set("nature", result.nature);
+              params.set("explication", result.explication);
+              setLocation(`/interventions/new?${params.toString()}`);
+            }}
+            className="gap-2 bg-[#0C1E3C] hover:bg-[#162d52]"
+          >
+            <PlusCircle className="h-4 w-4" />
+            Créer une intervention avec ce nommage
           </Button>
         </div>
       </div>

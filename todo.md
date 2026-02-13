@@ -62,3 +62,4 @@
 - [x] Ajouter le lien Nommage dans la navigation sidebar
 - [x] Créer l'assistant de nommage interactif avec arbre de décision guidé
 - [x] Intégrer l'assistant dans la page Nommage avec onglet dédié
+- [x] Connecter l'assistant de nommage au formulaire de nouvelle intervention (pré-remplissage automatique sous-type + nature de travaux)
