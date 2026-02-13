@@ -36,6 +36,7 @@ import {
   ClipboardList,
   GraduationCap,
   Tag,
+  BookOpen,
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -54,6 +55,7 @@ const menuItems = [
   { icon: Package, label: "BPU", path: "/bpu" },
   { icon: GraduationCap, label: "Tutoriels", path: "/tutoriels" },
   { icon: Tag, label: "Nommage", path: "/nommage" },
+  { icon: BookOpen, label: "Référentiel Contrat", path: "/referentiel" },
   { icon: FileSpreadsheet, label: "Export", path: "/export" },
 ];
 

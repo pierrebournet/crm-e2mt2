@@ -71,3 +71,11 @@
 - [x] Ajouter le bouton Copier pour le nom AT généré
 - [x] Ajouter les badges visuels de structure du nom AT
 - [x] Tests unitaires nommage AT (28 tests, 61 tests au total)
+- [x] Créer la page Référentiel Contrat E2MT² avec 4 onglets (Missions, Pénalités, Livrables, Chiffres clés)
+- [x] Onglet Missions : vue synthétique des 5 missions A-E avec sous-missions et types de commande
+- [x] Onglet Pénalités : table des 19 pénalités P1-P19 avec recherche et filtrage
+- [x] Onglet Livrables : tableau des livrables Mission A avec délais contractuels
+- [x] Onglet Chiffres clés : paramètres financiers (plafond pénalités, RFA, révision prix, seuils réception)
+- [x] Intégrer la page dans la navigation sidebar du DashboardLayout
+- [x] Conserver l'onglet IA existant intact
+- [x] Tests unitaires référentiel contrat (31 tests, 92 tests au total)
