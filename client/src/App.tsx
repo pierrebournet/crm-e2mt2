@@ -17,6 +17,7 @@ import DevisPage, { DevisDetailPage } from "./pages/DevisPage";
 import AssistantPage from "./pages/AssistantPage";
 import SuiviPage from "./pages/SuiviPage";
 import TutorielsPage from "./pages/TutorielsPage";
+import NommagePage from "./pages/NommagePage";
 
 function Router() {
   return (
@@ -35,6 +36,7 @@ function Router() {
         <Route path="/suivi" component={SuiviPage} />
         <Route path="/assistant" component={AssistantPage} />
         <Route path="/tutoriels" component={TutorielsPage} />
+        <Route path="/nommage" component={NommagePage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

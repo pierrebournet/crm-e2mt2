@@ -57,3 +57,6 @@
 - [x] Créer la section Tutoriels dans le CRM avec guides step-by-step
 - [x] Intégrer les procédures : Périmètres, Saisie Kizéo PEC, Guide du pilote
 - [x] Intégrer les formations : Découvrir, Connaître, Maîtriser le contrat E2MT²
+- [x] Analyser le PDF de nomenclature des sous-types et natures de travaux
+- [x] Créer l'onglet Nommage dans le CRM avec la nomenclature complète
+- [x] Ajouter le lien Nommage dans la navigation sidebar
