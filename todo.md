@@ -48,3 +48,8 @@
 - [x] Ajouter le lien Assistant IA dans la navigation sidebar
 - [x] Tests unitaires pour les nouvelles fonctionnalités (27 tests passés)
 - [x] Supprimer les bâtiments du Lot 4.1 (Occitanie) et importer les 430 bâtiments du Lot 4.2 (PACA)
+- [x] Recréer l'onglet Suivi avec les 9 lignes du nouveau tableau de suivi 2026
+- [x] Backend : routes CRUD suivi + export
+- [x] Frontend : page Suivi avec tableau, recherche, filtres, ajout/modification, export CSV
+- [x] Importer les 9 lignes du tableau de suivi mis à jour
+- [x] Tests unitaires suivi (33 tests passés)

@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE suivi_entries MODIFY COLUMN montant varchar(50);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute ALTER TABLE suivi_entries MODIFY COLUMN montant varchar(50);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 886
+}

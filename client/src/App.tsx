@@ -15,6 +15,7 @@ import ExportPage from "./pages/ExportPage";
 import BpuPage from "./pages/BpuPage";
 import DevisPage, { DevisDetailPage } from "./pages/DevisPage";
 import AssistantPage from "./pages/AssistantPage";
+import SuiviPage from "./pages/SuiviPage";
 
 function Router() {
   return (
@@ -30,6 +31,7 @@ function Router() {
         <Route path="/bpu" component={BpuPage} />
         <Route path="/devis" component={DevisPage} />
         <Route path="/devis/:id">{(params) => <DevisDetailPage params={params} />}</Route>
+        <Route path="/suivi" component={SuiviPage} />
         <Route path="/assistant" component={AssistantPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

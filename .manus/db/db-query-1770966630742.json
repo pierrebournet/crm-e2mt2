@@ -1,0 +1,40 @@
+{
+  "query": "SHOW CREATE TABLE suivi_entries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SHOW CREATE TABLE suivi_entries;",
+  "rows": [
+    {
+      "Table": "suivi_entries",
+      "Create Table": "CREATE TABLE `suivi_entries` ("
+    }
+  ],
+  "messages": [
+    "  `id` int(11) NOT NULL AUTO_INCREMENT,",
+    "  `prestataire` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `ut` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `bat` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `intitule` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `numDevis` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `dateDevis` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `montant` decimal(12,2) DEFAULT NULL,",
+    "  `validationKnitiv` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `numConnectImmo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `numDA` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `numCDA` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `pv` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `numReception` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `numAT` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `axeLocal` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `axeCentral` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `dateDacia` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `clotureAT` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `commentaires` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `createdBy` int(11) DEFAULT NULL,",
+    "  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,",
+    "  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,",
+    "  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */",
+    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=30001"
+  ],
+  "stdout": "Table\tCreate Table\nsuivi_entries\tCREATE TABLE `suivi_entries` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `prestataire` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `ut` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `bat` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `intitule` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `numDevis` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `dateDevis` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `montant` decimal(12,2) DEFAULT NULL,\n  `validationKnitiv` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `numConnectImmo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `numDA` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `numCDA` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `pv` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `numReception` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `numAT` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `axeLocal` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `axeCentral` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `dateDacia` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `clotureAT` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `commentaires` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `createdBy` int(11) DEFAULT NULL,\n  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=30001\n",
+  "stderr": "",
+  "execution_time_ms": 350
+}

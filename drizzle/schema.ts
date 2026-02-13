@@ -246,3 +246,34 @@ export const devisLines = mysqlTable("devis_lines", {
 
 export type DevisLine = typeof devisLines.$inferSelect;
 export type InsertDevisLine = typeof devisLines.$inferInsert;
+
+/**
+ * Tableau de suivi (reproduction exacte du fichier Excel)
+ */
+export const suiviEntries = mysqlTable("suivi_entries", {
+  id: int("id").autoincrement().primaryKey(),
+  prestataire: varchar("prestataire", { length: 200 }),
+  ut: varchar("ut", { length: 50 }),
+  bat: varchar("bat", { length: 50 }),
+  intitule: text("intitule"),
+  numDevis: varchar("numDevis", { length: 100 }),
+  dateDevis: varchar("dateDevis", { length: 50 }),
+  montant: varchar("montant", { length: 50 }),
+  validationKnitiv: varchar("validationKnitiv", { length: 200 }),
+  numConnectImmo: varchar("numConnectImmo", { length: 100 }),
+  numDA: varchar("numDA", { length: 100 }),
+  numCDA: varchar("numCDA", { length: 100 }),
+  pv: varchar("pv", { length: 100 }),
+  numReception: varchar("numReception", { length: 100 }),
+  numAT: varchar("numAT", { length: 100 }),
+  axeLocal: varchar("axeLocal", { length: 100 }),
+  axeCentral: varchar("axeCentral", { length: 100 }),
+  dateDacia: varchar("dateDacia", { length: 50 }),
+  clotureAT: varchar("clotureAT", { length: 100 }),
+  commentaires: text("commentaires"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SuiviEntry = typeof suiviEntries.$inferSelect;
+export type InsertSuiviEntry = typeof suiviEntries.$inferInsert;

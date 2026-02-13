@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as cnt FROM information_schema.tables WHERE table_name = 'suivi_entries';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT COUNT(*) as cnt FROM information_schema.tables WHERE table_name = 'suivi_entries';",
+  "rows": [
+    {
+      "cnt": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "cnt\n1\n",
+  "stderr": "",
+  "execution_time_ms": 419
+}

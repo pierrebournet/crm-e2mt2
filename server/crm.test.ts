@@ -78,6 +78,17 @@ vi.mock("./db", () => ({
   deleteDevisAnalyse: vi.fn().mockResolvedValue(undefined),
   createDevisLines: vi.fn().mockResolvedValue(undefined),
   getDevisLines: vi.fn().mockResolvedValue([]),
+  getSuiviEntries: vi.fn().mockResolvedValue({
+    items: [
+      { id: 1, prestataire: "EQUANS", ut: "003818H", bat: "130", intitule: "ELECTRO AIMANT", numDevis: "1001842708", dateDevis: "14/01/2026", montant: "1835,82", validationKnitiv: "NON", numConnectImmo: "P-26-1078093", numDA: "1156", numCDA: "1114", pv: "", numReception: "", numAT: "47-26-0050", axeLocal: "M19386", axeCentral: "PX312920", dateDacia: "29/01/2026", clotureAT: "", commentaires: "" },
+    ],
+    total: 1,
+  }),
+  getSuiviEntryById: vi.fn().mockResolvedValue({ id: 1, prestataire: "EQUANS", ut: "003818H", bat: "130", intitule: "ELECTRO AIMANT" }),
+  createSuiviEntry: vi.fn().mockResolvedValue(1),
+  updateSuiviEntry: vi.fn().mockResolvedValue(undefined),
+  deleteSuiviEntry: vi.fn().mockResolvedValue(undefined),
+  getAllSuiviForExport: vi.fn().mockResolvedValue([]),
   upsertUser: vi.fn(),
   getUserByOpenId: vi.fn(),
   getDb: vi.fn(),
@@ -362,6 +373,63 @@ describe("CRM E2MT\u00b2 - Devis", () => {
     const result = await caller.devis.delete({ id: 1 });
     expect(result).toEqual({ success: true });
     expect(db.deleteDevisAnalyse).toHaveBeenCalledWith(1);
+  });
+});
+
+describe("CRM E2MT\u00b2 - Suivi", () => {
+  it("lists suivi entries", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.suivi.list({ page: 1, limit: 50 });
+    expect(result).toHaveProperty("items");
+    expect(result).toHaveProperty("total", 1);
+    expect(result.items[0]).toHaveProperty("prestataire", "EQUANS");
+  });
+
+  it("gets a suivi entry by id", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const entry = await caller.suivi.getById({ id: 1 });
+    expect(entry).toHaveProperty("prestataire", "EQUANS");
+    expect(entry).toHaveProperty("intitule", "ELECTRO AIMANT");
+  });
+
+  it("creates a suivi entry", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.suivi.create({
+      prestataire: "INEO",
+      ut: "003818H",
+      bat: "254",
+      intitule: "ECLAIRAGE",
+      montant: "14310,78",
+    });
+    expect(result).toHaveProperty("id", 1);
+    expect(db.createSuiviEntry).toHaveBeenCalled();
+  });
+
+  it("updates a suivi entry", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.suivi.update({ id: 1, montant: "2000,00" });
+    expect(result).toEqual({ success: true });
+    expect(db.updateSuiviEntry).toHaveBeenCalledWith(1, { montant: "2000,00" });
+  });
+
+  it("deletes a suivi entry", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.suivi.delete({ id: 1 });
+    expect(result).toEqual({ success: true });
+    expect(db.deleteSuiviEntry).toHaveBeenCalledWith(1);
+  });
+
+  it("exports suivi data", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const data = await caller.suivi.exportAll({});
+    expect(Array.isArray(data)).toBe(true);
+    expect(db.getAllSuiviForExport).toHaveBeenCalled();
   });
 });
 

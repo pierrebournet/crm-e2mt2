@@ -4,9 +4,9 @@ import {
   InsertUser, users,
   lots, buildings, workTypes, interventions, comments, interventionHistory, alerts,
   bpuItems, interventionBpuLines,
-  devisAnalyses, devisLines,
+  devisAnalyses, devisLines, suiviEntries,
   type InsertBuilding, type InsertIntervention, type InsertInterventionBpuLine,
-  type InsertDevisAnalyse, type InsertDevisLine,
+  type InsertDevisAnalyse, type InsertDevisLine, type InsertSuiviEntry,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -716,4 +716,80 @@ export async function getAllBpuItems() {
   const db = await getDb();
   if (!db) return [];
   return db.select().from(bpuItems).orderBy(asc(bpuItems.code));
+}
+
+// ===== SUIVI (Tableau de suivi Excel) =====
+
+export async function getSuiviEntries(filters: {
+  search?: string;
+  prestataire?: string;
+  page?: number;
+  limit?: number;
+}) {
+  const db = await getDb();
+  if (!db) return { items: [], total: 0 };
+  const { search, prestataire, page = 1, limit = 50 } = filters;
+  const conditions = [];
+  if (prestataire) conditions.push(eq(suiviEntries.prestataire, prestataire));
+  if (search) {
+    conditions.push(or(
+      like(suiviEntries.prestataire, `%${search}%`),
+      like(suiviEntries.ut, `%${search}%`),
+      like(suiviEntries.bat, `%${search}%`),
+      like(suiviEntries.intitule, `%${search}%`),
+      like(suiviEntries.numDevis, `%${search}%`),
+      like(suiviEntries.numConnectImmo, `%${search}%`),
+      like(suiviEntries.numAT, `%${search}%`),
+      like(suiviEntries.commentaires, `%${search}%`),
+      like(suiviEntries.montant, `%${search}%`),
+    ));
+  }
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  const [items, totalResult] = await Promise.all([
+    db.select().from(suiviEntries).where(where).orderBy(desc(suiviEntries.createdAt)).limit(limit).offset((page - 1) * limit),
+    db.select({ count: count() }).from(suiviEntries).where(where),
+  ]);
+  return { items, total: totalResult[0]?.count ?? 0 };
+}
+
+export async function getSuiviEntryById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(suiviEntries).where(eq(suiviEntries.id, id)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function createSuiviEntry(data: Omit<InsertSuiviEntry, "id" | "createdAt" | "updatedAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const result = await db.insert(suiviEntries).values(data);
+  return result[0].insertId;
+}
+
+export async function updateSuiviEntry(id: number, data: Partial<InsertSuiviEntry>) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(suiviEntries).set(data).where(eq(suiviEntries.id, id));
+}
+
+export async function deleteSuiviEntry(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.delete(suiviEntries).where(eq(suiviEntries.id, id));
+}
+
+export async function getAllSuiviForExport(filters: { prestataire?: string; search?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  const conditions = [];
+  if (filters.prestataire) conditions.push(eq(suiviEntries.prestataire, filters.prestataire));
+  if (filters.search) {
+    conditions.push(or(
+      like(suiviEntries.prestataire, `%${filters.search}%`),
+      like(suiviEntries.intitule, `%${filters.search}%`),
+      like(suiviEntries.numDevis, `%${filters.search}%`),
+    ));
+  }
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  return db.select().from(suiviEntries).where(where).orderBy(desc(suiviEntries.createdAt));
 }
