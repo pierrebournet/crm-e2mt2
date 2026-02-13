@@ -53,3 +53,7 @@
 - [x] Frontend : page Suivi avec tableau, recherche, filtres, ajout/modification, export CSV
 - [x] Importer les 9 lignes du tableau de suivi mis à jour
 - [x] Tests unitaires suivi (33 tests passés)
+- [x] Analyser les 6 documents PDF de formation/procédures E2MT²
+- [x] Créer la section Tutoriels dans le CRM avec guides step-by-step
+- [x] Intégrer les procédures : Périmètres, Saisie Kizéo PEC, Guide du pilote
+- [x] Intégrer les formations : Découvrir, Connaître, Maîtriser le contrat E2MT²

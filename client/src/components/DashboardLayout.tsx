@@ -34,6 +34,7 @@ import {
   FileSearch,
   Bot,
   ClipboardList,
+  GraduationCap,
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -50,6 +51,7 @@ const menuItems = [
   { icon: ClipboardList, label: "Tableau de suivi", path: "/suivi" },
   { icon: Bot, label: "Assistant IA", path: "/assistant" },
   { icon: Package, label: "BPU", path: "/bpu" },
+  { icon: GraduationCap, label: "Tutoriels", path: "/tutoriels" },
   { icon: FileSpreadsheet, label: "Export", path: "/export" },
 ];
 

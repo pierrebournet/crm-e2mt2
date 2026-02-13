@@ -16,6 +16,7 @@ import BpuPage from "./pages/BpuPage";
 import DevisPage, { DevisDetailPage } from "./pages/DevisPage";
 import AssistantPage from "./pages/AssistantPage";
 import SuiviPage from "./pages/SuiviPage";
+import TutorielsPage from "./pages/TutorielsPage";
 
 function Router() {
   return (
@@ -33,6 +34,7 @@ function Router() {
         <Route path="/devis/:id">{(params) => <DevisDetailPage params={params} />}</Route>
         <Route path="/suivi" component={SuiviPage} />
         <Route path="/assistant" component={AssistantPage} />
+        <Route path="/tutoriels" component={TutorielsPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
