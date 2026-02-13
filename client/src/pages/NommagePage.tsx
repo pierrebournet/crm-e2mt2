@@ -568,30 +568,30 @@ function NommageWizard() {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white rounded-lg p-4 border border-emerald-200">
-                <div className="flex items-center gap-2 mb-2">
-                  <Layers className="h-4 w-4 text-[#0C1E3C]" />
-                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Sous-type</span>
+          <CardContent className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="bg-white rounded-xl p-6 border-2 border-[#0C1E3C]/20 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <Layers className="h-5 w-5 text-[#0C1E3C]" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sous-type</span>
                 </div>
-                <p className="text-base font-bold text-[#0C1E3C]">{result.sousType}</p>
-                <Badge variant="outline" className="font-mono text-xs mt-2">{result.code}</Badge>
+                <p className="text-2xl font-extrabold text-[#0C1E3C] leading-tight">{result.sousType}</p>
+                <Badge className="font-mono text-sm mt-3 bg-[#0C1E3C] text-white px-3 py-1">{result.code}</Badge>
               </div>
-              <div className="bg-white rounded-lg p-4 border border-emerald-200">
-                <div className="flex items-center gap-2 mb-2">
-                  <Hammer className="h-4 w-4 text-[#E05206]" />
-                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Nature de travaux</span>
+              <div className="bg-white rounded-xl p-6 border-2 border-[#E05206]/20 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <Hammer className="h-5 w-5 text-[#E05206]" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nature de travaux</span>
                 </div>
-                <p className="text-base font-bold text-[#0C1E3C]">{result.nature}</p>
+                <p className="text-2xl font-extrabold text-[#0C1E3C] leading-tight">{result.nature}</p>
               </div>
             </div>
-            <div className="bg-white rounded-lg p-4 border border-emerald-200">
+            <div className="bg-white rounded-xl p-5 border border-emerald-200">
               <div className="flex items-center gap-2 mb-2">
                 <Info className="h-4 w-4 text-blue-500" />
-                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Explication</span>
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Explication</span>
               </div>
-              <p className="text-sm text-foreground">{result.explication}</p>
+              <p className="text-sm text-foreground leading-relaxed">{result.explication}</p>
             </div>
           </CardContent>
         </Card>
