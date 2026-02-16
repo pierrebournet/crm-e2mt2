@@ -79,3 +79,12 @@
 - [x] Intégrer la page dans la navigation sidebar du DashboardLayout
 - [x] Conserver l'onglet IA existant intact
 - [x] Tests unitaires référentiel contrat (31 tests, 92 tests au total)
+- [x] Créer le schéma DB pour les livrables contractuels (table livrables avec statuts, dates, alertes)
+- [x] Créer les helpers DB et procédures tRPC pour CRUD livrables
+- [x] Créer la page Suivi des Livrables avec tableau de bord KPI (en temps, en retard, à venir)
+- [x] Ajouter les indicateurs visuels de statut (vert/orange/rouge) et alertes échéances
+- [x] Permettre la mise à jour du statut des livrables (livré, en retard, en cours, non applicable)
+- [x] Ajouter la recherche, le filtrage et l'export CSV des livrables
+- [x] Pré-remplir les 32 livrables contractuels de l'Annexe 2 (seed data via bouton import)
+- [x] Intégrer la page Suivi Livrables dans la navigation sidebar
+- [x] Tests unitaires livrables (30 tests, 122 tests au total)

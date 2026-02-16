@@ -50,6 +50,13 @@
       "when": 1770890561420,
       "tag": "0006_common_pestilence",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1771228810823,
+      "tag": "0007_acoustic_shocker",
+      "breakpoints": true
     }
   ]
 }

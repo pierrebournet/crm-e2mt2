@@ -4,9 +4,9 @@ import {
   InsertUser, users,
   lots, buildings, workTypes, interventions, comments, interventionHistory, alerts,
   bpuItems, interventionBpuLines,
-  devisAnalyses, devisLines, suiviEntries,
+  devisAnalyses, devisLines, suiviEntries, deliverables,
   type InsertBuilding, type InsertIntervention, type InsertInterventionBpuLine,
-  type InsertDevisAnalyse, type InsertDevisLine, type InsertSuiviEntry,
+  type InsertDevisAnalyse, type InsertDevisLine, type InsertSuiviEntry, type InsertDeliverable,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -792,4 +792,133 @@ export async function getAllSuiviForExport(filters: { prestataire?: string; sear
   }
   const where = conditions.length > 0 ? and(...conditions) : undefined;
   return db.select().from(suiviEntries).where(where).orderBy(desc(suiviEntries.createdAt));
+}
+
+// ===== DELIVERABLES (Livrables contractuels) =====
+
+export async function getDeliverables(filters: {
+  mission?: string;
+  status?: string;
+  priority?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+}) {
+  const db = await getDb();
+  if (!db) return { items: [], total: 0 };
+  const { mission, status, priority, search, page = 1, limit = 50 } = filters;
+  const conditions: any[] = [];
+  if (mission) conditions.push(eq(deliverables.mission, mission));
+  if (status) conditions.push(eq(deliverables.status, status as any));
+  if (priority) conditions.push(eq(deliverables.priority, priority as any));
+  if (search) {
+    conditions.push(or(
+      like(deliverables.code, `%${search}%`),
+      like(deliverables.title, `%${search}%`),
+      like(deliverables.category, `%${search}%`),
+      like(deliverables.responsable, `%${search}%`),
+      like(deliverables.notes, `%${search}%`),
+    ));
+  }
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  const [items, totalResult] = await Promise.all([
+    db.select().from(deliverables).where(where).orderBy(asc(deliverables.code)).limit(limit).offset((page - 1) * limit),
+    db.select({ count: count() }).from(deliverables).where(where),
+  ]);
+  return { items, total: totalResult[0]?.count ?? 0 };
+}
+
+export async function getDeliverableById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(deliverables).where(eq(deliverables.id, id)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function createDeliverable(data: Omit<InsertDeliverable, "id" | "createdAt" | "updatedAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const result = await db.insert(deliverables).values(data);
+  return result[0].insertId;
+}
+
+export async function updateDeliverable(id: number, data: Partial<InsertDeliverable>) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(deliverables).set(data).where(eq(deliverables.id, id));
+}
+
+export async function deleteDeliverable(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.delete(deliverables).where(eq(deliverables.id, id));
+}
+
+export async function getDeliverableStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, aVenir: 0, enCours: 0, livre: 0, enRetard: 0, nonApplicable: 0, alertes: 0 };
+  const now = Date.now();
+  const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+  
+  const [totalResult] = await db.select({ count: count() }).from(deliverables);
+  const [aVenirResult] = await db.select({ count: count() }).from(deliverables).where(eq(deliverables.status, "a_venir"));
+  const [enCoursResult] = await db.select({ count: count() }).from(deliverables).where(eq(deliverables.status, "en_cours"));
+  const [livreResult] = await db.select({ count: count() }).from(deliverables).where(eq(deliverables.status, "livre"));
+  const [enRetardResult] = await db.select({ count: count() }).from(deliverables).where(eq(deliverables.status, "en_retard"));
+  const [nonApplicableResult] = await db.select({ count: count() }).from(deliverables).where(eq(deliverables.status, "non_applicable"));
+  
+  // Alertes: livrables avec dueDate dans les 7 prochains jours et non livrés
+  const alerteItems = await db.select().from(deliverables)
+    .where(and(
+      or(eq(deliverables.status, "a_venir"), eq(deliverables.status, "en_cours")),
+    ));
+  const alertes = alerteItems.filter(d => {
+    if (!d.dueDate) return false;
+    const daysLeft = (Number(d.dueDate) - now) / (24 * 60 * 60 * 1000);
+    return daysLeft <= (d.alertDaysBefore ?? 7) && daysLeft >= 0;
+  }).length;
+
+  // Also count overdue items
+  const overdueItems = alerteItems.filter(d => {
+    if (!d.dueDate) return false;
+    return Number(d.dueDate) < now;
+  }).length;
+
+  return {
+    total: totalResult?.count ?? 0,
+    aVenir: aVenirResult?.count ?? 0,
+    enCours: enCoursResult?.count ?? 0,
+    livre: livreResult?.count ?? 0,
+    enRetard: enRetardResult?.count ?? 0,
+    nonApplicable: nonApplicableResult?.count ?? 0,
+    alertes,
+    overdueCount: overdueItems,
+  };
+}
+
+export async function getAllDeliverablesForExport(filters: { mission?: string; status?: string; search?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  const conditions: any[] = [];
+  if (filters.mission) conditions.push(eq(deliverables.mission, filters.mission));
+  if (filters.status) conditions.push(eq(deliverables.status, filters.status as any));
+  if (filters.search) {
+    conditions.push(or(
+      like(deliverables.code, `%${filters.search}%`),
+      like(deliverables.title, `%${filters.search}%`),
+      like(deliverables.category, `%${filters.search}%`),
+    ));
+  }
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
+  return db.select().from(deliverables).where(where).orderBy(asc(deliverables.code));
+}
+
+export async function seedDeliverables(items: Omit<InsertDeliverable, "id" | "createdAt" | "updatedAt">[]) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  if (items.length === 0) return;
+  // Check if already seeded
+  const [existing] = await db.select({ count: count() }).from(deliverables);
+  if ((existing?.count ?? 0) > 0) return; // Already seeded
+  await db.insert(deliverables).values(items);
 }

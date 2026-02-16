@@ -17,6 +17,8 @@ import {
   createDevisAnalyse, updateDevisAnalyse, getDevisAnalyseById, listDevisAnalyses, deleteDevisAnalyse,
   createDevisLines, getDevisLines, getAllBpuItems,
   getSuiviEntries, getSuiviEntryById, createSuiviEntry, updateSuiviEntry, deleteSuiviEntry, getAllSuiviForExport,
+  getDeliverables, getDeliverableById, createDeliverable, updateDeliverable, deleteDeliverable,
+  getDeliverableStats, getAllDeliverablesForExport, seedDeliverables,
 } from "./db";
 import { CONTRACTUAL_DELAYS } from "@shared/e2mt2";
 import { notifyOwner } from "./_core/notification";
@@ -687,6 +689,154 @@ R\u00e8gles de r\u00e9ponse :
       .query(async ({ input }) => {
         return getAllSuiviForExport(input);
       }),
+  }),
+
+  // ===== DELIVERABLES (Livrables contractuels) =====
+  deliverables: router({
+    list: protectedProcedure
+      .input(z.object({
+        mission: z.string().optional(),
+        status: z.string().optional(),
+        priority: z.string().optional(),
+        search: z.string().optional(),
+        page: z.number().default(1),
+        limit: z.number().default(100),
+      }))
+      .query(async ({ input }) => {
+        return getDeliverables(input);
+      }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getDeliverableById(input.id);
+      }),
+
+    stats: protectedProcedure.query(async () => {
+      return getDeliverableStats();
+    }),
+
+    create: protectedProcedure
+      .input(z.object({
+        code: z.string().min(1),
+        mission: z.string().min(1),
+        category: z.string().min(1),
+        title: z.string().min(1),
+        description: z.string().optional(),
+        contractualDelay: z.string().min(1),
+        referenceDate: z.number().optional(),
+        dueDate: z.number().optional(),
+        deliveredDate: z.number().optional(),
+        status: z.enum(["a_venir", "en_cours", "livre", "en_retard", "non_applicable"]).optional(),
+        responsable: z.string().optional(),
+        notes: z.string().optional(),
+        alertDaysBefore: z.number().optional(),
+        priority: z.enum(["haute", "moyenne", "basse"]).optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const id = await createDeliverable({ ...input, updatedBy: ctx.user?.id ?? null } as any);
+        return { id };
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        code: z.string().optional(),
+        mission: z.string().optional(),
+        category: z.string().optional(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        contractualDelay: z.string().optional(),
+        referenceDate: z.number().nullable().optional(),
+        dueDate: z.number().nullable().optional(),
+        deliveredDate: z.number().nullable().optional(),
+        status: z.enum(["a_venir", "en_cours", "livre", "en_retard", "non_applicable"]).optional(),
+        responsable: z.string().optional(),
+        notes: z.string().optional(),
+        alertDaysBefore: z.number().optional(),
+        priority: z.enum(["haute", "moyenne", "basse"]).optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const { id, ...data } = input;
+        await updateDeliverable(id, { ...data, updatedBy: ctx.user?.id ?? null } as any);
+
+        // If status changed to en_retard, notify owner
+        if (data.status === "en_retard") {
+          const deliverable = await getDeliverableById(id);
+          if (deliverable) {
+            try {
+              await notifyOwner({
+                title: "\u26a0\ufe0f Livrable en retard",
+                content: `Le livrable ${deliverable.code} - ${deliverable.title} est en retard.`,
+              });
+            } catch (e) {
+              console.warn("Notification failed:", e);
+            }
+          }
+        }
+
+        return { success: true };
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteDeliverable(input.id);
+        return { success: true };
+      }),
+
+    exportAll: protectedProcedure
+      .input(z.object({
+        mission: z.string().optional(),
+        status: z.string().optional(),
+        search: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        return getAllDeliverablesForExport(input);
+      }),
+
+    seed: protectedProcedure.mutation(async () => {
+      const seedData = [
+        // Mission A1 - Organisation
+        { code: "A1-01", mission: "A1", category: "Organisation", title: "Organigramme op\u00e9rationnel des \u00e9quipes de d\u00e9marrage", contractualDelay: "15 jours calendaires suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-02", mission: "A1", category: "Organisation", title: "Liste des intervenants phase d\u00e9ploiement (CV + fiches poste)", contractualDelay: "15 jours calendaires suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-03", mission: "A1", category: "Organisation", title: "Planning g\u00e9n\u00e9ral de d\u00e9ploiement", contractualDelay: "15 jours calendaires, MAJ chaque fin de mois", priority: "haute" as const },
+        { code: "A1-04", mission: "A1", category: "Organisation", title: "Organigramme op\u00e9rationnel \u00e9quipes exploitation courante", contractualDelay: "3 mois suivant prise d'effet mission A2", priority: "haute" as const },
+        { code: "A1-05", mission: "A1", category: "Organisation", title: "Liste des intervenants exploitation courante (CV + fiches poste)", contractualDelay: "4 mois suivant prise d'effet mission A1", priority: "moyenne" as const },
+        { code: "A1-06", mission: "A1", category: "Organisation", title: "Plan de formation des intervenants exploitation courante", contractualDelay: "4 mois suivant prise d'effet mission A1, formations dans 5 mois", priority: "moyenne" as const },
+        { code: "A1-07", mission: "A1", category: "Organisation", title: "Plannings pr\u00e9visionnels permanences sites", contractualDelay: "5 mois suivant prise d'effet mission A1", priority: "moyenne" as const },
+        { code: "A1-08", mission: "A1", category: "Organisation", title: "Dossier de d\u00e9claration des sous-traitants", contractualDelay: "3 mois suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-09", mission: "A1", category: "Organisation", title: "Tableau r\u00e9capitulatif de la sous-traitance", contractualDelay: "5 mois suivant prise d'effet mission A1", priority: "moyenne" as const },
+        { code: "A1-10", mission: "A1", category: "Qualit\u00e9", title: "Plan d'assurance qualit\u00e9", contractualDelay: "5 mois suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-11", mission: "A1", category: "Qualit\u00e9", title: "Plan de r\u00e9versibilit\u00e9", contractualDelay: "3 mois suivant prise d'effet mission A2", priority: "moyenne" as const },
+        { code: "A1-12", mission: "A1", category: "Astreinte", title: "Proc\u00e9dure d'astreinte", contractualDelay: "3 mois suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-13", mission: "A1", category: "Astreinte", title: "Guides d'astreinte", contractualDelay: "Trame type 2 mois, d\u00e9ploiement p\u00e9rim\u00e8tre 5 mois", priority: "haute" as const },
+        { code: "A1-14", mission: "A1", category: "S\u00e9curit\u00e9", title: "Plans de pr\u00e9vention (concertation SNCF)", contractualDelay: "5 mois suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-15", mission: "A1", category: "S\u00e9curit\u00e9", title: "Tableau de suivi avancement plans de pr\u00e9vention", contractualDelay: "30 jours calendaires, MAJ chaque fin de mois", priority: "moyenne" as const },
+        // Mission A1 - Inventaire et prise en charge
+        { code: "A1-16", mission: "A1", category: "Inventaire", title: "Note m\u00e9thodologique de prise en charge", contractualDelay: "30 jours calendaires suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-17", mission: "A1", category: "Inventaire", title: "Planning de prise en charge", contractualDelay: "30 jours calendaires, MAJ chaque fin de semestre", priority: "haute" as const },
+        { code: "A1-18", mission: "A1", category: "Inventaire", title: "Restitution donn\u00e9es prise en charge et \u00e9tat des lieux globaux", contractualDelay: "2 mois suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-19", mission: "A1", category: "Inventaire", title: "Inventaires \u00e9quipements actualis\u00e9s et compl\u00e9t\u00e9s + \u00e9tats des lieux", contractualDelay: "4 mois suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-20", mission: "A1", category: "Inventaire", title: "\u00c9tiquetage des \u00e9quipements", contractualDelay: "5 mois suivant prise d'effet (ou premi\u00e8re maintenance)", priority: "moyenne" as const },
+        { code: "A1-21", mission: "A1", category: "Inventaire", title: "Signature PV de prise en charge", contractualDelay: "Au plus tard 5 mois apr\u00e8s prise d'effet mission A1", priority: "haute" as const },
+        // Mission A1 - GMAO et GED
+        { code: "A1-22", mission: "A1", category: "GMAO/GED", title: "Liste de comptes \u00e0 cr\u00e9er (selon profil)", contractualDelay: "2 mois suivant prise d'effet mission A1", priority: "moyenne" as const },
+        { code: "A1-23", mission: "A1", category: "GMAO/GED", title: "Donn\u00e9es de param\u00e9trage g\u00e9n\u00e9ral", contractualDelay: "5 mois suivant prise d'effet mission A1", priority: "moyenne" as const },
+        { code: "A1-24", mission: "A1", category: "GMAO/GED", title: "Plan annuel de maintenance", contractualDelay: "5 mois suivant prise d'effet mission A1", priority: "haute" as const },
+        { code: "A1-25", mission: "A1", category: "GMAO/GED", title: "Trame des rapports (RLAM, RLAA, RMA, RAA)", contractualDelay: "5 mois suivant prise d'effet mission A1", priority: "moyenne" as const },
+        // Mission A2 - Prise en charge nouveaux b\u00e2timents
+        { code: "A2-01", mission: "A2", category: "Int\u00e9gration", title: "MAJ organisation op\u00e9rationnelle (intervenants, plannings, permanences)", contractualDelay: "D\u00e8s prise d'effet mission A2", priority: "haute" as const },
+        { code: "A2-02", mission: "A2", category: "Int\u00e9gration", title: "Dossiers d\u00e9claration sous-traitants et MAJ tableau r\u00e9capitulatif", contractualDelay: "D\u00e8s prise d'effet mission A2", priority: "moyenne" as const },
+        { code: "A2-03", mission: "A2", category: "Int\u00e9gration", title: "Guide d'astreinte (p\u00e9rim\u00e8tre > 50 \u00e9quipements)", contractualDelay: "30 jours calendaires apr\u00e8s prise en charge", priority: "haute" as const },
+        { code: "A2-04", mission: "A2", category: "Int\u00e9gration", title: "Plan de pr\u00e9vention et MAJ tableau de suivi", contractualDelay: "30 jours calendaires apr\u00e8s prise en charge", priority: "haute" as const },
+        { code: "A2-05", mission: "A2", category: "Int\u00e9gration", title: "Inventaire \u00e9quipements, \u00e9tats des lieux, PV de prise en charge", contractualDelay: "120 jours \u00e0 compter de la prise d'effet mission A2", priority: "haute" as const },
+        { code: "A2-06", mission: "A2", category: "Int\u00e9gration", title: "Int\u00e9gration GMAO", contractualDelay: "D\u00e8s prise d'effet mission A2", priority: "moyenne" as const },
+        { code: "A2-07", mission: "A2", category: "Int\u00e9gration", title: "Ensemble des autres livrables et actions n\u00e9cessaires", contractualDelay: "D\u00e8s prise d'effet mission A2", priority: "moyenne" as const },
+      ];
+      await seedDeliverables(seedData as any);
+      return { success: true, count: seedData.length };
+    }),
   }),
 
   // ===== EXPORT =====

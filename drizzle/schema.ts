@@ -277,3 +277,39 @@ export const suiviEntries = mysqlTable("suivi_entries", {
 
 export type SuiviEntry = typeof suiviEntries.$inferSelect;
 export type InsertSuiviEntry = typeof suiviEntries.$inferInsert;
+
+/**
+ * Livrables contractuels E2MT² (Mission A)
+ */
+export const deliverables = mysqlTable("deliverables", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  code: varchar("code", { length: 20 }).notNull(),
+  mission: varchar("mission", { length: 20 }).notNull(),
+  category: varchar("category", { length: 200 }).notNull(),
+  title: varchar("title", { length: 500 }).notNull(),
+  description: text("description"),
+  // Délai contractuel
+  contractualDelay: varchar("contractualDelay", { length: 500 }).notNull(),
+  // Dates
+  referenceDate: bigint("referenceDate", { mode: "number" }),
+  dueDate: bigint("dueDate", { mode: "number" }),
+  deliveredDate: bigint("deliveredDate", { mode: "number" }),
+  // Statut
+  status: mysqlEnum("status", ["a_venir", "en_cours", "livre", "en_retard", "non_applicable"]).default("a_venir").notNull(),
+  // Responsable et notes
+  responsable: varchar("responsable", { length: 200 }),
+  notes: text("notes"),
+  // Alerte
+  alertDaysBefore: int("alertDaysBefore").default(7),
+  alertSent: int("alertSent").default(0).notNull(),
+  // Priorité
+  priority: mysqlEnum("priority", ["haute", "moyenne", "basse"]).default("moyenne").notNull(),
+  // Tracking
+  updatedBy: int("updatedBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Deliverable = typeof deliverables.$inferSelect;
+export type InsertDeliverable = typeof deliverables.$inferInsert;

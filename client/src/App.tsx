@@ -19,6 +19,7 @@ import SuiviPage from "./pages/SuiviPage";
 import TutorielsPage from "./pages/TutorielsPage";
 import NommagePage from "./pages/NommagePage";
 import ReferentielContratPage from "./pages/ReferentielContratPage";
+import LivrablesPage from "./pages/LivrablesPage";
 
 function Router() {
   return (
@@ -39,6 +40,7 @@ function Router() {
         <Route path="/tutoriels" component={TutorielsPage} />
         <Route path="/nommage" component={NommagePage} />
         <Route path="/referentiel" component={ReferentielContratPage} />
+        <Route path="/livrables" component={LivrablesPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
