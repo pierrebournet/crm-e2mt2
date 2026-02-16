@@ -93,3 +93,5 @@
 - [x] Corriger E2MT par E2MT² dans les types de dépense du Nommage AT
 - [x] Intégrer le résultat de l'assistant nommage (sous-type ex: PTP) dans le générateur AT (bouton "Utiliser dans le Nommage AT" + pré-remplissage automatique)
 - [x] Remplacer les portefeuilles par les 19 SA du Grand Sud (Réseau, ISM TGV Atlantique/Sud Est, ISM TER Occitanie/PACA/Nouvelle Aquitaine, ISM Intercités, Matériel, Autre Voyageurs, Combustible, Traction, Fret, SNCF)
+- [x] Vérifier et corriger l'intégration du PTP dans le nommage AT (type de dépense pré-rempli depuis l'assistant)
+- [x] Intégrer le sous-type (PTP, VRE, GE, etc.) dans le nom AT généré pour les AT ponctuelles (champ sous-type + badge + exemples mis à jour)

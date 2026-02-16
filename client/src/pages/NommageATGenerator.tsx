@@ -193,6 +193,7 @@ function ATNameGenerator({ assistantSousType, onClearAssistant }: ATNameGenerato
   const [prestataire, setPrestataire] = useState("DI");
   const [portefeuille, setPortefeuille] = useState("");
   const [typeDepense, setTypeDepense] = useState("");
+  const [sousType, setSousType] = useState("");
   const [particularite, setParticularite] = useState("");
   const [utBat, setUtBat] = useState("");
   const [numDevis, setNumDevis] = useState("");
@@ -224,10 +225,12 @@ function ATNameGenerator({ assistantSousType, onClearAssistant }: ATNameGenerato
         setTypeAT("annuelle");
         setTypeDepense(mappedType);
       } else {
-        // Pour les types ponctuels, on met le sous-type dans le descriptif
+        // Pour les types ponctuels, on met le sous-type dans le champ sous-type
         setTypeAT("ponctuelle");
-        setDescriptif(assistantSousType.sousType.substring(0, 30));
+        setSousType(assistantSousType.code || assistantSousType.sousType.substring(0, 20));
       }
+      // Toujours remplir le sous-type pour référence
+      setSousType(assistantSousType.code || "");
     }
   }, [assistantSousType]);
 
@@ -245,6 +248,7 @@ function ATNameGenerator({ assistantSousType, onClearAssistant }: ATNameGenerato
       parts.push("ANNUEL");
     } else {
       // Ponctuelle
+      if (sousType) parts.push(sousType);
       if (particularite) parts.push(particularite);
       if (utBat) parts.push(utBat);
       if (prestataire === "ESBE" && numDevis) parts.push(numDevis);
@@ -252,7 +256,7 @@ function ATNameGenerator({ assistantSousType, onClearAssistant }: ATNameGenerato
     }
 
     return parts.join("-");
-  }, [typeAT, region, annee, prestataire, portefeuille, typeDepense, particularite, utBat, numDevis, descriptif]);
+  }, [typeAT, region, annee, prestataire, portefeuille, typeDepense, sousType, particularite, utBat, numDevis, descriptif]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedName).then(() => {
@@ -475,6 +479,19 @@ function ATNameGenerator({ assistantSousType, onClearAssistant }: ATNameGenerato
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                Sous-type / Nature (ex: PTP, GE, MEC_EE, VTR...)
+              </Label>
+              <Input
+                value={sousType}
+                onChange={(e) => setSousType(e.target.value.toUpperCase())}
+                placeholder="PTP, GE, MEC_EE, CA AM, VTR..."
+              />
+              <p className="text-[10px] text-muted-foreground">
+                Renseigné automatiquement depuis l'assistant, ou saisissez manuellement le code du sous-type.
+              </p>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -535,8 +552,9 @@ function ATNameGenerator({ assistantSousType, onClearAssistant }: ATNameGenerato
                 <span className="text-xs font-semibold text-orange-700">Exemples d'AT ponctuelles</span>
               </div>
               <p className="text-xs text-orange-600">
-                58-23-DI-MOBI SOCIAL-OPS-005737JB010-Rplct 2 BAES CMPP<br />
-                59-23-ESBE-RES FERRO-005654VB061-MP 220 2022-Brochage de fissures
+                58-26-DI-ISM TER Occitanie-<strong>PTP</strong>-005737JB010-Rplct 2 BAES CMPP<br />
+                59-26-DI-Réseau Industriel-<strong>GE</strong>-OPS-005654VB061-Brochage de fissures<br />
+                58-26-ESBE-Réseau Ferroviaire-<strong>MEC_EE</strong>-005654VB061-MP 220 2022-MEC électrique
               </p>
             </div>
           </CardContent>
@@ -622,6 +640,14 @@ function ATNameGenerator({ assistantSousType, onClearAssistant }: ATNameGenerato
                 </>
               ) : (
                 <>
+                  {sousType && (
+                    <>
+                      <Badge variant="outline" className="text-[10px] bg-rose-50 text-rose-700 border-rose-200 font-bold">
+                        Sous-type
+                      </Badge>
+                      <span className="text-muted-foreground text-xs">-</span>
+                    </>
+                  )}
                   {particularite && particularite !== "none" && (
                     <>
                       <Badge variant="outline" className="text-[10px] bg-amber-50 text-amber-700 border-amber-200">
