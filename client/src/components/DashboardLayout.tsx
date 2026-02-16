@@ -38,6 +38,7 @@ import {
   Tag,
   BookOpen,
   ClipboardCheck,
+  ExternalLink,
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -46,7 +47,7 @@ import { Button } from "./ui/button";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", path: "/" },
-  { icon: Building2, label: "Bâtiments", path: "/batiments" },
+  { icon: Building2, label: "Bâtiments", path: "/batiments", external: "https://utbuildings-e9tjvtyy.manus.space" },
   { icon: Wrench, label: "Interventions", path: "/interventions" },
   { icon: PlusCircle, label: "Nouvelle intervention", path: "/interventions/new" },
   { icon: FileSearch, label: "Analyse de devis", path: "/devis" },
@@ -214,7 +215,13 @@ function DashboardLayoutContent({
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton
                       isActive={isActive}
-                      onClick={() => setLocation(item.path)}
+                      onClick={() => {
+                        if ((item as any).external) {
+                          window.open((item as any).external, "_blank", "noopener,noreferrer");
+                        } else {
+                          setLocation(item.path);
+                        }
+                      }}
                       tooltip={item.label}
                       className={`h-10 transition-all font-normal text-white/70 hover:text-white hover:bg-white/10 ${
                         isActive
@@ -228,6 +235,9 @@ function DashboardLayoutContent({
                         }`}
                       />
                       <span>{item.label}</span>
+                      {(item as any).external && (
+                        <ExternalLink className="h-3 w-3 ml-auto opacity-50" />
+                      )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );

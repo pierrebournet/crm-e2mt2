@@ -88,3 +88,4 @@
 - [x] Pré-remplir les 32 livrables contractuels de l'Annexe 2 (seed data via bouton import)
 - [x] Intégrer la page Suivi Livrables dans la navigation sidebar
 - [x] Tests unitaires livrables (30 tests, 122 tests au total)
+- [x] Rediriger le lien Bâtiments vers l'application externe utbuildings-e9tjvtyy.manus.space
