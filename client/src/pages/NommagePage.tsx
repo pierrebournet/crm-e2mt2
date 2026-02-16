@@ -26,6 +26,7 @@ import {
   FileText,
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { toast } from "sonner";
 import NommageATSection from "./NommageATGenerator";
 
 // ─── Data Types ──────────────────────────────────────────────────
@@ -515,7 +516,7 @@ const wizardSteps: WizardStep[] = [
 ];
 
 // ─── Wizard Component ────────────────────────────────────────────
-function NommageWizard() {
+function NommageWizard({ onUseInAT }: { onUseInAT?: (sousType: string, code: string) => void }) {
   const [, setLocation] = useLocation();
   const [currentStepId, setCurrentStepId] = useState("start");
   const [history, setHistory] = useState<string[]>([]);
@@ -598,11 +599,21 @@ function NommageWizard() {
           </CardContent>
         </Card>
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button variant="outline" onClick={handleReset} className="gap-2">
             <RotateCcw className="h-4 w-4" />
             Nouvelle recherche
           </Button>
+          {onUseInAT && (
+            <Button
+              variant="outline"
+              onClick={() => onUseInAT(result.sousType, result.code)}
+              className="gap-2 border-[#E05206] text-[#E05206] hover:bg-[#E05206]/10"
+            >
+              <FileText className="h-4 w-4" />
+              Utiliser dans le Nommage AT
+            </Button>
+          )}
           <Button
             onClick={() => {
               const params = new URLSearchParams();
@@ -715,6 +726,8 @@ export default function NommagePage() {
   const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState<NomenclatureItem | null>(null);
   const [showOnlyActive, setShowOnlyActive] = useState(false);
+  const [activeTab, setActiveTab] = useState("assistant");
+  const [assistantResult, setAssistantResult] = useState<{ sousType: string; code: string } | null>(null);
 
   const filteredSousTypes = useMemo(() => {
     return sousTypes.filter((item) => {
@@ -845,7 +858,7 @@ export default function NommagePage() {
         </p>
       </div>
 
-      <Tabs defaultValue="assistant" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-5 h-auto">
           <TabsTrigger value="assistant" className="gap-1.5 text-xs sm:text-sm py-2">
             <Sparkles className="h-4 w-4" />
@@ -890,12 +903,16 @@ export default function NommagePage() {
               </div>
             </CardContent>
           </Card>
-          <NommageWizard />
+          <NommageWizard onUseInAT={(sousType, code) => {
+            setAssistantResult({ sousType, code });
+            setActiveTab("nommage-at");
+            toast.success(`Sous-type "${code}" transféré vers le Nommage AT`);
+          }} />
         </TabsContent>
 
         {/* Nommage AT Tab */}
         <TabsContent value="nommage-at" className="mt-6">
-          <NommageATSection />
+          <NommageATSection assistantSousType={assistantResult} onClearAssistant={() => setAssistantResult(null)} />
         </TabsContent>
 
         {/* Sous-types Tab */}

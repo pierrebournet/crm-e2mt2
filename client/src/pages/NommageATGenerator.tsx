@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -46,33 +46,33 @@ const prestataires = [
 ];
 
 const portefeuilles = [
-  // SNCF Réseau (RES / RESO)
-  { code: "RES FERRO", label: "RES FERRO", groupe: "Réseau" },
-  { code: "RESO FERRO", label: "RESO FERRO", groupe: "Réseau" },
-  { code: "RES INDUS", label: "RES INDUS", groupe: "Réseau" },
-  { code: "RES TERTIAIRE", label: "RES TERTIAIRE", groupe: "Réseau" },
-  { code: "RES SOCIAL", label: "RES SOCIAL", groupe: "Réseau" },
-  { code: "RES GARES", label: "RES GARES", groupe: "Réseau" },
-  // SNCF Voyageurs (MOBI)
-  { code: "MOBI FERRO", label: "MOBI FERRO", groupe: "Voyageurs" },
-  { code: "MOBI INDUS", label: "MOBI INDUS", groupe: "Voyageurs" },
-  { code: "MOBI INDUS TER", label: "MOBI INDUS TER", groupe: "Voyageurs" },
-  { code: "MOBI TERTIAIRE", label: "MOBI TERTIAIRE", groupe: "Voyageurs" },
-  { code: "MOBI SOCIAL", label: "MOBI SOCIAL", groupe: "Voyageurs" },
-  { code: "MOBI GARES", label: "MOBI GARES", groupe: "Voyageurs" },
-  // Autre Voyageur (filiales)
-  { code: "AUTRE VOY", label: "AUTRE VOY", groupe: "Autre Voyageur" },
-  // SNCF Holding (TETE)
-  { code: "TETE RHIST", label: "TETE RHIST", groupe: "Tête" },
-  { code: "TETE FERRO", label: "TETE FERRO", groupe: "Tête" },
-  { code: "TETE INDUS", label: "TETE INDUS", groupe: "Tête" },
-  { code: "TETE TERTIAIRE", label: "TETE TERTIAIRE", groupe: "Tête" },
-  { code: "TETE SOCIAL", label: "TETE SOCIAL", groupe: "Tête" },
-  // Gares & Connexions (G&C)
-  { code: "G&C FERRO", label: "G&C FERRO", groupe: "Gares & Connexions" },
-  { code: "G&C GARES", label: "G&C GARES", groupe: "Gares & Connexions" },
-  // Fret SNCF
-  { code: "FRET", label: "FRET", groupe: "Fret" },
+  // ── Réseau (patrimoine confié à TechniGares pour GE, CME/PTP, VR) ──
+  { code: "Réseau Industriel", label: "Réseau Industriel", groupe: "Réseau" },
+  { code: "Réseau ferroviaire", label: "Réseau Ferroviaire", groupe: "Réseau" },
+  { code: "Réseau Tertiaire", label: "Réseau Tertiaire", groupe: "Réseau" },
+  { code: "Réseau Social", label: "Réseau Social", groupe: "Réseau" },
+  // ── ISM TGV (axes traversant le Grand Sud) ──
+  { code: "ISM TGV Axe Atlantique", label: "ISM TGV Axe Atlantique", groupe: "ISM TGV" },
+  { code: "ISM TGV Axe Sud Est", label: "ISM TGV Axe Sud Est", groupe: "ISM TGV" },
+  { code: "HORS ISM TGV", label: "HORS ISM TGV", groupe: "ISM TGV" },
+  // ── ISM TER (régions du Grand Sud) ──
+  { code: "ISM TER Occitanie", label: "ISM TER Occitanie", groupe: "ISM TER" },
+  { code: "ISM TER Provence Alpes Côte d'Azur", label: "ISM TER Provence Alpes Côte d'Azur", groupe: "ISM TER" },
+  { code: "ISM TER Nouvelle aquitaine", label: "ISM TER Nouvelle Aquitaine", groupe: "ISM TER" },
+  { code: "HORS ISM TER", label: "HORS ISM TER", groupe: "ISM TER" },
+  // ── ISM Autres ──
+  { code: "ISM INTERCITES", label: "ISM INTERCITES", groupe: "ISM Autres" },
+  { code: "MATERIEL", label: "MATERIEL", groupe: "ISM Autres" },
+  // ── Autre Voyageurs ──
+  { code: "AUTRE VOYAGEURS", label: "AUTRE VOYAGEURS", groupe: "Autre Voyageurs" },
+  // ── Énergie / Traction ──
+  { code: "Combustible", label: "Combustible", groupe: "Énergie" },
+  { code: "Traction", label: "Traction", groupe: "Énergie" },
+  // ── Fret ──
+  { code: "DI pour FRET", label: "DI pour FRET", groupe: "Fret" },
+  { code: "FRET ISM", label: "FRET ISM", groupe: "Fret" },
+  // ── SNCF (holding) ──
+  { code: "SNCF", label: "SNCF", groupe: "SNCF" },
 ];
 
 const typesDepenseAnnuels = [
@@ -181,7 +181,12 @@ const budgetLabels: Record<string, { label: string; color: string; description: 
 // COMPOSANT : Générateur de noms AT
 // ═══════════════════════════════════════════════════════════════════
 
-function ATNameGenerator() {
+interface ATNameGeneratorProps {
+  assistantSousType?: { sousType: string; code: string } | null;
+  onClearAssistant?: () => void;
+}
+
+function ATNameGenerator({ assistantSousType, onClearAssistant }: ATNameGeneratorProps) {
   const [typeAT, setTypeAT] = useState<"annuelle" | "ponctuelle">("ponctuelle");
   const [region, setRegion] = useState("58");
   const [annee, setAnnee] = useState(new Date().getFullYear().toString().slice(-2));
@@ -193,6 +198,38 @@ function ATNameGenerator() {
   const [numDevis, setNumDevis] = useState("");
   const [descriptif, setDescriptif] = useState("");
   const [copied, setCopied] = useState(false);
+
+  // Appliquer le sous-type de l'assistant quand il change
+  useEffect(() => {
+    if (assistantSousType) {
+      // Mapper le code assistant vers un type de dépense annuel si applicable
+      const codeMap: Record<string, string> = {
+        "PTP": "PTP E2MT\u00b2",
+        "CA PTP": "PTP E2MT\u00b2",
+        "VRE": "VRE",
+        "CA VRE": "VRE",
+        "ASC": "ASC",
+        "CA ASC": "ASC",
+        "MPS": "MPS ELEC",
+        "CA MPS": "MPS ELEC",
+        "VG": "VG",
+        "CA VG": "VG",
+        "FORFAIT": "FORFAIT E2MT\u00b2",
+        "CA EE": "",
+        "CA GE": "",
+        "CA AM": "",
+      };
+      const mappedType = codeMap[assistantSousType.code];
+      if (mappedType !== undefined && mappedType !== "") {
+        setTypeAT("annuelle");
+        setTypeDepense(mappedType);
+      } else {
+        // Pour les types ponctuels, on met le sous-type dans le descriptif
+        setTypeAT("ponctuelle");
+        setDescriptif(assistantSousType.sousType.substring(0, 30));
+      }
+    }
+  }, [assistantSousType]);
 
   const generatedName = useMemo(() => {
     const parts: string[] = [];
@@ -815,7 +852,12 @@ function ImmosisTypesTable() {
 // EXPORT : Composant principal avec onglets
 // ═══════════════════════════════════════════════════════════════════
 
-export default function NommageATSection() {
+interface NommageATSectionProps {
+  assistantSousType?: { sousType: string; code: string } | null;
+  onClearAssistant?: () => void;
+}
+
+export default function NommageATSection({ assistantSousType, onClearAssistant }: NommageATSectionProps) {
   return (
     <Tabs defaultValue="generateur" className="w-full">
       <TabsList className="grid w-full grid-cols-2 h-auto">
@@ -833,7 +875,7 @@ export default function NommageATSection() {
       </TabsList>
 
       <TabsContent value="generateur" className="mt-6">
-        <ATNameGenerator />
+        <ATNameGenerator assistantSousType={assistantSousType} onClearAssistant={onClearAssistant} />
       </TabsContent>
 
       <TabsContent value="types" className="mt-6">

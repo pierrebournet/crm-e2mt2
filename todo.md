@@ -91,3 +91,5 @@
 - [x] Rediriger le lien Bâtiments vers l'application externe utbuildings-e9tjvtyy.manus.space
 - [x] Corriger les portefeuilles et propriétés manquants dans le Nommage AT (ajouté 13 portefeuilles : RESO FERRO, RES SOCIAL, MOBI INDUS TER, MOBI TERTIAIRE, MOBI GARES, AUTRE VOY, TETE FERRO, TETE INDUS, TETE TERTIAIRE, TETE SOCIAL, G&C FERRO, G&C GARES + groupement par propriétaire)
 - [x] Corriger E2MT par E2MT² dans les types de dépense du Nommage AT
+- [x] Intégrer le résultat de l'assistant nommage (sous-type ex: PTP) dans le générateur AT (bouton "Utiliser dans le Nommage AT" + pré-remplissage automatique)
+- [x] Remplacer les portefeuilles par les 19 SA du Grand Sud (Réseau, ISM TGV Atlantique/Sud Est, ISM TER Occitanie/PACA/Nouvelle Aquitaine, ISM Intercités, Matériel, Autre Voyageurs, Combustible, Traction, Fret, SNCF)
