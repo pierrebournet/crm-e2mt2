@@ -46,15 +46,33 @@ const prestataires = [
 ];
 
 const portefeuilles = [
-  { code: "RES TERTIAIRE", label: "RES TERTIAIRE" },
-  { code: "MOBI INDUS", label: "MOBI INDUS" },
-  { code: "TETE RHIST", label: "TETE RHIST" },
-  { code: "FRET", label: "FRET" },
-  { code: "RES FERRO", label: "RES FERRO" },
-  { code: "MOBI SOCIAL", label: "MOBI SOCIAL" },
-  { code: "RES INDUS", label: "RES INDUS" },
-  { code: "RES GARES", label: "RES GARES" },
-  { code: "MOBI FERRO", label: "MOBI FERRO" },
+  // SNCF Réseau (RES / RESO)
+  { code: "RES FERRO", label: "RES FERRO", groupe: "Réseau" },
+  { code: "RESO FERRO", label: "RESO FERRO", groupe: "Réseau" },
+  { code: "RES INDUS", label: "RES INDUS", groupe: "Réseau" },
+  { code: "RES TERTIAIRE", label: "RES TERTIAIRE", groupe: "Réseau" },
+  { code: "RES SOCIAL", label: "RES SOCIAL", groupe: "Réseau" },
+  { code: "RES GARES", label: "RES GARES", groupe: "Réseau" },
+  // SNCF Voyageurs (MOBI)
+  { code: "MOBI FERRO", label: "MOBI FERRO", groupe: "Voyageurs" },
+  { code: "MOBI INDUS", label: "MOBI INDUS", groupe: "Voyageurs" },
+  { code: "MOBI INDUS TER", label: "MOBI INDUS TER", groupe: "Voyageurs" },
+  { code: "MOBI TERTIAIRE", label: "MOBI TERTIAIRE", groupe: "Voyageurs" },
+  { code: "MOBI SOCIAL", label: "MOBI SOCIAL", groupe: "Voyageurs" },
+  { code: "MOBI GARES", label: "MOBI GARES", groupe: "Voyageurs" },
+  // Autre Voyageur (filiales)
+  { code: "AUTRE VOY", label: "AUTRE VOY", groupe: "Autre Voyageur" },
+  // SNCF Holding (TETE)
+  { code: "TETE RHIST", label: "TETE RHIST", groupe: "Tête" },
+  { code: "TETE FERRO", label: "TETE FERRO", groupe: "Tête" },
+  { code: "TETE INDUS", label: "TETE INDUS", groupe: "Tête" },
+  { code: "TETE TERTIAIRE", label: "TETE TERTIAIRE", groupe: "Tête" },
+  { code: "TETE SOCIAL", label: "TETE SOCIAL", groupe: "Tête" },
+  // Gares & Connexions (G&C)
+  { code: "G&C FERRO", label: "G&C FERRO", groupe: "Gares & Connexions" },
+  { code: "G&C GARES", label: "G&C GARES", groupe: "Gares & Connexions" },
+  // Fret SNCF
+  { code: "FRET", label: "FRET", groupe: "Fret" },
 ];
 
 const typesDepenseAnnuels = [
@@ -347,11 +365,22 @@ function ATNameGenerator() {
                 <SelectValue placeholder="Sélectionnez un portefeuille" />
               </SelectTrigger>
               <SelectContent>
-                {portefeuilles.map((p) => (
-                  <SelectItem key={p.code} value={p.code}>
-                    {p.label}
-                  </SelectItem>
-                ))}
+                {(() => {
+                  const groups = Array.from(new Set(portefeuilles.map(p => p.groupe)));
+                  return groups.map((groupe, gi) => (
+                    <div key={groupe}>
+                      {gi > 0 && <div className="h-px bg-border my-1" />}
+                      <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                        {groupe}
+                      </div>
+                      {portefeuilles.filter(p => p.groupe === groupe).map((p) => (
+                        <SelectItem key={p.code} value={p.code}>
+                          {p.label}
+                        </SelectItem>
+                      ))}
+                    </div>
+                  ));
+                })()}
               </SelectContent>
             </Select>
           </div>
