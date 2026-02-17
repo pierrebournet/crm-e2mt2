@@ -6,10 +6,12 @@ import { toast } from "sonner";
 const SUGGESTED_PROMPTS = [
   "Quels sont les délais contractuels D1 et D2 pour une intervention C1 ?",
   "Quel est le prix BPU pour le remplacement d'un split-system ?",
-  "Combien de lots géographiques couvre le contrat E2MT² ?",
-  "Quelles sont les missions F prestations connexes ?",
-  "Quelle est la différence entre maintenance préventive et corrective ?",
-  "Quels sont les niveaux de criticité et leurs implications ?",
+  "Comment créer une demande d'achat (DA) dans l'ERP ?",
+  "Quel groupe d'achat pour un devis de 35 000€ ?",
+  "Comment fonctionne Connect'Immo V3 (projets, commandes) ?",
+  "Quelles sont les 20 applications métier du pilote DIT ?",
+  "Quel est le code BUPO pour la SA Voyageurs ?",
+  "Quels sont les seuils de consultation pour les achats hors contrat ?",
 ];
 
 export default function AssistantPage() {
@@ -61,7 +63,7 @@ export default function AssistantPage() {
       <div>
         <h1 className="text-2xl font-bold text-foreground">Assistant IA — Contrat E2MT²</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Posez n'importe quelle question sur le contrat E2MT², le BPU, les délais contractuels, les types de travaux ou les règles de maintenance.
+          Posez vos questions sur le contrat E2MT², le BPU, les procédures d'achat (DA/CDA), Connect'Immo, les 20 applications métier ou toute autre règle de maintenance.
         </p>
       </div>
 
@@ -70,9 +72,9 @@ export default function AssistantPage() {
           messages={messages}
           onSendMessage={handleSendMessage}
           isLoading={askMutation.isPending}
-          placeholder="Posez votre question sur le contrat E2MT² ou le BPU..."
+          placeholder="Posez votre question sur le contrat, le BPU, les procédures d'achat, les outils métier..."
           height="calc(100vh - 200px)"
-          emptyStateMessage="Posez une question sur le contrat E2MT² ou le BPU"
+          emptyStateMessage="Posez une question sur le contrat E2MT², les procédures ou les outils métier"
           suggestedPrompts={SUGGESTED_PROMPTS}
         />
       </div>

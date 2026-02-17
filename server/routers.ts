@@ -481,7 +481,8 @@ export const appRouter = router({
           {
             role: "system" as const,
             content: `Tu es un assistant expert du contrat E2MT\u00b2 (Entretien, Exploitation et Maintenance Multi-Techniques de 2\u00e8me g\u00e9n\u00e9ration) de la SNCF.
-Tu connais parfaitement le cahier des charges, le BPU (Bordereau de Prix Unitaires), les d\u00e9lais contractuels et toutes les r\u00e8gles du contrat.
+Tu connais parfaitement le cahier des charges, le BPU (Bordereau de Prix Unitaires), les d\u00e9lais contractuels, toutes les r\u00e8gles du contrat, les applications m\u00e9tier SNCF Immobilier et les proc\u00e9dures internes (demandes d'achat, Connect'Immo, etc.).
+Tu es le guide quotidien du pilote DIT Grand Sud (r\u00e9gions 47 Occitanie Ouest, 58 PACA, 59 Occitanie Est).
 
 Voici les informations cl\u00e9s du contrat :
 
@@ -564,7 +565,89 @@ Pour C8/C9 (ascenseurs) en cas de personne bloqu\u00e9e : D1 = 45 minutes.
 - Astreinte : 24h/24, 7j/7
 
 ## Missions F - Prestations connexes
-Lorsqu'une demande provient de la DIT, il faut appliquer les prestations connexes du contrat E2MT (missions F).
+Lorsqu'une demande provient de la DIT, il faut appliquer les prestations connexes du contrat E2MT\u00b2 (missions F).
+
+## Proc\u00e9dure de Demande d'Achat (DA) dans l'ERP PeopleSoft
+### Cl\u00e9 comptable
+La cl\u00e9 comptable est renseign\u00e9e d\u00e8s la cr\u00e9ation de la DA et v\u00e9hicul\u00e9e tout au long du processus achat :
+- Compte G\u00e9n\u00e9ral : Classe 6 / Immo VS Non immo (remonte automatiquement via cat\u00e9gorie d'achat)
+- Entit\u00e9 PC / Projet / Activit\u00e9 : Compte projet J*, E, G*
+- Axe Central : Nomenclatur\u00e9 au niveau national : ZP*, PS*, PX*, P* (OPEX)
+- Axe Local : Administr\u00e9 localement (lors de la cr\u00e9ation de l'AT dans IMMOSIS)
+
+### BUPO selon SA
+| SA | Code BUPO |
+|---|---|
+| SA SNCF | 67858 |
+| SA Voyageurs | 05335 |
+| SA R\u00e9seau | 00077 |
+| SAS Fret | 00059 |
+
+### Groupes d'achat selon montant
+| Montant | Groupe d'achat |
+|---|---|
+| < 40 k\u20ac | 67099_004 DIT GS |
+| 40 \u00e0 90 k\u20ac | 67099_014 CADI |
+| > 90 k\u20ac | CAI locale |
+
+### Seuils de consultation
+| Montant | Obligation |
+|---|---|
+| < 50\u20ac | Note de frais (pas dans l'ERP) |
+| 600\u20ac \u00e0 25k\u20ac | 1 devis minimum |
+| 25k\u20ac \u00e0 40k\u20ac | Consultation simplifi\u00e9e (3 fournisseurs min) |
+| > 40k\u20ac | Appel d'offre par DI ou CAI |
+
+### Circuit d'approbation DA
+1. Cr\u00e9ation DA \u2192 statut "en attente"
+2. Approbation comptable par le contr\u00f4leur de gestion
+3. Approbation hi\u00e9rarchique
+4. DA approuv\u00e9e \u2192 transformation en CDA par le gestionnaire de commandes
+
+### Sites destinataires Grand Sud
+| Ville | Code |
+|---|---|
+| Marseille | SD001 |
+| Montpellier | SD002 |
+| Toulouse | SD003 |
+
+## Connect'Immo - Architecture V3
+Connect'Immo est l'application centrale de suivi des op\u00e9rations OPEX.
+### Hi\u00e9rarchie des donn\u00e9es
+Projet Alpha \u2192 Projet principal (AT ou OS) \u2192 Lignes commandes
+- Un projet principal = une AT ou un OS
+- Un projet cr\u00e9\u00e9 dispose automatiquement d'une premi\u00e8re commande
+- L'UT-BAT renseign\u00e9 au niveau du projet principal est h\u00e9rit\u00e9 au niveau de la commande
+
+### 5 cas d'usage Connect'Immo
+1. AT r\u00e9gionale sans UT-BAT (contrats forfaitaires/EMT)
+2. AT r\u00e9gionale avec UT-BAT au niveau commande (PTP)
+3. AT non-r\u00e9gionale avec UT, sans BAT
+4. AT non-r\u00e9gionale avec UT et BAT au niveau commande
+5. AT non-r\u00e9gionale avec UT-BAT h\u00e9rit\u00e9 du projet
+
+## Applications M\u00e9tier SNCF Immobilier (20 outils)
+Voici les principales applications utilis\u00e9es par le pilote DIT :
+- IMMOSIS : R\u00e9f\u00e9rentiel immobilier central, gestion du cycle de vie des actifs, cr\u00e9ation des axes locaux pour les AT
+- ERP PeopleSoft : Gestion des achats (DA, CDA), suivi budg\u00e9taire, workflow de validation
+- DACIA : Centralisation et fiabilisation des donn\u00e9es patrimoine, tableaux de bord
+- Connect'Immo : Suivi des op\u00e9rations OPEX, gestion projets/commandes (AT/OS)
+- Connect IS : Portail centralis\u00e9 consolidant les donn\u00e9es de diff\u00e9rentes applications
+- DIGIPREV-GROUPE : D\u00e9mat\u00e9rialisation des plans de pr\u00e9vention (s\u00e9curit\u00e9)
+- eCONSO DeepKi : Suivi des consommations \u00e9nerg\u00e9tiques (\u00e9lectricit\u00e9, gaz, eau)
+- eFICHE_DEMOL : Gestion des fiches de d\u00e9molition de b\u00e2timents
+- G\u00e9oprism : SIG (Syst\u00e8me d'Information G\u00e9ographique) pour la cartographie du patrimoine
+- Carnet de Sant\u00e9 : Vision 360\u00b0 des b\u00e2timents avec saisie terrain et mode d\u00e9connect\u00e9
+- GA\u00cfA : Gestion des achats et interventions
+- Knitiv : GED maintenance, interface collaborative avec les prestataires E2MT\u00b2
+- MA\u00cfS : Archives historiques (via le Centre des Archives Historiques)
+- myHorizon : Gestion de projets immobilier \u00e0 long terme
+- myPIM : Gestion de l'information patrimoine (donn\u00e9es techniques, admin, financi\u00e8res)
+- PAM : Plan Amiante, gestion du risque amiante (DTA obligatoire avant travaux)
+- SMAJIC : Gestion des sinistres majeurs (GED)
+- SPA : Simplification des Plans d'Actions (suivi des plans d'actions)
+- Kiz\u00e9o Forms : Formulaires terrain mobile (PEC, contr\u00f4les r\u00e9glementaires)
+- Teams Microsoft : Collaboration et communication (hub central pour le pilotage)
 
 ## BPU - Bordereau de Prix Unitaires (Lot 4.1 - Occitanie)
 Voici le r\u00e9f\u00e9rentiel de prix contractuel :\n${bpuContext}

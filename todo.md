@@ -95,3 +95,10 @@
 - [x] Remplacer les portefeuilles par les 19 SA du Grand Sud (Réseau, ISM TGV Atlantique/Sud Est, ISM TER Occitanie/PACA/Nouvelle Aquitaine, ISM Intercités, Matériel, Autre Voyageurs, Combustible, Traction, Fret, SNCF)
 - [x] Vérifier et corriger l'intégration du PTP dans le nommage AT (type de dépense pré-rempli depuis l'assistant)
 - [x] Intégrer le sous-type (PTP, VRE, GE, etc.) dans le nom AT généré pour les AT ponctuelles (champ sous-type + badge + exemples mis à jour)
+- [x] Enrichir l'Assistant IA avec les procédures de demande d'achat (saisie DA, circuit validation)
+- [x] Enrichir l'Assistant IA avec l'architecture CI (refonte, évolution)
+- [x] Améliorer le prompt système de l'assistant pour guider le pilote dans ses tâches quotidiennes
+- [x] Rechercher formations, guides et logigrammes pour les 20+ applications métier SNCF (IMMOSIS, ERP, DACIA, Connect'Immo, Géoprism, etc.)
+- [x] Créer un référentiel des outils métier dans l'Assistant IA avec rôle et workflow de chaque application
+- [x] Créer la page Référentiel Outils avec les 20 applications métier SNCF (description, workflow, catégorie, intégrations)
+- [x] Ajouter la page Référentiel Outils dans la navigation sidebar

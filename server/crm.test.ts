@@ -451,11 +451,44 @@ describe("CRM E2MT\u00b2 - Assistant IA", () => {
     const result = await caller.assistant.ask({
       question: "Et pour la C2 ?",
       conversationHistory: [
-        { role: "user", content: "Quel est le d\u00e9lai D1 pour une intervention C1 ?" },
-        { role: "assistant", content: "Le d\u00e9lai D1 pour une intervention C1 est de 8 heures." },
+        { role: "user", content: "Quel est le délai D1 pour une intervention C1 ?" },
+        { role: "assistant", content: "Le délai D1 pour une intervention C1 est de 8 heures." },
       ],
     });
     expect(result).toHaveProperty("answer");
     expect(typeof result.answer).toBe("string");
+  });
+
+  it("answers a question about DA procedure", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment créer une demande d'achat dans l'ERP ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about Connect'Immo", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment fonctionne Connect'Immo V3 ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about SNCF applications", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Quelles sont les applications métier du pilote DIT ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
   });
 });
