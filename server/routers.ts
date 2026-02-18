@@ -660,8 +660,108 @@ Voici les principales applications utilis\u00e9es par le pilote DIT :
 - Kiz\u00e9o Forms : Formulaires terrain mobile (PEC, contr\u00f4les r\u00e9glementaires)
 - Teams Microsoft : Collaboration et communication (hub central pour le pilotage)
 
+## Guide Connect'Immo - Procédures détaillées
+
+### Créer un projet OPEX dans Connect'Immo
+1. Menu "Opérations" > "Création" > Cliquer "+" pour nouveau projet
+2. Champs obligatoires (*) : DIT*, Région*, UT*, Bien*, Intitulé du projet*, Origine*, Sous-Types*, Gérants de programme*, Attributaire*
+3. Après création : ID projet au format P-23-XXXXXX, commande par défaut au format 23-XXXXXX
+4. 5 onglets du projet : Emergence, Prévision pluriannuelle, Ouverture AT/OS, Synthèse commande(s), Demande de devis / Vie de la commande
+5. Astuce : saisir "MULTI" pour UT et/ou Bien quand la valeur est inconnue (AT générique)
+
+### Attribuer un N° AT/OS dans Connect'Immo
+- Règle d'unicité : un N° AT/OS ne peut plus être utilisé sur plusieurs projets
+- Onglet "Ouverture AT/OS" > Sélectionner ou "Ajouter un nouveau N° AT/OS"
+- Si le N° existe déjà : message d'erreur, rechercher le projet existant via "Filtrer par région"
+
+### Créer un chantier dans Connect'Immo
+- Menu "Opérations" > "Chantier" > Renseigner DIT*, Région*, UT*, Bien*
+- Cocher les projets à associer > Flèche droite > "Créer le chantier"
+- Un projet = un seul chantier à la fois
+- Montant total = somme des montants des ATs des projets associés
+
+### Vie de la commande dans Connect'Immo
+- Renseigner : N° devis, N° DA, N° CDA, N° réception pour compléter le camembert de statut
+- Référence du contrat : liste déroulante + "Ajouter un nouveau N° de contrat"
+- Quand Axe local/central non valorisés : vérifier N° AT/OS dans "Ouverture AT/OS" et Référence contrat dans "Vie de la commande"
+
+### Rapports OPEX Connect'Immo
+- Menu "Reporting" > "OPEX" > 3 rapports : données en cours, données projets, données antérieures N-2
+- Export : "..." > "Exporter des données" > "Exporter"
+- Les données s'actualisent chaque nuit
+
+### Modification en masse Connect'Immo
+- "Filtrer par région" : DIT*, Région*, filtres avancés (Pilote, Gérant, N° AT, Sous-type, Statut, etc.)
+- "Filtrer par pilote" : DIT*, Pilote*
+- Modification directe dans le tableau + bouton "Enregistrer"
+
+### Regroupement transverse Connect'Immo
+Liste de programmes prioritaires : Enveloppe RH IST 4.4, Enveloppe RH IST ADAP, AUTRES (Dont C2MI, PLI, VRD), ECO NRJ – DECRET TERTIAIRE-DECARBONATION, MIXITE, MEC MCO MES CEPIA
+
+## DA Spéciale ERP 9.2 - Mode opératoire détaillé
+
+### Accès
+- Page d'accueil ERP v9.2 > Boussole (NavBar) > Navigateur > eProcurement > Gérer demandes d'achat > Créer demande achat > Demandes spéciales
+
+### 2 types de lignes spéciales
+1. **Fournitures** : Décocher "Mnt seulement", renseigner Quantité + Prix unitaire + Date échéance
+2. **Prestations/Travaux** : Cocher "Mnt seulement" (Quantité=1 fixe), renseigner Prix global + Date début + Date fin
+
+### Champs obligatoires DA spéciale
+- *Description article, *Quantité, *Prix, *Catégorie achat, *Unité de mesure, *Devise EUR
+- Aide catégories : https://wikiachats.achats.sncf.fr/index.php/Wiki_SI_Achats_:_ERP
+- Fournisseur (optionnel) : Code fournisseur, Site, Nom
+- Informations complémentaires + cocher "Envoyer à fournisseur" si besoin
+
+### Sélection BU PO (demandeur multi BU PO)
+- Paramètres demande achat > Loupe Entité > Rechercher code BU PO
+
+### Validation et soumission
+1. Valider le panier
+2. Compléter : Nom demande, Justification approbation, Commentaires et documents joints
+3. Compléter le détail ligne : Acheteur (groupe d'achat), Informations contrat
+4. Compléter les éléments comptables : Site destinataire, Lignes comptables (4 onglets clé comptable)
+5. "Enreg. et soumettre" pour envoyer au circuit d'approbation
+
+## Création d'AT dans IMMOSIS - Procédure complète
+
+### Accès IMMOSIS
+- URL : https://immosis.sncf.fr/rei/
+- Connexion : N° CP + mot de passe Windows
+
+### Créer une AT
+1. Menu : Technique > Programmation des AT
+2. Mettre le gérant de programme > "AJOUTER AT"
+3. Renseigner : Région, Type, Nom (normalisation), UT, Ventilation, BAT
+4. Cliquer "+" jaune > Indiquer type et montant sur l'année concernée
+
+### Normalisation du nom de l'AT
+- Toujours : N° Région + Année
+- AT annuelles : + Propriétaire + Portefeuille
+- Autres AT : + Propriétaire + Portefeuille + UT + BAT + Nature de l'opération
+
+### Changements d'état obligatoires
+Émergent → Initialisée → Programmée → Promotionner
+
+### Contractualisation
+1. Onglet "Contractualise" > "Créer un contrat"
+2. Donneur d'ordre (= propriétaire, ex: 02533) + Fournisseur (ESBE ou Tiers) + Montant
+3. Valider l'avenant > L'axe local se génère à midi ou minuit
+
+### Retrouver un Axe Local
+- Menu : Dossier > Dossier Technique > Filtre par N° AT > Onglet "Contractualisation"
+
+### Annuler une AT
+- Condition : AT non contractualisée uniquement
+- Onglet "Général" > "Action" > "Changer d'état" > "ANNULÉ" > Valider
+
+### Clôturer une AT
+- Sans modification : Onglet "Général" > "Action" > "Changer d'état" > "CLÔTURE"
+- Avec modification montant : Onglet "Suivi Budgétaire" > Modifier montant > puis clôturer
+- À 0€ : Contractualisation (montant à 0€) + Suivi Budgétaire (montant à 0€ + ventilation accostage global) > puis clôturer
+
 ## BPU - Bordereau de Prix Unitaires (Lot 4.1 - Occitanie)
-Voici le r\u00e9f\u00e9rentiel de prix contractuel :\n${bpuContext}
+Voici le référentiel de prix contractuel :\n${bpuContext}
 
 R\u00e8gles de r\u00e9ponse :
 - R\u00e9ponds toujours en fran\u00e7ais

@@ -103,3 +103,6 @@
 - [x] Créer la page Référentiel Outils avec les 20 applications métier SNCF (description, workflow, catégorie, intégrations)
 - [x] Ajouter la page Référentiel Outils dans la navigation sidebar
 - [x] Intégrer dans le prompt système de l'assistant IA le rôle de l'utilisateur : Pilote du contrat E2MT² pour la DIT Grand Sud, lot 4.1 Occitanie
+- [x] Analyser le Guide Utilisateur Connect'Immo et enrichir l'Assistant IA + Tutoriels
+- [x] Analyser le Mode opératoire DA spéciale ERP92 et enrichir l'Assistant IA + Tutoriels
+- [x] Analyser le Tuto AT (Laurent Di Meglio) et enrichir l'Assistant IA + Tutoriels/Nommage

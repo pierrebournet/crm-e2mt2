@@ -492,3 +492,59 @@ describe("CRM E2MT\u00b2 - Assistant IA", () => {
     expect(result.answer.length).toBeGreaterThan(0);
   });
 });
+describe("CRM E2MT\u00b2 - Assistant IA (nouvelles connaissances)", () => {
+  it("answers a question about DA sp\u00e9ciale ERP 9.2", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment cr\u00e9er une DA sp\u00e9ciale dans l'ERP 9.2 ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about AT creation in IMMOSIS", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment cr\u00e9er une Action Technique dans IMMOSIS ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about AT naming convention", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment nommer une AT dans IMMOSIS ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about Connect'Immo project creation", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment cr\u00e9er un projet OPEX dans Connect'Immo ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about AT closure in IMMOSIS", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment cl\u00f4turer une AT dans IMMOSIS ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+});
