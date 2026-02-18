@@ -21,6 +21,7 @@ import NommagePage from "./pages/NommagePage";
 import ReferentielContratPage from "./pages/ReferentielContratPage";
 import LivrablesPage from "./pages/LivrablesPage";
 import ReferentielOutilsPage from "./pages/ReferentielOutilsPage";
+import LogigrammePage from "./pages/LogigrammePage";
 
 function Router() {
   return (
@@ -43,6 +44,7 @@ function Router() {
         <Route path="/referentiel" component={ReferentielContratPage} />
         <Route path="/livrables" component={LivrablesPage} />
         <Route path="/outils" component={ReferentielOutilsPage} />
+        <Route path="/logigramme" component={LogigrammePage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

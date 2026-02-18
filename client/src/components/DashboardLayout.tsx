@@ -40,6 +40,7 @@ import {
   ClipboardCheck,
   ExternalLink,
   AppWindow,
+  GitBranchPlus,
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -61,6 +62,7 @@ const menuItems = [
   { icon: BookOpen, label: "Référentiel Contrat", path: "/referentiel" },
   { icon: ClipboardCheck, label: "Suivi Livrables", path: "/livrables" },
   { icon: AppWindow, label: "Outils Métier", path: "/outils" },
+  { icon: GitBranchPlus, label: "Logigramme", path: "/logigramme" },
   { icon: FileSpreadsheet, label: "Export", path: "/export" },
 ];
 

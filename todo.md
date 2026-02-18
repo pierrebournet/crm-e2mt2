@@ -110,3 +110,5 @@
 - [x] Analyser le Tuto ERP et enrichir l'Assistant IA
 - [x] Analyser le Tuto DACIA et enrichir l'Assistant IA
 - [x] Analyser le Tuto Commande ERP hors E2MT et enrichir l'Assistant IA
+- [x] Créer un logigramme interactif du workflow complet DI (iGO) → Réception (ERP) avec navigation étape par étape
+- [x] Intégrer le logigramme dans la navigation sidebar du CRM
