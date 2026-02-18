@@ -112,3 +112,7 @@
 - [x] Analyser le Tuto Commande ERP hors E2MT et enrichir l'Assistant IA
 - [x] Créer un logigramme interactif du workflow complet DI (iGO) → Réception (ERP) avec navigation étape par étape
 - [x] Intégrer le logigramme dans la navigation sidebar du CRM
+- [x] Créer la table intervention_checklist pour stocker l'avancement par étape du workflow
+- [x] Créer les procédures tRPC pour lire/mettre à jour la checklist d'une intervention
+- [x] Ajouter le mode checklist interactif dans la page Logigramme (sélection intervention + cochage étapes)
+- [x] Écrire les tests pour la checklist d'avancement

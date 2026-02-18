@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE `intervention_checklist` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`interventionId` int NOT NULL,\n\t`stepId` varchar(30) NOT NULL,\n\t`completed` int NOT NULL DEFAULT 0,\n\t`completedAt` bigint,\n\t`completedBy` int,\n\t`notes` text,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\t`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `intervention_checklist_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute CREATE TABLE `intervention_checklist` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`interventionId` int NOT NULL,\n\t`stepId` varchar(30) NOT NULL,\n\t`completed` int NOT NULL DEFAULT 0,\n\t`completedAt` bigint,\n\t`completedBy` int,\n\t`notes` text,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\t`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `intervention_checklist_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 852
+}

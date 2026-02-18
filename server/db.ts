@@ -4,9 +4,10 @@ import {
   InsertUser, users,
   lots, buildings, workTypes, interventions, comments, interventionHistory, alerts,
   bpuItems, interventionBpuLines,
-  devisAnalyses, devisLines, suiviEntries, deliverables,
+  devisAnalyses, devisLines, suiviEntries, deliverables, interventionChecklist,
   type InsertBuilding, type InsertIntervention, type InsertInterventionBpuLine,
   type InsertDevisAnalyse, type InsertDevisLine, type InsertSuiviEntry, type InsertDeliverable,
+  type InsertInterventionChecklist,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -921,4 +922,108 @@ export async function seedDeliverables(items: Omit<InsertDeliverable, "id" | "cr
   const [existing] = await db.select({ count: count() }).from(deliverables);
   if ((existing?.count ?? 0) > 0) return; // Already seeded
   await db.insert(deliverables).values(items);
+}
+
+// ===== INTERVENTION CHECKLIST (Workflow DI → Réception) =====
+
+export async function getChecklistByIntervention(interventionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(interventionChecklist)
+    .where(eq(interventionChecklist.interventionId, interventionId))
+    .orderBy(asc(interventionChecklist.stepId));
+}
+
+export async function upsertChecklistStep(data: {
+  interventionId: number;
+  stepId: string;
+  completed: number;
+  completedAt: number | null;
+  completedBy: number | null;
+  notes?: string | null;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  // Check if step already exists
+  const existing = await db.select().from(interventionChecklist)
+    .where(and(
+      eq(interventionChecklist.interventionId, data.interventionId),
+      eq(interventionChecklist.stepId, data.stepId)
+    ))
+    .limit(1);
+  if (existing.length > 0) {
+    await db.update(interventionChecklist)
+      .set({
+        completed: data.completed,
+        completedAt: data.completedAt,
+        completedBy: data.completedBy,
+        notes: data.notes ?? existing[0].notes,
+      })
+      .where(eq(interventionChecklist.id, existing[0].id));
+    return existing[0].id;
+  } else {
+    const result = await db.insert(interventionChecklist).values({
+      interventionId: data.interventionId,
+      stepId: data.stepId,
+      completed: data.completed,
+      completedAt: data.completedAt,
+      completedBy: data.completedBy,
+      notes: data.notes,
+    });
+    return result[0].insertId;
+  }
+}
+
+export async function updateChecklistNote(data: {
+  interventionId: number;
+  stepId: string;
+  notes: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const existing = await db.select().from(interventionChecklist)
+    .where(and(
+      eq(interventionChecklist.interventionId, data.interventionId),
+      eq(interventionChecklist.stepId, data.stepId)
+    ))
+    .limit(1);
+  if (existing.length > 0) {
+    await db.update(interventionChecklist)
+      .set({ notes: data.notes })
+      .where(eq(interventionChecklist.id, existing[0].id));
+  } else {
+    await db.insert(interventionChecklist).values({
+      interventionId: data.interventionId,
+      stepId: data.stepId,
+      completed: 0,
+      notes: data.notes,
+    });
+  }
+}
+
+export async function initChecklistForIntervention(interventionId: number, stepIds: string[]) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  // Check if already initialized
+  const existing = await db.select({ count: count() }).from(interventionChecklist)
+    .where(eq(interventionChecklist.interventionId, interventionId));
+  if ((existing[0]?.count ?? 0) > 0) return; // Already initialized
+  const values = stepIds.map(stepId => ({
+    interventionId,
+    stepId,
+    completed: 0,
+  }));
+  await db.insert(interventionChecklist).values(values);
+}
+
+export async function getChecklistSummaryForInterventions(interventionIds: number[]) {
+  const db = await getDb();
+  if (!db) return [];
+  if (interventionIds.length === 0) return [];
+  return db.select({
+    interventionId: interventionChecklist.interventionId,
+    stepId: interventionChecklist.stepId,
+    completed: interventionChecklist.completed,
+  }).from(interventionChecklist)
+    .where(inArray(interventionChecklist.interventionId, interventionIds));
 }

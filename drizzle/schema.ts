@@ -313,3 +313,21 @@ export const deliverables = mysqlTable("deliverables", {
 
 export type Deliverable = typeof deliverables.$inferSelect;
 export type InsertDeliverable = typeof deliverables.$inferInsert;
+
+/**
+ * Checklist d'avancement du workflow (11 étapes DI → Réception)
+ */
+export const interventionChecklist = mysqlTable("intervention_checklist", {
+  id: int("id").autoincrement().primaryKey(),
+  interventionId: int("interventionId").notNull(),
+  stepId: varchar("stepId", { length: 30 }).notNull(),
+  completed: int("completed").default(0).notNull(),
+  completedAt: bigint("completedAt", { mode: "number" }),
+  completedBy: int("completedBy"),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type InterventionChecklist = typeof interventionChecklist.$inferSelect;
+export type InsertInterventionChecklist = typeof interventionChecklist.$inferInsert;

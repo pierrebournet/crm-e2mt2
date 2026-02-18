@@ -19,6 +19,7 @@ import {
   getSuiviEntries, getSuiviEntryById, createSuiviEntry, updateSuiviEntry, deleteSuiviEntry, getAllSuiviForExport,
   getDeliverables, getDeliverableById, createDeliverable, updateDeliverable, deleteDeliverable,
   getDeliverableStats, getAllDeliverablesForExport, seedDeliverables,
+  getChecklistByIntervention, upsertChecklistStep, updateChecklistNote, initChecklistForIntervention, getChecklistSummaryForInterventions,
 } from "./db";
 import { CONTRACTUAL_DELAYS } from "@shared/e2mt2";
 import { notifyOwner } from "./_core/notification";
@@ -1149,6 +1150,61 @@ R\u00e8gles de r\u00e9ponse :
       await seedDeliverables(seedData as any);
       return { success: true, count: seedData.length };
     }),
+  }),
+
+  // ===== CHECKLIST (Workflow DI → Réception) =====
+  checklist: router({
+    getByIntervention: protectedProcedure
+      .input(z.object({ interventionId: z.number() }))
+      .query(async ({ input }) => {
+        return getChecklistByIntervention(input.interventionId);
+      }),
+
+    toggleStep: protectedProcedure
+      .input(z.object({
+        interventionId: z.number(),
+        stepId: z.string(),
+        completed: z.boolean(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await upsertChecklistStep({
+          interventionId: input.interventionId,
+          stepId: input.stepId,
+          completed: input.completed ? 1 : 0,
+          completedAt: input.completed ? Date.now() : null,
+          completedBy: input.completed ? (ctx.user?.id ?? null) : null,
+        });
+        return { success: true };
+      }),
+
+    updateNote: protectedProcedure
+      .input(z.object({
+        interventionId: z.number(),
+        stepId: z.string(),
+        notes: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        await updateChecklistNote(input);
+        return { success: true };
+      }),
+
+    init: protectedProcedure
+      .input(z.object({
+        interventionId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        const stepIds = ["step_1", "step_2", "step_3", "step_4", "step_5", "step_6", "step_7", "step_8", "step_9", "step_10", "step_11"];
+        await initChecklistForIntervention(input.interventionId, stepIds);
+        return { success: true };
+      }),
+
+    summary: protectedProcedure
+      .input(z.object({
+        interventionIds: z.array(z.number()),
+      }))
+      .query(async ({ input }) => {
+        return getChecklistSummaryForInterventions(input.interventionIds);
+      }),
   }),
 
   // ===== EXPORT =====

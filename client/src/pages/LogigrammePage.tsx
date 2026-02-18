@@ -1,7 +1,11 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 import {
   ChevronRight,
   ChevronLeft,
@@ -13,6 +17,15 @@ import {
   Maximize2,
   Minimize2,
   RotateCcw,
+  ClipboardCheck,
+  Map as MapIcon,
+  Circle,
+  CheckCircle,
+  MessageSquare,
+  Save,
+  Loader2,
+  Search,
+  ListChecks,
 } from "lucide-react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -37,13 +50,13 @@ interface WorkflowStep {
 // ─── Workflow Data ───────────────────────────────────────────────────────────
 const WORKFLOW_STEPS: WorkflowStep[] = [
   {
-    id: "besoin",
+    id: "step_1",
     number: 1,
     title: "Identification du besoin",
     application: "Terrain / Occupant",
     appColor: "text-amber-700",
     appBg: "bg-amber-50 border-amber-200",
-    icon: "🔍",
+    icon: "\u{1F50D}",
     summary: "Un occupant constate un dysfonctionnement ou un besoin de maintenance sur un bâtiment.",
     actor: "Occupant / Pilote DIT",
     details: [
@@ -62,13 +75,13 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["Constat du besoin identifié", "Criticité évaluée (C1 à C4)"],
   },
   {
-    id: "di_igo",
+    id: "step_2",
     number: 2,
     title: "Création de la DI dans iGO",
     application: "iGO (Coswin)",
     appColor: "text-blue-700",
     appBg: "bg-blue-50 border-blue-200",
-    icon: "📋",
+    icon: "\u{1F4CB}",
     summary: "Saisir la Demande d'Intervention dans la GMAO iGO/Coswin avec toutes les informations nécessaires.",
     actor: "Occupant / Pilote DIT",
     details: [
@@ -92,7 +105,7 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["DI créée dans iGO avec N° de référence"],
   },
   {
-    id: "validation_di",
+    id: "step_3",
     number: 3,
     title: "Validation de la DI → OT",
     application: "iGO (Coswin)",
@@ -118,13 +131,13 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     nextCondition: "Le mainteneur intervient et réalise les travaux",
   },
   {
-    id: "intervention",
+    id: "step_4",
     number: 4,
     title: "Intervention du mainteneur",
     application: "Terrain / iGO",
     appColor: "text-green-700",
     appBg: "bg-green-50 border-green-200",
-    icon: "🔧",
+    icon: "\u{1F527}",
     summary: "Le mainteneur (AXIMA) intervient sur site, réalise les travaux et met à jour l'OT dans iGO.",
     actor: "Mainteneur (AXIMA CONCEPT)",
     details: [
@@ -136,7 +149,7 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     ],
     tips: [
       "Insister auprès d'AXIMA pour que les techniciens mettent systématiquement des commentaires",
-      "Si réparation impossible immédiatement → mettre une date de réparation provisoire (demandé par QUADRIM)",
+      "Si réparation impossible immédiatement → mettre une date de réparation provisoire",
       "Si devis nécessaire → le mainteneur fournit un devis à analyser",
     ],
     warnings: [
@@ -146,25 +159,25 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["Travaux réalisés", "OT mise à jour (statut 4 Terminé)", "Commentaires dans iGO"],
     nextCondition: "Travaux terminés → besoin d'un devis ?",
     branches: [
-      { label: "Devis nécessaire", targetId: "devis", color: "text-orange-600" },
-      { label: "Pas de devis (contrat E2MT²)", targetId: "at_immosis", color: "text-emerald-600" },
+      { label: "Devis nécessaire", targetId: "step_5", color: "text-orange-600" },
+      { label: "Pas de devis (contrat E2MT²)", targetId: "step_6", color: "text-emerald-600" },
     ],
   },
   {
-    id: "devis",
+    id: "step_5",
     number: 5,
     title: "Analyse du devis",
     application: "CRM E2MT² / BPU",
     appColor: "text-purple-700",
     appBg: "bg-purple-50 border-purple-200",
-    icon: "📊",
+    icon: "\u{1F4CA}",
     summary: "Analyser le devis du mainteneur en le comparant au BPU contractuel pour vérifier la conformité des prix.",
     actor: "Pilote DIT",
     details: [
       "Réceptionner le devis du mainteneur (PDF ou papier)",
       "Utiliser l'outil Analyse de devis du CRM E2MT² pour comparer au BPU",
       "Vérifier chaque ligne : code prestation, prix unitaire, quantité",
-      "Le CRM affiche un verdict : ✅ Conforme (vert), ⚠️ Écart (orange), ❌ Hors BPU (rouge)",
+      "Le CRM affiche un verdict : Conforme (vert), Écart (orange), Hors BPU (rouge)",
       "Si écart > 10% : demander une justification au mainteneur",
     ],
     tips: [
@@ -178,13 +191,13 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["Devis analysé et validé/refusé", "Comparaison BPU documentée"],
   },
   {
-    id: "at_immosis",
+    id: "step_6",
     number: 6,
     title: "Ouverture de l'AT dans IMMOSIS",
     application: "IMMOSIS",
     appColor: "text-indigo-700",
     appBg: "bg-indigo-50 border-indigo-200",
-    icon: "📂",
+    icon: "\u{1F4C2}",
     summary: "Créer l'Action Technique dans IMMOSIS pour le suivi budgétaire et la traçabilité.",
     actor: "Pilote DIT",
     details: [
@@ -208,13 +221,13 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["AT créée dans IMMOSIS avec N° AT", "AT contractualisée avec montant"],
   },
   {
-    id: "connectimmo",
+    id: "step_7",
     number: 7,
     title: "Création du projet dans Connect'Immo",
     application: "Connect'Immo V3",
     appColor: "text-teal-700",
     appBg: "bg-teal-50 border-teal-200",
-    icon: "🏗️",
+    icon: "\u{1F3D7}️",
     summary: "Créer ou rattacher la commande au projet OPEX dans Connect'Immo pour le suivi financier.",
     actor: "Pilote DIT",
     details: [
@@ -239,13 +252,13 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["Commande créée dans Connect'Immo", "N° Projet (P-XX-XXXXXXX)", "Axes budgétaires vérifiés"],
   },
   {
-    id: "da_dacia",
+    id: "step_8",
     number: 8,
     title: "Saisie de la DA dans DACIA",
     application: "DACIA",
     appColor: "text-rose-700",
     appBg: "bg-rose-50 border-rose-200",
-    icon: "📝",
+    icon: "\u{1F4DD}",
     summary: "Créer la Demande d'Achat dans DACIA en la rattachant au projet Connect'Immo.",
     actor: "Pilote DIT",
     details: [
@@ -255,7 +268,7 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
       "AT générique → N° projet de l'AT générique / Hors générique → N° projet précis",
       "Valider la DA",
       "Vérifier dans \"MES DA\" que la DA est bien présente",
-      "Laisser Laurent RUIZ travailler (validation/traitement)",
+      "Déposer le PV dans le petit carton de la ligne",
     ],
     tips: [
       "Le N° projet DACIA doit correspondre exactement au N° projet Connect'Immo",
@@ -267,14 +280,14 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["DA créée dans DACIA", "DA en attente de validation"],
   },
   {
-    id: "da_erp",
+    id: "step_9",
     number: 9,
     title: "Traitement de la DA dans l'ERP",
     application: "ERP PeopleSoft",
     appColor: "text-cyan-700",
     appBg: "bg-cyan-50 border-cyan-200",
-    icon: "💼",
-    summary: "La DA est traitée dans l'ERP PeopleSoft : circuit d'approbation, puis transformation en Commande d'Achat (CDA).",
+    icon: "\u{1F4BC}",
+    summary: "La DA est traitée dans l'ERP PeopleSoft : circuit d'approbation, puis transformation en CDA.",
     actor: "Approbateurs / Acheteur",
     details: [
       "La DA arrive dans l'ERP via DACIA",
@@ -297,13 +310,13 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["DA approuvée", "CDA générée et envoyée au mainteneur"],
   },
   {
-    id: "reception",
+    id: "step_10",
     number: 10,
     title: "Réception dans l'ERP",
     application: "ERP PeopleSoft",
     appColor: "text-cyan-700",
     appBg: "bg-cyan-50 border-cyan-200",
-    icon: "📦",
+    icon: "\u{1F4E6}",
     summary: "Créer la réception dans l'ERP pour valider la prestation et déclencher le paiement.",
     actor: "Pilote DIT",
     details: [
@@ -327,13 +340,13 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     outputs: ["Réception créée dans l'ERP", "N° de réception noté", "PV déposé sur DACIA"],
   },
   {
-    id: "cloture",
+    id: "step_11",
     number: 11,
     title: "Clôture de l'OT et de l'AT",
     application: "iGO + IMMOSIS",
     appColor: "text-slate-700",
     appBg: "bg-slate-50 border-slate-200",
-    icon: "🏁",
+    icon: "\u{1F3C1}",
     summary: "Clôturer l'OT dans iGO et l'AT dans IMMOSIS pour finaliser le cycle complet.",
     actor: "Pilote DIT",
     details: [
@@ -366,13 +379,467 @@ const APP_COLORS: Record<string, { bg: string; text: string; border: string }> =
   "DACIA": { bg: "bg-rose-500", text: "text-white", border: "border-rose-500" },
   "ERP PeopleSoft": { bg: "bg-cyan-600", text: "text-white", border: "border-cyan-600" },
   "iGO + IMMOSIS": { bg: "bg-slate-600", text: "text-white", border: "border-slate-600" },
-  "CP Gestionnaire / 3C": { bg: "bg-blue-500", text: "text-white", border: "border-blue-500" },
 };
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// ─── Checklist Component ─────────────────────────────────────────────────────
+function ChecklistView() {
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedInterventionId, setSelectedInterventionId] = useState<number | null>(null);
+  const [editingNotes, setEditingNotes] = useState<Record<string, string>>({});
+
+  // Fetch interventions
+  const { data: interventionsData } = trpc.interventions.list.useQuery({
+    page: 1,
+    limit: 200,
+    search: searchTerm || undefined,
+  });
+
+  const interventionIds = useMemo(
+    () => (interventionsData?.items ?? []).map((i: any) => i.id),
+    [interventionsData]
+  );
+
+  // Fetch checklist summary for all visible interventions
+  const { data: summaryData } = trpc.checklist.summary.useQuery(
+    { interventionIds },
+    { enabled: interventionIds.length > 0 }
+  );
+
+  // Fetch checklist for selected intervention
+  const { data: checklistData, refetch: refetchChecklist } = trpc.checklist.getByIntervention.useQuery(
+    { interventionId: selectedInterventionId! },
+    { enabled: selectedInterventionId !== null }
+  );
+
+  const utils = trpc.useUtils();
+
+  const initChecklist = trpc.checklist.init.useMutation({
+    onSuccess: () => {
+      refetchChecklist();
+      utils.checklist.summary.invalidate();
+    },
+  });
+
+  const toggleStep = trpc.checklist.toggleStep.useMutation({
+    onSuccess: () => {
+      refetchChecklist();
+      utils.checklist.summary.invalidate();
+    },
+  });
+
+  const updateNote = trpc.checklist.updateNote.useMutation({
+    onSuccess: () => {
+      refetchChecklist();
+      toast.success("Note sauvegardée");
+    },
+  });
+
+  // Compute progress for each intervention
+  const progressMap = useMemo(() => {
+    const map: Record<number, { completed: number; total: number }> = {};
+    if (!summaryData) return map;
+    for (const item of summaryData) {
+      if (!map[item.interventionId]) {
+        map[item.interventionId] = { completed: 0, total: 0 };
+      }
+      map[item.interventionId].total++;
+      if (item.completed) map[item.interventionId].completed++;
+    }
+    return map;
+  }, [summaryData]);
+
+  const selectedIntervention = (interventionsData?.items ?? []).find(
+    (i: any) => i.id === selectedInterventionId
+  );
+
+  const checklistMap = useMemo(() => {
+    const map: Record<string, any> = {};
+    if (!checklistData) return map;
+    for (const item of checklistData) {
+      map[item.stepId] = item;
+    }
+    return map;
+  }, [checklistData]);
+
+  const handleSelectIntervention = (id: number) => {
+    setSelectedInterventionId(id);
+    setEditingNotes({});
+  };
+
+  const handleInitChecklist = () => {
+    if (!selectedInterventionId) return;
+    initChecklist.mutate({ interventionId: selectedInterventionId });
+  };
+
+  const handleToggleStep = (stepId: string, currentlyCompleted: boolean) => {
+    if (!selectedInterventionId) return;
+    toggleStep.mutate({
+      interventionId: selectedInterventionId,
+      stepId,
+      completed: !currentlyCompleted,
+    });
+  };
+
+  const handleSaveNote = (stepId: string) => {
+    if (!selectedInterventionId) return;
+    const notes = editingNotes[stepId];
+    if (notes === undefined) return;
+    updateNote.mutate({
+      interventionId: selectedInterventionId,
+      stepId,
+      notes,
+    });
+  };
+
+  const completedCount = WORKFLOW_STEPS.filter((s) => checklistMap[s.id]?.completed).length;
+  const progressPct = Math.round((completedCount / WORKFLOW_STEPS.length) * 100);
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
+      {/* Left: Intervention List */}
+      <Card className="overflow-hidden">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center gap-2">
+            <ListChecks className="h-4 w-4" />
+            Sélectionner une intervention
+          </CardTitle>
+          <div className="relative mt-2">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Rechercher par référence, titre..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full rounded-md border border-input bg-background pl-9 pr-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="max-h-[600px] overflow-y-auto divide-y">
+            {(interventionsData?.items ?? []).length === 0 ? (
+              <div className="p-6 text-center text-sm text-muted-foreground">
+                Aucune intervention trouvée. Créez d'abord une intervention dans le module Interventions.
+              </div>
+            ) : (
+              (interventionsData?.items ?? []).map((intervention: any) => {
+                const progress = progressMap[intervention.id];
+                const isSelected = selectedInterventionId === intervention.id;
+                const pct = progress ? Math.round((progress.completed / progress.total) * 100) : 0;
+                const hasChecklist = !!progress;
+
+                return (
+                  <button
+                    key={intervention.id}
+                    onClick={() => handleSelectIntervention(intervention.id)}
+                    className={`w-full text-left px-4 py-3 hover:bg-muted/50 transition-colors ${
+                      isSelected ? "bg-primary/5 border-l-4 border-l-primary" : ""
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-mono font-bold text-primary">
+                            {intervention.reference}
+                          </span>
+                          <Badge variant="outline" className="text-[10px]">
+                            {intervention.status}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground truncate mt-0.5">
+                          {intervention.title}
+                        </p>
+                      </div>
+                      {hasChecklist ? (
+                        <div className="shrink-0 flex items-center gap-1.5">
+                          <div className="w-12 h-1.5 rounded-full bg-muted overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all ${
+                                pct === 100 ? "bg-emerald-500" : pct > 50 ? "bg-blue-500" : "bg-amber-500"
+                              }`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <span className="text-[10px] font-mono text-muted-foreground w-8 text-right">
+                            {pct}%
+                          </span>
+                        </div>
+                      ) : (
+                        <Circle className="h-3.5 w-3.5 text-muted-foreground/30 shrink-0" />
+                      )}
+                    </div>
+                  </button>
+                );
+              })
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Right: Checklist Detail */}
+      <div className="space-y-4">
+        {selectedInterventionId && selectedIntervention ? (
+          <>
+            {/* Intervention Header */}
+            <Card>
+              <CardContent className="py-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-bold font-mono text-primary">
+                        {selectedIntervention.reference}
+                      </span>
+                      <Badge variant="outline">{selectedIntervention.status}</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      {selectedIntervention.title}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-foreground">{progressPct}%</div>
+                    <div className="text-xs text-muted-foreground">
+                      {completedCount}/{WORKFLOW_STEPS.length} étapes
+                    </div>
+                  </div>
+                </div>
+                {/* Progress bar */}
+                <div className="mt-3 w-full h-2.5 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      progressPct === 100
+                        ? "bg-emerald-500"
+                        : progressPct > 50
+                        ? "bg-blue-500"
+                        : progressPct > 0
+                        ? "bg-amber-500"
+                        : "bg-muted-foreground/20"
+                    }`}
+                    style={{ width: `${progressPct}%` }}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Init button if no checklist yet */}
+            {(!checklistData || checklistData.length === 0) && (
+              <Card className="border-dashed">
+                <CardContent className="py-8 text-center">
+                  <ClipboardCheck className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
+                  <h3 className="font-semibold text-foreground mb-1">
+                    Aucune checklist initialisée
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 max-w-sm mx-auto">
+                    Initialisez la checklist pour suivre l'avancement de cette intervention à travers les 11 étapes du workflow.
+                  </p>
+                  <Button
+                    onClick={handleInitChecklist}
+                    disabled={initChecklist.isPending}
+                    className="gap-2"
+                  >
+                    {initChecklist.isPending ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <ClipboardCheck className="h-4 w-4" />
+                    )}
+                    Initialiser la checklist
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Checklist Steps */}
+            {checklistData && checklistData.length > 0 && (
+              <div className="space-y-2">
+                {WORKFLOW_STEPS.map((step, index) => {
+                  const checkItem = checklistMap[step.id];
+                  const isCompleted = !!checkItem?.completed;
+                  const colors = APP_COLORS[step.application] || { bg: "bg-gray-500", text: "text-white", border: "border-gray-500" };
+                  const noteValue = editingNotes[step.id] ?? checkItem?.notes ?? "";
+                  const isEditingNote = editingNotes[step.id] !== undefined;
+
+                  return (
+                    <Card
+                      key={step.id}
+                      className={`transition-all ${
+                        isCompleted
+                          ? "bg-emerald-50/50 border-emerald-200"
+                          : "border-border"
+                      }`}
+                    >
+                      <CardContent className="py-3 px-4">
+                        <div className="flex items-start gap-3">
+                          {/* Check button */}
+                          <button
+                            onClick={() => handleToggleStep(step.id, isCompleted)}
+                            disabled={toggleStep.isPending}
+                            className="shrink-0 mt-0.5 transition-transform hover:scale-110"
+                          >
+                            {isCompleted ? (
+                              <CheckCircle className="h-6 w-6 text-emerald-500" />
+                            ) : (
+                              <Circle className="h-6 w-6 text-muted-foreground/40 hover:text-muted-foreground" />
+                            )}
+                          </button>
+
+                          {/* Step content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className={`text-sm font-semibold ${isCompleted ? "line-through text-muted-foreground" : "text-foreground"}`}>
+                                {step.number}. {step.title}
+                              </span>
+                              <Badge
+                                className={`${colors.bg} ${colors.text} text-[10px] px-1.5 py-0`}
+                              >
+                                {step.application}
+                              </Badge>
+                              {isCompleted && checkItem?.completedAt && (
+                                <span className="text-[10px] text-emerald-600">
+                                  {new Date(Number(checkItem.completedAt)).toLocaleDateString("fr-FR", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}
+                                </span>
+                              )}
+                            </div>
+                            <p className={`text-xs mt-0.5 ${isCompleted ? "text-muted-foreground/60" : "text-muted-foreground"}`}>
+                              {step.summary}
+                            </p>
+
+                            {/* Outputs as mini checklist */}
+                            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1.5">
+                              {step.outputs.map((output, i) => (
+                                <span key={i} className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                                  {isCompleted ? (
+                                    <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                                  ) : (
+                                    <Circle className="h-3 w-3 text-muted-foreground/30" />
+                                  )}
+                                  {output}
+                                </span>
+                              ))}
+                            </div>
+
+                            {/* Notes section */}
+                            <div className="mt-2">
+                              {isEditingNote ? (
+                                <div className="flex gap-2">
+                                  <Textarea
+                                    value={noteValue}
+                                    onChange={(e) =>
+                                      setEditingNotes((prev) => ({ ...prev, [step.id]: e.target.value }))
+                                    }
+                                    placeholder="Ajouter une note (N° OT, N° DA, commentaire...)"
+                                    className="text-xs min-h-[60px]"
+                                  />
+                                  <div className="flex flex-col gap-1">
+                                    <Button
+                                      size="sm"
+                                      variant="default"
+                                      onClick={() => handleSaveNote(step.id)}
+                                      disabled={updateNote.isPending}
+                                      className="h-7 px-2"
+                                    >
+                                      {updateNote.isPending ? (
+                                        <Loader2 className="h-3 w-3 animate-spin" />
+                                      ) : (
+                                        <Save className="h-3 w-3" />
+                                      )}
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="ghost"
+                                      onClick={() =>
+                                        setEditingNotes((prev) => {
+                                          const next = { ...prev };
+                                          delete next[step.id];
+                                          return next;
+                                        })
+                                      }
+                                      className="h-7 px-2 text-xs"
+                                    >
+                                      ✕
+                                    </Button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() =>
+                                    setEditingNotes((prev) => ({
+                                      ...prev,
+                                      [step.id]: checkItem?.notes ?? "",
+                                    }))
+                                  }
+                                  className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                  <MessageSquare className="h-3 w-3" />
+                                  {checkItem?.notes ? (
+                                    <span className="text-foreground/70 italic">{checkItem.notes}</span>
+                                  ) : (
+                                    "Ajouter une note"
+                                  )}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Step number badge */}
+                          <div
+                            className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                              isCompleted
+                                ? "bg-emerald-500 text-white"
+                                : `${colors.bg} ${colors.text}`
+                            }`}
+                          >
+                            {isCompleted ? "✓" : step.number}
+                          </div>
+                        </div>
+
+                        {/* Connector */}
+                        {index < WORKFLOW_STEPS.length - 1 && (
+                          <div className="ml-3 mt-1 mb-0">
+                            {step.branches ? (
+                              <div className="flex items-center gap-3 pl-6 text-[10px]">
+                                {step.branches.map((b) => (
+                                  <span key={b.targetId} className={`${b.color} font-medium`}>
+                                    → {b.label}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : null}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
+          </>
+        ) : (
+          <Card className="border-dashed">
+            <CardContent className="py-16 text-center">
+              <ClipboardCheck className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
+              <h3 className="font-semibold text-foreground mb-1">
+                Checklist de suivi des interventions
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                Sélectionnez une intervention dans la liste à gauche pour suivre son avancement à travers les 11 étapes du workflow DI → Réception. Chaque étape peut être cochée et annotée.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Component ──────────────────────────────────────────────────────────
 export default function LogigrammePage() {
   const [activeStep, setActiveStep] = useState<string | null>(null);
   const [isFullView, setIsFullView] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("logigramme");
 
   const activeStepData = WORKFLOW_STEPS.find((s) => s.id === activeStep);
 
@@ -406,7 +873,7 @@ export default function LogigrammePage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
             Logigramme du flux de travail
@@ -415,339 +882,340 @@ export default function LogigrammePage() {
             De la Demande d'Intervention (DI) à la Réception — 11 étapes, 7 applications
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={resetView}
-            className="gap-1.5"
-          >
-            <RotateCcw className="h-4 w-4" />
-            Vue globale
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsFullView(!isFullView)}
-            className="gap-1.5"
-          >
-            {isFullView ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-            {isFullView ? "Réduire" : "Agrandir"}
-          </Button>
-        </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList>
+            <TabsTrigger value="logigramme" className="gap-1.5">
+              <MapIcon className="h-4 w-4" />
+              Logigramme
+            </TabsTrigger>
+            <TabsTrigger value="checklist" className="gap-1.5">
+              <ClipboardCheck className="h-4 w-4" />
+              Checklist
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
 
-      {/* Legend */}
-      <Card>
-        <CardContent className="py-3 px-4">
-          <div className="flex flex-wrap gap-3 items-center">
-            <span className="text-xs font-medium text-muted-foreground mr-1">Applications :</span>
-            {Object.entries(APP_COLORS).map(([app, colors]) => (
-              <Badge
-                key={app}
-                className={`${colors.bg} ${colors.text} text-xs font-medium px-2 py-0.5`}
-              >
-                {app}
-              </Badge>
-            ))}
+      {activeTab === "checklist" ? (
+        <ChecklistView />
+      ) : (
+        <>
+          {/* Legend */}
+          <Card>
+            <CardContent className="py-3 px-4">
+              <div className="flex flex-wrap gap-3 items-center">
+                <span className="text-xs font-medium text-muted-foreground mr-1">Applications :</span>
+                {Object.entries(APP_COLORS).map(([app, colors]) => (
+                  <Badge
+                    key={app}
+                    className={`${colors.bg} ${colors.text} text-xs font-medium px-2 py-0.5`}
+                  >
+                    {app}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Controls */}
+          <div className="flex items-center gap-2 justify-end">
+            <Button variant="outline" size="sm" onClick={resetView} className="gap-1.5">
+              <RotateCcw className="h-4 w-4" />
+              Vue globale
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsFullView(!isFullView)}
+              className="gap-1.5"
+            >
+              {isFullView ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+              {isFullView ? "Réduire" : "Agrandir"}
+            </Button>
           </div>
-        </CardContent>
-      </Card>
 
-      <div className={`grid gap-6 ${isFullView ? "grid-cols-1" : "lg:grid-cols-[1fr_420px]"}`}>
-        {/* Flow Diagram */}
-        <Card className="overflow-hidden">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Flux de travail DI → Réception</CardTitle>
-          </CardHeader>
-          <CardContent className="pb-6">
-            <div className="space-y-1">
-              {WORKFLOW_STEPS.map((step, index) => {
-                const colors = APP_COLORS[step.application] || { bg: "bg-gray-500", text: "text-white", border: "border-gray-500" };
-                const isActive = activeStep === step.id;
-                const isPast = activeStep
-                  ? WORKFLOW_STEPS.findIndex((s) => s.id === activeStep) > index
-                  : false;
+          <div className={`grid gap-6 ${isFullView ? "grid-cols-1" : "lg:grid-cols-[1fr_420px]"}`}>
+            {/* Flow Diagram */}
+            <Card className="overflow-hidden">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Flux de travail DI → Réception</CardTitle>
+              </CardHeader>
+              <CardContent className="pb-6">
+                <div className="space-y-1">
+                  {WORKFLOW_STEPS.map((step, index) => {
+                    const colors = APP_COLORS[step.application] || { bg: "bg-gray-500", text: "text-white", border: "border-gray-500" };
+                    const isActive = activeStep === step.id;
+                    const isPast = activeStep
+                      ? WORKFLOW_STEPS.findIndex((s) => s.id === activeStep) > index
+                      : false;
 
-                return (
-                  <div key={step.id}>
-                    {/* Step Node */}
-                    <button
-                      onClick={() => handleStepClick(step.id)}
-                      className={`w-full text-left transition-all duration-200 rounded-xl border-2 p-3 group
-                        ${isActive
-                          ? `${step.appBg} border-current ring-2 ring-offset-1 ring-current/20 shadow-lg scale-[1.01]`
-                          : isPast
-                            ? "bg-muted/30 border-muted hover:border-muted-foreground/30 hover:bg-muted/50"
-                            : "bg-card border-border hover:border-muted-foreground/40 hover:shadow-md"
-                        }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        {/* Step number circle */}
-                        <div
-                          className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold
+                    return (
+                      <div key={step.id}>
+                        {/* Step Node */}
+                        <button
+                          onClick={() => handleStepClick(step.id)}
+                          className={`w-full text-left transition-all duration-200 rounded-xl border-2 p-3 group
                             ${isActive
-                              ? `${colors.bg} ${colors.text}`
+                              ? `${step.appBg} border-current ring-2 ring-offset-1 ring-current/20 shadow-lg scale-[1.01]`
                               : isPast
-                                ? "bg-muted-foreground/20 text-muted-foreground"
-                                : `${colors.bg} ${colors.text}`
+                                ? "bg-muted/30 border-muted hover:border-muted-foreground/30 hover:bg-muted/50"
+                                : "bg-card border-border hover:border-muted-foreground/40 hover:shadow-md"
                             }`}
                         >
-                          {step.number}
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-lg">{step.icon}</span>
-                            <h3 className={`font-semibold text-sm ${isActive ? step.appColor : "text-foreground"}`}>
-                              {step.title}
-                            </h3>
-                            <Badge
-                              variant="outline"
-                              className={`text-[10px] px-1.5 py-0 ${isActive ? colors.border + " " + step.appColor : ""}`}
+                          <div className="flex items-start gap-3">
+                            <div
+                              className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold
+                                ${isActive
+                                  ? `${colors.bg} ${colors.text}`
+                                  : isPast
+                                    ? "bg-muted-foreground/20 text-muted-foreground"
+                                    : `${colors.bg} ${colors.text}`
+                                }`}
                             >
-                              {step.application}
-                            </Badge>
+                              {step.number}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-lg">{step.icon}</span>
+                                <h3 className={`font-semibold text-sm ${isActive ? step.appColor : "text-foreground"}`}>
+                                  {step.title}
+                                </h3>
+                                <Badge
+                                  variant="outline"
+                                  className={`text-[10px] px-1.5 py-0 ${isActive ? colors.border + " " + step.appColor : ""}`}
+                                >
+                                  {step.application}
+                                </Badge>
+                              </div>
+                              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                                {step.summary}
+                              </p>
+                              <div className="flex items-center gap-3 mt-1 text-[10px] text-muted-foreground">
+                                <span>{"\u{1F464}"} {step.actor}</span>
+                                <span>{"\u{1F4E4}"} {step.outputs.length} sortie{step.outputs.length > 1 ? "s" : ""}</span>
+                              </div>
+                            </div>
+                            <ChevronRight
+                              className={`shrink-0 h-5 w-5 transition-transform ${isActive ? "rotate-90 " + step.appColor : "text-muted-foreground/40 group-hover:text-muted-foreground"}`}
+                            />
                           </div>
-                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                            {step.summary}
-                          </p>
-                          <div className="flex items-center gap-3 mt-1 text-[10px] text-muted-foreground">
-                            <span>👤 {step.actor}</span>
-                            <span>📤 {step.outputs.length} sortie{step.outputs.length > 1 ? "s" : ""}</span>
-                          </div>
-                        </div>
+                        </button>
 
-                        {/* Arrow indicator */}
-                        <ChevronRight
-                          className={`shrink-0 h-5 w-5 transition-transform ${isActive ? "rotate-90 " + step.appColor : "text-muted-foreground/40 group-hover:text-muted-foreground"}`}
-                        />
-                      </div>
-                    </button>
-
-                    {/* Connector Arrow */}
-                    {index < WORKFLOW_STEPS.length - 1 && (
-                      <div className="flex items-center justify-center py-0.5">
-                        {step.branches ? (
-                          <div className="flex items-center gap-4 py-1">
-                            {step.branches.map((branch) => (
-                              <button
-                                key={branch.targetId}
-                                onClick={() => handleStepClick(branch.targetId)}
-                                className={`flex items-center gap-1 text-xs font-medium ${branch.color} hover:underline`}
-                              >
-                                <ArrowDown className="h-3 w-3" />
-                                {branch.label}
-                              </button>
-                            ))}
+                        {/* Connector Arrow */}
+                        {index < WORKFLOW_STEPS.length - 1 && (
+                          <div className="flex items-center justify-center py-0.5">
+                            {step.branches ? (
+                              <div className="flex items-center gap-4 py-1">
+                                {step.branches.map((branch) => (
+                                  <button
+                                    key={branch.targetId}
+                                    onClick={() => handleStepClick(branch.targetId)}
+                                    className={`flex items-center gap-1 text-xs font-medium ${branch.color} hover:underline`}
+                                  >
+                                    <ArrowDown className="h-3 w-3" />
+                                    {branch.label}
+                                  </button>
+                                ))}
+                              </div>
+                            ) : (
+                              <ArrowDown className="h-4 w-4 text-muted-foreground/40" />
+                            )}
                           </div>
-                        ) : (
-                          <ArrowDown className="h-4 w-4 text-muted-foreground/40" />
                         )}
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Detail Panel */}
-        {!isFullView && (
-          <div className="space-y-4">
-            {activeStepData ? (
-              <>
-                {/* Step Detail Card */}
-                <Card className={`border-2 ${activeStepData.appBg}`}>
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl">{activeStepData.icon}</span>
-                      <div>
-                        <CardTitle className={`text-lg ${activeStepData.appColor}`}>
-                          Étape {activeStepData.number} — {activeStepData.title}
-                        </CardTitle>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {activeStepData.application} • {activeStepData.actor}
-                        </p>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-foreground">{activeStepData.summary}</p>
-
-                    {/* Detailed Steps */}
-                    <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                        Procédure détaillée
-                      </h4>
-                      <ol className="space-y-1.5">
-                        {activeStepData.details.map((detail, i) => (
-                          <li key={i} className="flex gap-2 text-sm">
-                            <span className="shrink-0 w-5 h-5 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-muted-foreground mt-0.5">
-                              {i + 1}
-                            </span>
-                            <span className="text-foreground">{detail}</span>
-                          </li>
-                        ))}
-                      </ol>
-                    </div>
-
-                    {/* Tips */}
-                    {activeStepData.tips.length > 0 && (
-                      <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-3">
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <Info className="h-3.5 w-3.5 text-emerald-600" />
-                          <span className="text-xs font-semibold text-emerald-700">Astuces</span>
-                        </div>
-                        <ul className="space-y-1">
-                          {activeStepData.tips.map((tip, i) => (
-                            <li key={i} className="text-xs text-emerald-800 flex gap-1.5">
-                              <span className="shrink-0">💡</span>
-                              <span>{tip}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Warnings */}
-                    {activeStepData.warnings.length > 0 && (
-                      <div className="rounded-lg bg-amber-50 border border-amber-200 p-3">
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
-                          <span className="text-xs font-semibold text-amber-700">Points d'attention</span>
-                        </div>
-                        <ul className="space-y-1">
-                          {activeStepData.warnings.map((warning, i) => (
-                            <li key={i} className="text-xs text-amber-800 flex gap-1.5">
-                              <span className="shrink-0">⚠️</span>
-                              <span>{warning}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Outputs */}
-                    <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                        Sorties / Livrables
-                      </h4>
-                      <ul className="space-y-1">
-                        {activeStepData.outputs.map((output, i) => (
-                          <li key={i} className="flex items-center gap-2 text-sm">
-                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
-                            <span className="text-foreground">{output}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Branches */}
-                    {activeStepData.branches && (
-                      <div className="rounded-lg bg-muted/50 border p-3">
-                        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                          Embranchement
-                        </h4>
-                        <div className="space-y-1.5">
-                          {activeStepData.branches.map((branch) => (
-                            <button
-                              key={branch.targetId}
-                              onClick={() => handleStepClick(branch.targetId)}
-                              className={`flex items-center gap-2 text-sm font-medium ${branch.color} hover:underline`}
-                            >
-                              <ArrowRight className="h-3.5 w-3.5" />
-                              {branch.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-
-                {/* Navigation */}
-                <div className="flex items-center justify-between">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={goToPrev}
-                    disabled={WORKFLOW_STEPS.findIndex((s) => s.id === activeStep) === 0}
-                    className="gap-1"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                    Précédent
-                  </Button>
-                  <span className="text-xs text-muted-foreground">
-                    {activeStepData.number} / {WORKFLOW_STEPS.length}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={goToNext}
-                    disabled={WORKFLOW_STEPS.findIndex((s) => s.id === activeStep) === WORKFLOW_STEPS.length - 1}
-                    className="gap-1"
-                  >
-                    Suivant
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </>
-            ) : (
-              /* Placeholder when no step selected */
-              <Card className="border-dashed">
-                <CardContent className="py-12 text-center">
-                  <div className="text-4xl mb-3">👈</div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Sélectionnez une étape
-                  </h3>
-                  <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-                    Cliquez sur une étape du logigramme pour voir la procédure détaillée, les astuces et les points d'attention.
-                  </p>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={goToNext}
-                    className="mt-4 gap-1.5"
-                  >
-                    Commencer le parcours
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Quick Summary Card */}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Résumé du flux</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3 text-center">
-                  <div className="rounded-lg bg-muted/50 p-2.5">
-                    <div className="text-2xl font-bold text-foreground">11</div>
-                    <div className="text-[10px] text-muted-foreground">Étapes</div>
-                  </div>
-                  <div className="rounded-lg bg-muted/50 p-2.5">
-                    <div className="text-2xl font-bold text-foreground">7</div>
-                    <div className="text-[10px] text-muted-foreground">Applications</div>
-                  </div>
-                  <div className="rounded-lg bg-muted/50 p-2.5">
-                    <div className="text-2xl font-bold text-foreground">4</div>
-                    <div className="text-[10px] text-muted-foreground">Acteurs</div>
-                  </div>
-                  <div className="rounded-lg bg-muted/50 p-2.5">
-                    <div className="text-2xl font-bold text-foreground">1</div>
-                    <div className="text-[10px] text-muted-foreground">Embranchement</div>
-                  </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
+
+            {/* Detail Panel */}
+            {!isFullView && (
+              <div className="space-y-4">
+                {activeStepData ? (
+                  <>
+                    <Card className={`border-2 ${activeStepData.appBg}`}>
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-2xl">{activeStepData.icon}</span>
+                          <div>
+                            <CardTitle className={`text-lg ${activeStepData.appColor}`}>
+                              Étape {activeStepData.number} — {activeStepData.title}
+                            </CardTitle>
+                            <p className="text-xs text-muted-foreground mt-0.5">
+                              {activeStepData.application} • {activeStepData.actor}
+                            </p>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <p className="text-sm text-foreground">{activeStepData.summary}</p>
+
+                        <div>
+                          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                            Procédure détaillée
+                          </h4>
+                          <ol className="space-y-1.5">
+                            {activeStepData.details.map((detail, i) => (
+                              <li key={i} className="flex gap-2 text-sm">
+                                <span className="shrink-0 w-5 h-5 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-muted-foreground mt-0.5">
+                                  {i + 1}
+                                </span>
+                                <span className="text-foreground">{detail}</span>
+                              </li>
+                            ))}
+                          </ol>
+                        </div>
+
+                        {activeStepData.tips.length > 0 && (
+                          <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-3">
+                            <div className="flex items-center gap-1.5 mb-1.5">
+                              <Info className="h-3.5 w-3.5 text-emerald-600" />
+                              <span className="text-xs font-semibold text-emerald-700">Astuces</span>
+                            </div>
+                            <ul className="space-y-1">
+                              {activeStepData.tips.map((tip, i) => (
+                                <li key={i} className="text-xs text-emerald-800 flex gap-1.5">
+                                  <span className="shrink-0">{"\u{1F4A1}"}</span>
+                                  <span>{tip}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {activeStepData.warnings.length > 0 && (
+                          <div className="rounded-lg bg-amber-50 border border-amber-200 p-3">
+                            <div className="flex items-center gap-1.5 mb-1.5">
+                              <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
+                              <span className="text-xs font-semibold text-amber-700">Points d'attention</span>
+                            </div>
+                            <ul className="space-y-1">
+                              {activeStepData.warnings.map((warning, i) => (
+                                <li key={i} className="text-xs text-amber-800 flex gap-1.5">
+                                  <span className="shrink-0">⚠️</span>
+                                  <span>{warning}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        <div>
+                          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                            Sorties / Livrables
+                          </h4>
+                          <ul className="space-y-1">
+                            {activeStepData.outputs.map((output, i) => (
+                              <li key={i} className="flex items-center gap-2 text-sm">
+                                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                                <span className="text-foreground">{output}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {activeStepData.branches && (
+                          <div className="rounded-lg bg-muted/50 border p-3">
+                            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                              Embranchement
+                            </h4>
+                            <div className="space-y-1.5">
+                              {activeStepData.branches.map((branch) => (
+                                <button
+                                  key={branch.targetId}
+                                  onClick={() => handleStepClick(branch.targetId)}
+                                  className={`flex items-center gap-2 text-sm font-medium ${branch.color} hover:underline`}
+                                >
+                                  <ArrowRight className="h-3.5 w-3.5" />
+                                  {branch.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    <div className="flex items-center justify-between">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={goToPrev}
+                        disabled={WORKFLOW_STEPS.findIndex((s) => s.id === activeStep) === 0}
+                        className="gap-1"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                        Précédent
+                      </Button>
+                      <span className="text-xs text-muted-foreground">
+                        {activeStepData.number} / {WORKFLOW_STEPS.length}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={goToNext}
+                        disabled={WORKFLOW_STEPS.findIndex((s) => s.id === activeStep) === WORKFLOW_STEPS.length - 1}
+                        className="gap-1"
+                      >
+                        Suivant
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <Card className="border-dashed">
+                    <CardContent className="py-12 text-center">
+                      <div className="text-4xl mb-3">{"\u{1F448}"}</div>
+                      <h3 className="font-semibold text-foreground mb-1">
+                        Sélectionnez une étape
+                      </h3>
+                      <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+                        Cliquez sur une étape du logigramme pour voir la procédure détaillée, les astuces et les points d'attention.
+                      </p>
+                      <Button
+                        variant="default"
+                        size="sm"
+                        onClick={goToNext}
+                        className="mt-4 gap-1.5"
+                      >
+                        Commencer le parcours
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )}
+
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm">Résumé du flux</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-3 text-center">
+                      <div className="rounded-lg bg-muted/50 p-2.5">
+                        <div className="text-2xl font-bold text-foreground">11</div>
+                        <div className="text-[10px] text-muted-foreground">Étapes</div>
+                      </div>
+                      <div className="rounded-lg bg-muted/50 p-2.5">
+                        <div className="text-2xl font-bold text-foreground">7</div>
+                        <div className="text-[10px] text-muted-foreground">Applications</div>
+                      </div>
+                      <div className="rounded-lg bg-muted/50 p-2.5">
+                        <div className="text-2xl font-bold text-foreground">4</div>
+                        <div className="text-[10px] text-muted-foreground">Acteurs</div>
+                      </div>
+                      <div className="rounded-lg bg-muted/50 p-2.5">
+                        <div className="text-2xl font-bold text-foreground">1</div>
+                        <div className="text-[10px] text-muted-foreground">Embranchement</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }

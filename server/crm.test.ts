@@ -89,6 +89,11 @@ vi.mock("./db", () => ({
   updateSuiviEntry: vi.fn().mockResolvedValue(undefined),
   deleteSuiviEntry: vi.fn().mockResolvedValue(undefined),
   getAllSuiviForExport: vi.fn().mockResolvedValue([]),
+  getChecklistByIntervention: vi.fn().mockResolvedValue([]),
+  upsertChecklistStep: vi.fn().mockResolvedValue(undefined),
+  updateChecklistNote: vi.fn().mockResolvedValue(undefined),
+  initChecklistForIntervention: vi.fn().mockResolvedValue(undefined),
+  getChecklistSummaryForInterventions: vi.fn().mockResolvedValue([]),
   upsertUser: vi.fn(),
   getUserByOpenId: vi.fn(),
   getDb: vi.fn(),
@@ -603,5 +608,95 @@ describe("CRM E2MT\u00b2 - Assistant IA (tutoriels iGO, ERP, DACIA)", () => {
     expect(result).toHaveProperty("answer");
     expect(typeof result.answer).toBe("string");
     expect(result.answer.length).toBeGreaterThan(0);
+  });
+});
+
+
+// ─── Checklist Tests ─────────────────────────────────────────────────────────
+describe("Checklist - Suivi d'avancement des interventions", () => {
+  const mockDb = vi.mocked(db);
+
+  it("should init checklist for an intervention with 11 steps", async () => {
+    const caller = appRouter.createCaller(createAuthContext());
+    await caller.checklist.init({ interventionId: 1 });
+    expect(mockDb.initChecklistForIntervention).toHaveBeenCalledWith(
+      1,
+      expect.arrayContaining(["step_1", "step_2", "step_3", "step_4", "step_5", "step_6", "step_7", "step_8", "step_9", "step_10", "step_11"])
+    );
+  });
+
+  it("should return empty checklist for new intervention", async () => {
+    const caller = appRouter.createCaller(createAuthContext());
+    const result = await caller.checklist.getByIntervention({ interventionId: 1 });
+    expect(result).toEqual([]);
+    expect(mockDb.getChecklistByIntervention).toHaveBeenCalledWith(1);
+  });
+
+  it("should toggle step completion", async () => {
+    const caller = appRouter.createCaller(createAuthContext());
+    await caller.checklist.toggleStep({
+      interventionId: 1,
+      stepId: "step_1",
+      completed: true,
+    });
+    expect(mockDb.upsertChecklistStep).toHaveBeenCalledWith(
+      expect.objectContaining({
+        interventionId: 1,
+        stepId: "step_1",
+        completed: 1,
+        completedBy: 1,
+      })
+    );
+  });
+
+  it("should toggle step back to incomplete", async () => {
+    const caller = appRouter.createCaller(createAuthContext());
+    await caller.checklist.toggleStep({
+      interventionId: 1,
+      stepId: "step_1",
+      completed: false,
+    });
+    expect(mockDb.upsertChecklistStep).toHaveBeenCalledWith(
+      expect.objectContaining({
+        interventionId: 1,
+        stepId: "step_1",
+        completed: 0,
+        completedAt: null,
+        completedBy: null,
+      })
+    );
+  });
+
+  it("should update note for a step", async () => {
+    const caller = appRouter.createCaller(createAuthContext());
+    await caller.checklist.updateNote({
+      interventionId: 1,
+      stepId: "step_2",
+      notes: "OT N° 12345 créée dans iGO",
+    });
+    expect(mockDb.updateChecklistNote).toHaveBeenCalledWith({
+      interventionId: 1,
+      stepId: "step_2",
+      notes: "OT N° 12345 créée dans iGO",
+    });
+  });
+
+  it("should return checklist summary for multiple interventions", async () => {
+    mockDb.getChecklistSummaryForInterventions.mockResolvedValueOnce([
+      { interventionId: 1, stepId: "step_1", completed: true },
+      { interventionId: 1, stepId: "step_2", completed: true },
+      { interventionId: 1, stepId: "step_3", completed: false },
+      { interventionId: 2, stepId: "step_1", completed: true },
+    ]);
+    const caller = appRouter.createCaller(createAuthContext());
+    const result = await caller.checklist.summary({ interventionIds: [1, 2] });
+    expect(result).toHaveLength(4);
+    expect(mockDb.getChecklistSummaryForInterventions).toHaveBeenCalledWith([1, 2]);
+  });
+
+  it("should return empty summary for empty intervention list", async () => {
+    const caller = appRouter.createCaller(createAuthContext());
+    const result = await caller.checklist.summary({ interventionIds: [] });
+    expect(result).toEqual([]);
   });
 });
