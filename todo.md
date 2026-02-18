@@ -102,3 +102,4 @@
 - [x] Créer un référentiel des outils métier dans l'Assistant IA avec rôle et workflow de chaque application
 - [x] Créer la page Référentiel Outils avec les 20 applications métier SNCF (description, workflow, catégorie, intégrations)
 - [x] Ajouter la page Référentiel Outils dans la navigation sidebar
+- [x] Intégrer dans le prompt système de l'assistant IA le rôle de l'utilisateur : Pilote du contrat E2MT² pour la DIT Grand Sud, lot 4.1 Occitanie
