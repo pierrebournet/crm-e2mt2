@@ -106,3 +106,7 @@
 - [x] Analyser le Guide Utilisateur Connect'Immo et enrichir l'Assistant IA + Tutoriels
 - [x] Analyser le Mode opératoire DA spéciale ERP92 et enrichir l'Assistant IA + Tutoriels
 - [x] Analyser le Tuto AT (Laurent Di Meglio) et enrichir l'Assistant IA + Tutoriels/Nommage
+- [x] Analyser le Tuto iGO (Coswin) et enrichir l'Assistant IA
+- [x] Analyser le Tuto ERP et enrichir l'Assistant IA
+- [x] Analyser le Tuto DACIA et enrichir l'Assistant IA
+- [x] Analyser le Tuto Commande ERP hors E2MT et enrichir l'Assistant IA

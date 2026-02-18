@@ -760,6 +760,124 @@ Liste de programmes prioritaires : Enveloppe RH IST 4.4, Enveloppe RH IST ADAP, 
 - Avec modification montant : Onglet "Suivi Budgétaire" > Modifier montant > puis clôturer
 - À 0€ : Contractualisation (montant à 0€) + Suivi Budgétaire (montant à 0€ + ventilation accostage global) > puis clôturer
 
+## TUTO iGO (Coswin) - GMAO
+### Accès et paramétrage
+- Navigateur obligatoire : FIREFOX
+- Paramétrer sur son périmètre dès la première connexion
+- Cliquer sur le cône "ordres de travail" pour accéder à la liste des OT
+- Gestion colonnes : clic droit sur titre > Colonne > Gestion des colonnes
+- Enregistrer filtre : "+" vert avec entonnoir puis disquette rouge
+- Export Excel : logo avec le X
+
+### Filtres recommandés
+- Filtre principal sur N° UT (travail quotidien)
+- Filtre sans restriction (recherche OT mal orientées/paramétrées)
+
+### Statuts OT iGO
+| Statut | Signification |
+|--------|---------------|
+| 1 | Affecté |
+| 3 | En cours |
+| 4 | Terminé |
+| 5 | Clôturé |
+| 6 | Réceptionné |
+| 7 | Non valide (refusé par le pilote) |
+| 8 | À réviser (refusé par l'occupant) |
+| 9 | Annulé |
+| 10 | Non réalisable |
+| 11 | Non réalisé |
+
+### Actions sur une OT
+- Commentaires : onglet "Commentaire" pour lire/écrire
+- Origine OT : onglet "Origine OT" pour connaître le demandeur
+- Réparation provisoire : mettre date quand mainteneur ne peut pas réparer immédiatement (demandé par QUADRIM)
+
+### Créer un OT dans iGO
+1. Accueil > "Ajouter un OT"
+2. Vérifier nom demandeur, degré urgence, CP gestionnaire
+3. Bien équipement : flèche gauche > UT dans "Entité" > "Géographique" > Bâtiment dans "Spécifique" > double-clic UT-BAT
+4. Domaine, Constat, Précisions (localisation + contact + téléphone)
+5. Contrat si connu, sinon "Contrat non disponible" + 00000
+6. Valider : disquette rouge
+7. CP Gestionnaire valide la DI (si urgent : "Sélection une action" > "Changer d'état")
+8. Les 3C valident et transforment la DI en OT
+
+## TUTO ERP PeopleSoft - Procédures pratiques
+### Suivre l'état d'une DA
+- ERP > eProcurement > Gérer demande d'achat > N° DA > Rechercher > Flèche
+
+### Extraire un PDF de la DA
+- ERP > Gestion des achats > Demandes d'achat > Statuts documents
+- Entité + N° DA (avec 0 devant ou "contient")
+- Pour lister toutes ses DA : pas de N°, mettre son CP dans "Demandeur"
+- Cliquer DA > CDA > Imprimante (parfois plusieurs clics) > Actualiser > Ouvrir PDF
+- PDF 3 pages : commande + récapitulatif (N° DA, demandeur, infos comptables)
+- Commande non signée car envoyée via DOCUSIGN
+
+### Créer une réception
+- ERP > Gestion des achats > Réceptions > Créer et mise à jour réception
+- Entité > Créer > N° commande > Supprimer autres infos > Rechercher > Cocher > OK > Enregistrer
+- IMPORTANT : noter le numéro de réception
+
+### Vérifier si réception nécessaire
+- Commandes d'achat > Consulter informations > Commande > Petite feuille
+- Si "Aucune réception obligatoire" : pas de réception
+
+### Trouver commentaire refus DA
+- Cliquer lien mail refus > DA > "Afficher commentaires" pour voir la raison
+
+### Modifier DA sans la refaire
+- Gérer demande d'achat > Option "Modification" > Accepter réinitialisation approbation
+- Détail ligne > Modifier groupe d'achat ou code fournisseur > OK > Resoumettre
+
+## TUTO DACIA + Connect'Immo - Workflow complet
+### AT génériques dans Connect'Immo
+- "Modification en masse" > Sélectionner région > Rechercher > N° ID PROJET
+- Exemples AT génériques 2025 (Région 47) :
+  - 47-25-0019 : DIVOY INDUS ISM-PTP E2MT-ANNUEL (25 000€, Axe PX312920, Local M16860, Projet P-25-1071880)
+  - 47-25-0020 : DI-VOY PTP E2MT ANNUEL (20 000€, Axe PX312920, Local M16861, Projet P-25-1071886)
+  - 47-25-0154 : Gestion site Raynal UT 003818H Ferroviaire (8 000€, Axe PF323920, Local R11172)
+  - 47-25-0155-01 : MOBILITE VOYAGEURS GESTION DE SITE RAYNAL (8 000€, Axe PX312920, Local M17609)
+
+### Créer une commande dans Connect'Immo
+1. Flèche descendante : voir travaux rattachés à l'AT
+2. Flèche horizontale : nouvelle ligne
+3. SYNTHÈSE COMMANDE > "+" > Crayon
+4. Remplacer MULTI par UT et BIEN > Attendre validation
+5. Remplir champs > Enregistrer > VIE DE LA COMMANDE > Montant > Enregistrer
+6. Vérifier axe central et local
+
+### Saisie DA dans DACIA
+- Type de demande : "Maintenance"
+- N° projet Connect'Immo (commençant par P)
+- AT générique : N° projet de l'AT générique / Hors générique : N° projet précis
+- Valider > Vérifier dans "MES DA"
+- Déposer le PV dans le petit carton de la ligne
+
+### Suivi commande dans l'ERP
+- Consulter DA : entité 01425 > N° DA > Statut > N° commande et réception (clic sur "O")
+- Consulter CMDE > Historique CDA > "Afficher détail"
+
+## TUTO Commande ERP hors E2MT²
+### Contexte
+Commandes hors contrat E2MT² (EPI, fournitures). BUPO : 01425 (UA GRAND SUD).
+
+### Créer DA hors E2MT (ancienne méthode)
+1. eProcurement > Créer DA > Entité 01425 > Nom commande
+2. Article référencé : mettre références > remplissage auto
+3. Article non référencé : N° contrat + Description + Groupe achat 67858-005 + Quantité/Prix/Date
+4. "Créer une ligne" > Répéter > "Non" à acheteur par défaut > "Valider et soumettre"
+5. Site : 01425SD003 (Toulouse, 2 fois)
+6. Infos comptables : Division 02136, Resp Gest 02533, Département 51831
+7. Axe central ZG39300 (coûts équipes/EPI), Sup OP MPY001
+8. Pas d'axe local
+
+### Créer DA hors E2MT (nouvelle méthode Punch Out)
+- "Ajouter articles" > "Commerçant" > Choisir fournisseur > Commander sur site fournisseur > Retour ERP > Suite identique
+
+### Trouver un contrat cadre
+- Intranet > Services Pratiques > Accès direct > Recherche accord-cadre > Nom fournisseur > Onglet "Contrat"
+
 ## BPU - Bordereau de Prix Unitaires (Lot 4.1 - Occitanie)
 Voici le référentiel de prix contractuel :\n${bpuContext}
 

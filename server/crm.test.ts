@@ -548,3 +548,60 @@ describe("CRM E2MT\u00b2 - Assistant IA (nouvelles connaissances)", () => {
     expect(result.answer.length).toBeGreaterThan(0);
   });
 });
+
+describe("CRM E2MT\u00b2 - Assistant IA (tutoriels iGO, ERP, DACIA)", () => {
+  it("answers a question about iGO OT statuses", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Quels sont les diff\u00e9rents statuts d'une OT dans iGO ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about creating an OT in iGO", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment cr\u00e9er un OT dans iGO ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about ERP reception creation", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment cr\u00e9er une r\u00e9ception dans l'ERP ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about DACIA DA creation", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment saisir une DA dans DACIA ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+
+  it("answers a question about ERP hors E2MT commands", async () => {
+    const ctx = createAuthContext();
+    const caller = appRouter.createCaller(ctx);
+    const result = await caller.assistant.ask({
+      question: "Comment passer une commande ERP hors E2MT pour des EPI ?",
+    });
+    expect(result).toHaveProperty("answer");
+    expect(typeof result.answer).toBe("string");
+    expect(result.answer.length).toBeGreaterThan(0);
+  });
+});
