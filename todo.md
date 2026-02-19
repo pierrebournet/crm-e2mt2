@@ -116,3 +116,4 @@
 - [x] Créer les procédures tRPC pour lire/mettre à jour la checklist d'une intervention
 - [x] Ajouter le mode checklist interactif dans la page Logigramme (sélection intervention + cochage étapes)
 - [x] Écrire les tests pour la checklist d'avancement
+- [x] Corriger l'étape 10 du logigramme : la réception se fait dans DACIA et non dans l'ERP
