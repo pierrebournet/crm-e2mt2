@@ -123,3 +123,8 @@
 - [x] Ajouter la page Évolutions 2026 dans la navigation sidebar
 - [x] Tests unitaires évolutions 2026 (24 tests, 166 tests au total)
 - [ ] Mettre à jour le logigramme si le workflow a changé avec les évolutions 2026
+- [x] Importer le CSV complet des gérants de programme 2026 (54 gérants, 7 SA)
+- [x] Enrichir la page Évolutions 2026 onglet Gérants avec la liste exhaustive par SA (propriétaires + locatifs)
+- [x] Enrichir le prompt Assistant IA avec la synthèse complète des gérants de programme
+- [x] Identifier les gérants concernant la DIT Grand-Sud vs non concernés (14 SA VOY concernés, 24 hors périmètre)
+- [x] Tests unitaires pour les données gérants importées (34 tests évolutions, 176 tests au total)

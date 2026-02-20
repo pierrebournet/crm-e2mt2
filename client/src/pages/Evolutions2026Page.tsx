@@ -122,20 +122,113 @@ const CODES_FOURNISSEUR_ABE = [
   { code: "59160", nom: "ABE TOULOUSE" },
 ];
 
-interface Gerant {
-  code: string;
-  libelle: string;
-  type: string;
-  concerne: boolean;
+interface GerantGroupe {
+  categorie: "GP PROPRIETAIRES" | "GP LOCATIFS";
+  sa: string;
+  gerants: { nom: string; concerneDITGS: boolean }[];
 }
 
-const GERANTS_PROGRAMME: Gerant[] = [
-  { code: "Matériel_autres", libelle: "Matériel autres", type: "Propriétaire", concerne: true },
-  { code: "Matériel_ISM", libelle: "Matériel ISM", type: "Propriétaire", concerne: true },
-  { code: "TI_Nevers Languedoc", libelle: "Matériel TI Nevers Languedoc", type: "Propriétaire", concerne: true },
-  { code: "GIE", libelle: "GIE (SNCF Optim Services)", type: "Propriétaire", concerne: false },
-  { code: "MAINTENANCE SUD AZUR", libelle: "Maintenance Sud Azur (depuis 2025)", type: "Propriétaire ou Locatif", concerne: true },
+const GERANTS_PROGRAMME: GerantGroupe[] = [
+  {
+    categorie: "GP PROPRIETAIRES",
+    sa: "SA VOYAGEURS",
+    gerants: [
+      { nom: "AUTRES VOYAGEURS", concerneDITGS: true },
+      { nom: "COMBUSTIBLE", concerneDITGS: true },
+      { nom: "TRACTION", concerneDITGS: true },
+      { nom: "DI POUR RHL", concerneDITGS: true },
+      { nom: "VOYAGEURS TRAVAUX A LA DEMANDE", concerneDITGS: true },
+      { nom: "ISM TER PROVENCE ALPES COTE D'AZUR", concerneDITGS: true },
+      { nom: "ISM TER OCCITANIE", concerneDITGS: true },
+      { nom: "HORS ISM TER", concerneDITGS: true },
+      { nom: "ISM TGV AXE SUD EST", concerneDITGS: true },
+      { nom: "ISM TGV AXE ATLANTIQUE", concerneDITGS: true },
+      { nom: "HORS ISM TGV", concerneDITGS: true },
+      { nom: "MATERIEL TI NEVERS LANGUEDOC", concerneDITGS: true },
+      { nom: "MATERIEL ISM", concerneDITGS: true },
+      { nom: "MATERIEL AUTRES", concerneDITGS: true },
+      { nom: "ISM INTERCITES", concerneDITGS: false },
+      { nom: "ISM TRANSILIEN", concerneDITGS: false },
+      { nom: "HORS ISM TRANSILIEN", concerneDITGS: false },
+      { nom: "ISM TER GRAND EST", concerneDITGS: false },
+      { nom: "ISM TER HAUTS DE France", concerneDITGS: false },
+      { nom: "ISM TER NORMANDIE", concerneDITGS: false },
+      { nom: "ISM TER CENTRE VAL DE LOIRE", concerneDITGS: false },
+      { nom: "ISM TER PAYS DE LOIRE", concerneDITGS: false },
+      { nom: "ISM TER BRETAGNE", concerneDITGS: false },
+      { nom: "ISM TER AUVERGNE RHONE ALPES", concerneDITGS: false },
+      { nom: "ISM TER BOURGOGNE FRANCHE COMTE", concerneDITGS: false },
+      { nom: "ISM TER NOUVELLE AQUITAINE", concerneDITGS: false },
+      { nom: "ISM TGV AXE EST", concerneDITGS: false },
+      { nom: "ISM TGV AXE NORD", concerneDITGS: false },
+      { nom: "MATERIEL TI BISCHHEIM", concerneDITGS: false },
+      { nom: "MATERIEL TI ROMILLY", concerneDITGS: false },
+      { nom: "MATERIEL TI HELLEMMES", concerneDITGS: false },
+      { nom: "MATERIEL TI ROUEN QUATRE-MARES", concerneDITGS: false },
+      { nom: "MATERIEL TI PICARDIE", concerneDITGS: false },
+      { nom: "MATERIEL TI RENNES", concerneDITGS: false },
+      { nom: "MATERIEL TI SPDC", concerneDITGS: false },
+      { nom: "MATERIEL TI VENISSIEUX", concerneDITGS: false },
+      { nom: "MATERIEL TICP PERIGUEUX", concerneDITGS: false },
+      { nom: "MATERIEL TICP SAINTES", concerneDITGS: false },
+    ],
+  },
+  {
+    categorie: "GP PROPRIETAIRES",
+    sa: "EX FRET",
+    gerants: [
+      { nom: "C32", concerneDITGS: true },
+      { nom: "TECHNIS", concerneDITGS: true },
+      { nom: "HEXAFRET", concerneDITGS: true },
+    ],
+  },
+  {
+    categorie: "GP PROPRIETAIRES",
+    sa: "SA RESEAU",
+    gerants: [
+      { nom: "RESEAU FERROVIAIRE", concerneDITGS: true },
+      { nom: "RESEAU INDUSTRIEL", concerneDITGS: true },
+      { nom: "RESEAU SOCIAL", concerneDITGS: true },
+      { nom: "RESEAU TERTIAIRE", concerneDITGS: true },
+      { nom: "RESEAU TRAVAUX A LA DEMANDE", concerneDITGS: true },
+    ],
+  },
+  {
+    categorie: "GP PROPRIETAIRES",
+    sa: "SA SNCF",
+    gerants: [
+      { nom: "SNCF", concerneDITGS: true },
+      { nom: "DI POUR RH IST", concerneDITGS: true },
+    ],
+  },
+  {
+    categorie: "GP PROPRIETAIRES",
+    sa: "TIERS",
+    gerants: [
+      { nom: "MAINTENANCE LOCATIVE SUD AZUR", concerneDITGS: true },
+      { nom: "MAINTENANCE LOCATIVE ETOILE D'AMIENS", concerneDITGS: false },
+      { nom: "MAINTENANCE LOCATIVE VAL DE LOIRE", concerneDITGS: false },
+    ],
+  },
+  {
+    categorie: "GP PROPRIETAIRES",
+    sa: "SNCF OPTIM SERVICES",
+    gerants: [
+      { nom: "GIE", concerneDITGS: true },
+    ],
+  },
+  {
+    categorie: "GP LOCATIFS",
+    sa: "GP LOCATIF",
+    gerants: [
+      { nom: "MAINTENANCE LOCATIVE INDUSTRIEL & FERROVIAIRE", concerneDITGS: true },
+      { nom: "MAINTENANCE LOCATIVE TERTIAIRE & SOCIAL", concerneDITGS: true },
+    ],
+  },
 ];
+
+const TOTAL_GERANTS = GERANTS_PROGRAMME.reduce((acc, g) => acc + g.gerants.length, 0);
+const TOTAL_CONCERNES = GERANTS_PROGRAMME.reduce((acc, g) => acc + g.gerants.filter((x) => x.concerneDITGS).length, 0);
 
 // ===== COMPONENT =====
 
@@ -163,7 +256,7 @@ export default function Evolutions2026Page() {
     { id: "familles", label: "6+2 Familles", icon: <Layers className="h-4 w-4" />, count: 8 },
     { id: "soustypes", label: "Sous-types", icon: <FileText className="h-4 w-4" />, count: SOUS_TYPES.length },
     { id: "axes", label: "Axes locaux", icon: <Building2 className="h-4 w-4" /> },
-    { id: "gerants", label: "Gérants", icon: <Users className="h-4 w-4" />, count: GERANTS_PROGRAMME.length },
+    { id: "gerants", label: "Gérants", icon: <Users className="h-4 w-4" />, count: TOTAL_GERANTS },
   ];
 
   // Filter sous-types by search
@@ -645,55 +738,110 @@ export default function Evolutions2026Page() {
       )}
 
       {activeTab === "gerants" && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Users className="h-5 w-5 text-orange-600" />
-              Nouveaux gérants de programme 2026
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b bg-muted/50">
-                    <th className="text-left p-3 font-semibold">Code Template</th>
-                    <th className="text-left p-3 font-semibold">Libellé</th>
-                    <th className="text-left p-3 font-semibold">Type</th>
-                    <th className="text-center p-3 font-semibold">DIT GS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {GERANTS_PROGRAMME.map((g, i) => (
-                    <tr key={i} className="border-b hover:bg-muted/30 transition-colors">
-                      <td className="p-3">
-                        <Badge variant="outline" className="font-mono text-xs">
-                          {g.code}
-                        </Badge>
-                      </td>
-                      <td className="p-3 font-medium">{g.libelle}</td>
-                      <td className="p-3 text-muted-foreground">{g.type}</td>
-                      <td className="p-3 text-center">
-                        {g.concerne ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600 inline" />
-                        ) : (
-                          <span className="text-xs text-muted-foreground">Tous</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        <div className="space-y-4">
+          {/* Stats */}
+          <div className="flex flex-wrap gap-3">
+            <Badge className="bg-orange-100 text-orange-800 border-orange-300 hover:bg-orange-100">
+              <Users className="h-3 w-3 mr-1" />
+              {TOTAL_GERANTS} gérants au total
+            </Badge>
+            <Badge className="bg-green-100 text-green-800 border-green-300 hover:bg-green-100">
+              <CheckCircle2 className="h-3 w-3 mr-1" />
+              {TOTAL_CONCERNES} concernent la DIT GS
+            </Badge>
+            <Badge className="bg-slate-100 text-slate-800 border-slate-300 hover:bg-slate-100">
+              <Info className="h-3 w-3 mr-1" />
+              {TOTAL_GERANTS - TOTAL_CONCERNES} hors périmètre DIT GS
+            </Badge>
+          </div>
 
-            <div className="mt-4 p-3 rounded-lg bg-blue-50 border border-blue-200">
-              <p className="text-sm text-blue-800">
-                <strong>Rappel :</strong> Les AT pluriannuelles ouvertes sur l'ancien gérant MATERIEL sont à clôturer et à refaire sur le bon gérant.
-                La DIT Grand-Sud n'est pas concernée par cette migration.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Rechercher un gérant de programme..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+
+          {/* Grouped by SA */}
+          {GERANTS_PROGRAMME.map((groupe, gi) => {
+            const filteredGerants = searchQuery
+              ? groupe.gerants.filter((g) => g.nom.toLowerCase().includes(searchQuery.toLowerCase()) || groupe.sa.toLowerCase().includes(searchQuery.toLowerCase()))
+              : groupe.gerants;
+            if (filteredGerants.length === 0) return null;
+            return (
+              <Card key={gi}>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Badge
+                      className={groupe.categorie === "GP PROPRIETAIRES"
+                        ? "bg-blue-100 text-blue-800 border-blue-300"
+                        : "bg-teal-100 text-teal-800 border-teal-300"
+                      }
+                    >
+                      {groupe.categorie === "GP PROPRIETAIRES" ? "Propriétaire" : "Locatif"}
+                    </Badge>
+                    <span>{groupe.sa}</span>
+                    <span className="text-xs text-muted-foreground font-normal">({filteredGerants.length} gérant{filteredGerants.length > 1 ? "s" : ""})</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b bg-muted/50">
+                          <th className="text-left p-2.5 font-semibold">Gérant de programme</th>
+                          <th className="text-center p-2.5 font-semibold w-28">DIT Grand-Sud</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredGerants.map((g, i) => (
+                          <tr
+                            key={i}
+                            className={`border-b hover:bg-muted/30 transition-colors ${
+                              !g.concerneDITGS ? "opacity-50" : ""
+                            }`}
+                          >
+                            <td className="p-2.5">
+                              <span className={`font-medium ${!g.concerneDITGS ? "text-muted-foreground" : ""}`}>
+                                {g.nom}
+                              </span>
+                            </td>
+                            <td className="p-2.5 text-center">
+                              {g.concerneDITGS ? (
+                                <CheckCircle2 className="h-4 w-4 text-green-600 inline" />
+                              ) : (
+                                <XCircle className="h-4 w-4 text-muted-foreground/40 inline" />
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+
+          {/* Info box */}
+          <Card className="border-blue-200 bg-blue-50/50">
+            <CardContent className="p-4 space-y-2">
+              <div className="flex items-start gap-3">
+                <Info className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
+                <div className="text-sm text-blue-800 space-y-1">
+                  <p><strong>Rappel :</strong> Les AT pluriannuelles ouvertes sur l'ancien gérant MATERIEL sont à clôturer et à refaire sur le bon gérant.</p>
+                  <p>Les gérants grisés (hors périmètre DIT Grand-Sud) sont affichés à titre informatif.</p>
+                  <p>Le gérant <strong>MAINTENANCE SUD AZUR</strong> a été créé depuis 2025 et doit être utilisé avec la famille travaux correspondante (propriétaire ou locatif).</p>
+                  <p>Le gérant <strong>GIE</strong> est nouveau en 2026 (SNCF Optim Services).</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

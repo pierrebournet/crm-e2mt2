@@ -44,6 +44,39 @@ const AXES_LOCAUX = [
 
 const GERANTS_DIT_GS = ["Matériel_autres", "Matériel_ISM", "TI_Nevers Languedoc"];
 
+// Full list of gerants from CSV import
+const GERANTS_PAR_SA = {
+  "SA VOYAGEURS": 38,
+  "EX FRET": 3,
+  "SA RESEAU": 5,
+  "SA SNCF": 2,
+  "TIERS": 3,
+  "SNCF OPTIM SERVICES": 1,
+  "GP LOCATIF": 2,
+};
+
+const TOTAL_GERANTS = Object.values(GERANTS_PAR_SA).reduce((a, b) => a + b, 0);
+
+const GERANTS_DIT_GS_SA_VOYAGEURS = [
+  "AUTRES VOYAGEURS", "COMBUSTIBLE", "TRACTION", "DI POUR RHL",
+  "VOYAGEURS TRAVAUX A LA DEMANDE", "ISM TER PROVENCE ALPES COTE D'AZUR",
+  "ISM TER OCCITANIE", "HORS ISM TER", "ISM TGV AXE SUD EST",
+  "ISM TGV AXE ATLANTIQUE", "HORS ISM TGV", "MATERIEL TI NEVERS LANGUEDOC",
+  "MATERIEL ISM", "MATERIEL AUTRES",
+];
+
+const GERANTS_HORS_DIT_GS_SA_VOYAGEURS = [
+  "ISM INTERCITES", "ISM TRANSILIEN", "HORS ISM TRANSILIEN",
+  "ISM TER GRAND EST", "ISM TER HAUTS DE France", "ISM TER NORMANDIE",
+  "ISM TER CENTRE VAL DE LOIRE", "ISM TER PAYS DE LOIRE", "ISM TER BRETAGNE",
+  "ISM TER AUVERGNE RHONE ALPES", "ISM TER BOURGOGNE FRANCHE COMTE",
+  "ISM TER NOUVELLE AQUITAINE", "ISM TGV AXE EST", "ISM TGV AXE NORD",
+  "MATERIEL TI BISCHHEIM", "MATERIEL TI ROMILLY", "MATERIEL TI HELLEMMES",
+  "MATERIEL TI ROUEN QUATRE-MARES", "MATERIEL TI PICARDIE", "MATERIEL TI RENNES",
+  "MATERIEL TI SPDC", "MATERIEL TI VENISSIEUX", "MATERIEL TICP PERIGUEUX",
+  "MATERIEL TICP SAINTES",
+];
+
 const SOUS_TYPES_SUPPRIMES = [
   "Maintenance Élargie Chauffage Ventilation Climat.",
   "Contrôle Périodique Amiante",
@@ -178,6 +211,46 @@ describe("Évolutions Maintenance 2026 - Gérants de programme", () => {
     expect(GERANTS_DIT_GS).toContain("Matériel_ISM");
     expect(GERANTS_DIT_GS).toContain("TI_Nevers Languedoc");
   });
+
+  it("devrait avoir 54 gérants au total (toutes SA confondues)", () => {
+    expect(TOTAL_GERANTS).toBe(54);
+  });
+
+  it("devrait avoir 7 SA différentes", () => {
+    expect(Object.keys(GERANTS_PAR_SA)).toHaveLength(7);
+  });
+
+  it("devrait avoir 38 gérants SA VOYAGEURS", () => {
+    expect(GERANTS_PAR_SA["SA VOYAGEURS"]).toBe(38);
+  });
+
+  it("devrait avoir 14 gérants SA VOYAGEURS concernés par la DIT GS", () => {
+    expect(GERANTS_DIT_GS_SA_VOYAGEURS).toHaveLength(14);
+  });
+
+  it("devrait avoir 24 gérants SA VOYAGEURS hors DIT GS", () => {
+    expect(GERANTS_HORS_DIT_GS_SA_VOYAGEURS).toHaveLength(24);
+  });
+
+  it("devrait avoir 14+24=38 gérants SA VOYAGEURS au total", () => {
+    expect(GERANTS_DIT_GS_SA_VOYAGEURS.length + GERANTS_HORS_DIT_GS_SA_VOYAGEURS.length).toBe(38);
+  });
+
+  it("devrait contenir les gérants EX FRET", () => {
+    expect(GERANTS_PAR_SA["EX FRET"]).toBe(3);
+  });
+
+  it("devrait contenir les gérants SA RESEAU", () => {
+    expect(GERANTS_PAR_SA["SA RESEAU"]).toBe(5);
+  });
+
+  it("devrait contenir les gérants GP LOCATIF", () => {
+    expect(GERANTS_PAR_SA["GP LOCATIF"]).toBe(2);
+  });
+
+  it("devrait contenir GIE dans SNCF OPTIM SERVICES", () => {
+    expect(GERANTS_PAR_SA["SNCF OPTIM SERVICES"]).toBe(1);
+  });
 });
 
 describe("Évolutions Maintenance 2026 - Sous-types", () => {
@@ -217,9 +290,9 @@ describe("Évolutions Maintenance 2026 - Prompt IA", () => {
     expect(routersContent).toContain("ZG360910");
     expect(routersContent).toContain("ABE Languedoc Roussillon");
     expect(routersContent).toContain("59167");
-    expect(routersContent).toContain("Matériel_autres");
-    expect(routersContent).toContain("Matériel_ISM");
-    expect(routersContent).toContain("TI_Nevers Languedoc");
+    expect(routersContent).toContain("MATERIEL AUTRES");
+    expect(routersContent).toContain("MATERIEL ISM");
+    expect(routersContent).toContain("TI NEVERS LANGUEDOC");
     expect(routersContent).toContain("MAINTENANCE SUD AZUR");
   });
 });
