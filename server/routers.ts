@@ -879,6 +879,67 @@ Commandes hors contrat E2MT² (EPI, fournitures). BUPO : 01425 (UA GRAND SUD).
 ### Trouver un contrat cadre
 - Intranet > Services Pratiques > Accès direct > Recherche accord-cadre > Nom fournisseur > Onglet "Contrat"
 
+## ÉVOLUTIONS DU MODÈLE DE GESTION MAINTENANCE 2026
+### Applicable depuis le 1er janvier 2026 (Source : Pôle Exploitation, présentation du 05/01/2026)
+
+### 1. Nouveau modèle de gestion comptable
+**RÈGLE CLÉ** : Toutes les commandes liées à l'entretien maintenance doivent désormais être créées dans la **DI historique - Division 65924** (et non plus dans la division 02136).
+
+**Tableau des nouveaux codes comptables pour la DIT Grand-Sud :**
+| Champ | Ancien (2025) | Nouveau (2026) |
+|---|---|---|
+| Entité GL | 13402 (DI Prestataires) | **65910** (CSP Autres) |
+| Division | 02136 (DI FM Env Travail) | **65924** (DI) |
+| RG (Responsabilité de gestion) | 02533 (ET Grand Sud) | **00138** (Optimisat Gest Tech DIT Sud) |
+| Département comptable | 06305 (Multitech GS) | **néant** |
+| BUAP | 01418 (Factures) | **00043** (Factures) |
+| BUPO | 01425 (DA/CDA/RECEP) | **67099** (DA/CDA/RECEP) |
+
+**Règles de transition :**
+- Les commandes ouvertes sur 2025 (division 02136) pluriannuelles se clôturent normalement en 2026.
+- Toutes les nouvelles commandes 2026 doivent être créées sur la division 65924.
+- Les RG renseignées doivent être identiques à celles du champ donneur d'ordre de l'AT dans IMMOSIS.
+
+**Ce qui ne change PAS :** Déconstructions sélectives et dépenses mandatées ESSET.
+
+### 2. Nouvelle segmentation : 6 familles d'opérations propriétaire + 2 locatif
+Les sous-types ont été simplifiés. Certains sont figés ou supprimés.
+
+**6 familles propriétaire :**
+| Enveloppe budgétaire | Code ZG | Libellé |
+|---|---|---|
+| Contrat de Maintenance | ZG360720 | P - Contrats de maintenance |
+| Contrôles et Visites Réglementaires | ZG360840 | P - Contrôles et Visites Réglementaires |
+| Diagnostics, audits non réglementaires et autres | ZG361050 | P - Diagnostics / Audits non réglementaires / Autres |
+| Gros entretien et réparations (GER) | ZG360910 | P - Gros entretiens |
+| MEC suite Contrôles et Visites Réglementaires | ZG361040 | P - MEC suite Contrôles et Visites Réglementaires |
+| Petits Travaux Propriétaire | ZG361820 | P - Petits travaux propriétaire |
+
+**2 familles locatif :**
+| Enveloppe budgétaire | Code ZG | Libellé |
+|---|---|---|
+| Maintenance Locative | ZG361599 | L - Maintenance locative |
+| Travaux Locatifs | ZG361699 | L - Travaux locatifs |
+
+**Sous-types supprimés en 2026 :** Maintenance Élargie Chauffage Ventilation Climat., Contrôle Périodique Amiante, Groupes de Visites techniques et réglementaires, Gros Entretien IST CCE, Travaux Enlèvement Amiante Non Friable, Contre Expertise Amiante, RFF CIM GOE Autres.
+
+**Nouveaux sous-types :** Visites tech audit étude (hors réglementaire et VG), Mise en conformité réglementaire autre.
+
+### 3. Axes locaux IMMOSIS (maintenance propriétaire et locative HORS DS)
+Ajout du suffixe **P** en 2ème caractère pour identifier les prestations réalisées par Gares & Connexion / prestataire ABE :
+- **TP** / **T** : SNCF PABE + RH IST (P si prestataire ABE, sans P si TIERS)
+- **RP** / **R** : Réseau
+- **MP** / **M** : Voyageurs (N peut aussi être utilisé)
+- **FP** / **F** : Fret
+- **L** : Maintenance locative (pas de changement)
+
+**Codes fournisseur ABE :** 59167 (ABE Languedoc Roussillon), 59166 (ABE PACA), 59160 (ABE Toulouse).
+
+### 4. Nouveaux gérants de programme
+- Nouveaux gérants Matériel pour la DIT GS : **Matériel_autres**, **Matériel_ISM**, **TI_Nevers Languedoc**
+- Nouveau gérant **GIE** (SNCF Optim Services)
+- Rappel : gérant **MAINTENANCE SUD AZUR** créé depuis 2025 (à utiliser avec la famille travaux correspondante)
+
 ## BPU - Bordereau de Prix Unitaires (Lot 4.1 - Occitanie)
 Voici le référentiel de prix contractuel :\n${bpuContext}
 

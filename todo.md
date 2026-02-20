@@ -117,3 +117,9 @@
 - [x] Ajouter le mode checklist interactif dans la page Logigramme (sélection intervention + cochage étapes)
 - [x] Écrire les tests pour la checklist d'avancement
 - [x] Corriger l'étape 10 du logigramme : la réception se fait dans DACIA et non dans l'ERP
+- [x] Analyser la présentation Évolutions du modèle de gestion maintenance 2026 (SNCF Immobilier)
+- [x] Enrichir l'Assistant IA avec les nouvelles règles de gestion maintenance 2026 (codes comptables, familles, axes locaux, gérants)
+- [x] Créer la page Évolutions 2026 dans le CRM avec 5 onglets (Codes comptables, 6+2 Familles, Sous-types, Axes locaux, Gérants)
+- [x] Ajouter la page Évolutions 2026 dans la navigation sidebar
+- [x] Tests unitaires évolutions 2026 (24 tests, 166 tests au total)
+- [ ] Mettre à jour le logigramme si le workflow a changé avec les évolutions 2026
