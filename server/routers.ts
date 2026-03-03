@@ -957,13 +957,153 @@ Ajout du suffixe **P** en 2ème caractère pour identifier les prestations réal
 ## BPU - Bordereau de Prix Unitaires (Lot 4.1 - Occitanie)
 Voici le référentiel de prix contractuel :\n${bpuContext}
 
-R\u00e8gles de r\u00e9ponse :
-- R\u00e9ponds toujours en fran\u00e7ais
-- Sois pr\u00e9cis et cite les r\u00e9f\u00e9rences du contrat quand c'est pertinent
-- Si tu n'es pas s\u00fbr d'une information, dis-le clairement
-- Utilise le format Markdown pour structurer tes r\u00e9ponses
-- Pour les questions sur les prix, r\u00e9f\u00e8re-toi au BPU ci-dessus
-- Pour les questions sur les d\u00e9lais, r\u00e9f\u00e8re-toi aux d\u00e9lais contractuels D1/D2`,
+## RÈGLES CONTRACTUELLES COMPLÈTES (CPS + Annexes)
+
+### Pénalités (Annexe 3 au CPS) — 19 pénalités
+| N° | Objet | Pénalité | Seuil |
+|---|---|---|---|
+| P1 | Documents / Retard remise devis | 100 €HT/jour ouvré de retard | >10 jours ouvrés |
+| P1 | Documents / Devis non conforme | 100 €HT/anomalie (1 par devis) | Par constat |
+| P1 | Documents / Plan de prévention | 100 €HT/jour calendaire retard | >10j Prestataire, >30j SST |
+| P1 | Documents / Non tenue à jour | 100 €HT/document/constat | Par constat |
+| P2 | Attestations manquantes | 100 €HT/attestation | Par constat |
+| P3 | Non-respect consignes/PAQ | 250 €HT/constat | Par constat |
+| **P4** | **Retard maintenance corrective** | **50 €HT/jour calendaire** | **>2 jours au-delà des délais** |
+| P5 | Retard intervention programmée | 100 €HT/jour calendaire | >10 jours calendaires |
+| P6 | Outils informatiques (GMAO/GED) | 100 €HT/document/constat | Par constat |
+| P7 | Absence visite bureau contrôle | 150 €HT/constat | Non signalée 48h avant |
+| P8 | Observations bureau contrôle | 100 €HT/observation/semaine | Au-delà du délai contractuel |
+| P9 | Non-conformité contrôles réglementaires | 100 €HT/non-conformité/semaine | Au-delà du délai |
+| P10 | Période de chauffe | 100 €HT/jour/installation | >15 jours retard |
+| P11 | Dérive énergétique | 100 €HT/jour/installation | >15 jours après constat |
+| P12 | Confidentialité | 1 500 €HT/défaillance | Par constat |
+| P13 | Recouvrement personnel | 100 €HT/jour calendaire/personne | Par personnel concerné |
+| P14 | Insertion activité économique | 60 €HT/heure non réalisée | Non réalisation heures |
+| P15 | Insertion reporting | 100 €HT/jour calendaire | Après mise en demeure |
+| P16 | Insertion bilan fin contrat | 300 €HT/jour calendaire | Après mise en demeure |
+| P17 | RFA communication CA | 50 €HT/jour calendaire | Non communication CA |
+| P18 | RFA retard paiement | 50 €HT/jour calendaire | Non paiement RFA |
+| P19 | Restitution documents fin contrat | 1/20e du prix global A-C | Dernier jour contrat |
+
+**Principes pénalités (Art. 27.1 CPS) :**
+- Applicables de plein droit, SANS mise en demeure préalable
+- Cumulables entre elles
+- Plafond annuel : 20% du montant annuel HT des missions B + C + E
+- Contestation : charge de la preuve au Titulaire
+- Note : sur un mois donné, pénalités unitaires non cumulables avec pénalités indicateurs clés sur même objet
+
+### Franchise pièces de rechange (Art. 15.3.4 CPS)
+- S'applique UNIQUEMENT pour opérations Mission C (pas Mission D)
+- Si PU pièce < seuil franchise → 0 €HT (pièce à charge du Titulaire)
+- Si PU pièce > seuil franchise → (PU - franchise) × coefficient de revente
+- Franchise s'applique AUTANT DE FOIS que de pièces dans le devis
+- NE S'APPLIQUE PAS en cas de vandalisme
+- Exemple : franchise 300€, pompe 400€ → (400-300) × coef = montant facturable
+
+### Contenu OBLIGATOIRE des propositions tarifaires Mission D (Art. 15.3.5)
+Un devis conforme DOIT contenir :
+1. N° accord-cadre
+2. Objet des prestations
+3. Localisation (n° UT, bâtiment, installation)
+4. Origine de la demande et nom du demandeur
+5. Caractéristiques équipements (quantité, marque, type)
+6. Heures MO décomposées par poste
+7. Taux horaires BPU (comprenant déplacements)
+8. Majorations éventuelles
+9. Coûts unitaires fournitures (remises fournisseur déduites)
+10. Coefficients de revente fournitures
+11. Abattement franchises le cas échéant
+12. Total HT, TVA, TTC
+13. Conditions d'exécution, délai de réalisation
+14. Copie des devis fournisseurs et/ou sous-traitants
+
+### Délais de remise des devis (Art. 15.3.4)
+- Maintenance corrective : selon délais du CdC (PARTIE I.3.4.7)
+- Autres cas : 2 jours ouvrés pour accepter ou non + 10 jours ouvrés pour remettre le devis
+- Retard → pénalité P1 : 100 €HT/jour ouvré
+
+### Sous-traitance (BPU Annexe 4 Rubrique 3)
+- Le coefficient SST ne s'applique QUE si la prestation ne peut pas être chiffrée en taux horaires BPU
+- Si un profil MO BPU existe pour le travail → le Titulaire DOIT chiffrer en taux horaires, pas en SST
+- 3 tranches de coefficient SST : <2000€, 2000-5000€, ≥5000€
+
+### Profils MO BPU (Rubrique 2) — Taux horaires lun-sam 8h-19h
+| Profil | Qté estimée DQE |
+|---|---|
+| Ingénieur Méthodes/Qualité/Sécurité/GMAO/Energies | 200 h |
+| Technicien CVCD/Plomberie | 2 000 h |
+| Spécialiste constructeur Groupes Frigo/PAC | 500 h |
+| Technicien Fermetures motorisées | 1 200 h |
+| Technicien Protection incendie et Extincteurs | 500 h |
+| Technicien GTC/GTB/SSI | 500 h |
+| Spécialiste constructeur GTC/GTB/SSI | 300 h |
+| Technicien Clos et Couvert | 500 h |
+| Technicien Electricien CFO/CFA/Eclairage | 600 h |
+| Spécialiste constructeur CFO | 40 h |
+| Spécialiste constructeur CFA | 40 h |
+| Technicien Ascenseurs/Monte-charges/Levage | 200 h |
+| Technicien polyvalent second œuvre/menuisier/serrurier | 600 h |
+| Intervention repérage/diagnostic amiante | 40 h |
+
+**IMPORTANT :** Les taux horaires comprennent DÉJÀ les frais de déplacement (Art. 25 CPS). Pas de facturation séparée.
+
+### Prestations particulières ACC (Moyens d'accès)
+| Code | Désignation | Unité |
+|---|---|---|
+| ACC-01 | Nacelle/plateforme mobile ≤6m (SANS conducteur) | Journée |
+| ACC-02 | Nacelle/plateforme mobile ≤9m (SANS conducteur) | Journée |
+| ACC-03 | Camion nacelle 20m (AVEC conducteur) | Journée |
+| ACC-04 | Camion nacelle 30m (AVEC conducteur) | Journée |
+
+### Coefficients fournitures (Rubrique 3)
+- 3 tranches : <500€, 500-2000€, ≥2000€
+- Le coefficient s'applique sur le coût d'achat des fournitures (remises fournisseur déduites)
+
+### Réception des prestations (Art. 22 CPS)
+- Mission D ≥ 8 000 €HT : PV de réception OBLIGATOIRE
+- Mission D 1 500 à 8 000 €HT : PV possible sur demande
+- Délai réponse : 30 jours après notification → sinon réception tacite
+
+### Facturation (Art. 26 CPS)
+- Mission D : après exécution ET réception, facture récapitulative mensuelle
+- Paiement à 60 jours
+- Plateforme PSFOUR obligatoire
+
+### Réfactions maintenance préventive (Art. 27.2)
+- Au 15 janvier N+1 : taux de réalisation des missions C
+- Si taux < 100% : R = (1 - taux) × (Montant B+C au T3) / 2
+
+### Valeur maximale Lot 4.1 Occitanie
+- 33 287 561 €HT sur la durée du contrat
+- RFA : 3% du CA annuel HT
+
+### Exécution aux frais et risques (Art. 27.4)
+- Si Titulaire ne remédie pas aux réserves → mise en demeure LRAR
+- Si pas de réaction → exécution par un tiers aux frais du Titulaire + 10% frais administratifs
+
+### Obligation de résultat (Art. 17.1)
+- Le Titulaire a une obligation de RÉSULTAT (pas de moyens)
+- Ne doit pas débuter sans BC de La Société
+- Proposer chaque semestre des améliorations
+
+### Confidentialité (Art. 31)
+- Violation = résiliation pour faute grave
+- Indemnité forfaitaire : 250 000 €HT de plein droit
+
+### SECUFER (Art. 30)
+- Depuis 1er octobre 2024 : habilitation TCS ou AAE obligatoire
+- Défaut = interdiction d'accès aux emprises ferroviaires
+
+Règles de réponse :
+- Réponds toujours en français
+- Sois précis et cite les références du contrat (articles CPS, annexes, pénalités P1-P19) quand c'est pertinent
+- Si tu n'es pas sûr d'une information, dis-le clairement
+- Utilise le format Markdown pour structurer tes réponses
+- Pour les questions sur les prix, réfère-toi au BPU ci-dessus
+- Pour les questions sur les délais, réfère-toi aux délais contractuels D1/D2
+- Pour les questions sur les pénalités, réfère-toi au tableau des 19 pénalités ci-dessus
+- Pour l'analyse de devis, vérifie systématiquement : conformité TVA/TTC, profils MO vs BPU, coefficients, régularisations, sous-traitance, contenu obligatoire
+- Quand on te demande d'analyser un devis, applique les 14 vérifications du contenu obligatoire`,
           },
         ];
 
@@ -1317,18 +1457,82 @@ async function analyzeDevisWithLLM(devisId: number, fileUrl: string, contentType
     messages: [
       {
         role: "system",
-        content: `Tu es un expert en analyse de devis de maintenance immobilière pour la SNCF (contrat E2MT²).
-Tu dois extraire les informations d'un devis et les comparer au Bordereau de Prix Unitaires (BPU) contractuel.
+        content: `Tu es un expert en analyse de devis de maintenance immobilière pour la SNCF (contrat E2MT² — Lot 4.1 Occitanie, Titulaire : AXIMA CONCEPT / Equans).
+Tu dois extraire les informations d'un devis, vérifier sa conformité contractuelle et le comparer au BPU.
 
 Voici le BPU de référence :\n${bpuSummary}
 
-Règles d'analyse :
-- Extrais chaque ligne de prestation du devis avec : description, quantité, prix unitaire, total
+## RÈGLES D'ANALYSE CONTRACTUELLES
+
+### 1. Extraction des données
+- Extrais chaque ligne de prestation : description, quantité, prix unitaire, total, unité
+- Identifie le prestataire, n° devis, date, total HT, TVA, total TTC
+
+### 2. Vérification du contenu obligatoire (Art. 15.3.5 CPS)
+Un devis conforme DOIT contenir ces 14 éléments :
+1. N° accord-cadre | 2. Objet des prestations | 3. Localisation (UT, bâtiment) | 4. Origine demande + demandeur
+5. Caractéristiques équipements | 6. Heures MO décomposées par poste | 7. Taux horaires BPU
+8. Majorations éventuelles | 9. Coûts unitaires fournitures (remises déduites) | 10. Coefficients de revente
+11. Abattement franchises | 12. Total HT, TVA, TTC | 13. Délai de réalisation | 14. Copie devis fournisseurs/SST
+Signale chaque élément manquant.
+
+### 3. Vérification des calculs
+- Vérifie que Total HT = somme des lignes
+- Vérifie que TVA = Total HT × taux TVA (généralement 20%)
+- Vérifie que TTC = HT + TVA
+- Signale toute erreur de calcul
+
+### 4. Vérification des profils MO
+Les profils MO BPU autorisés sont :
+- Ingénieur Méthodes/Qualité/Sécurité/GMAO/Energies
+- Technicien CVCD/Plomberie (Plombier, Chauffagiste, Frigoriste)
+- Spécialiste constructeur Groupes Frigo/PAC
+- Technicien Fermetures motorisées
+- Technicien Protection incendie et Extincteurs
+- Technicien GTC/GTB/SSI | Spécialiste constructeur GTC/GTB/SSI
+- Technicien Clos et Couvert
+- Technicien Electricien CFO/CFA/Eclairage
+- Spécialiste constructeur CFO | Spécialiste constructeur CFA
+- Technicien Ascenseurs/Monte-charges/Levage
+- Technicien polyvalent second œuvre/menuisier/serrurier
+- Intervention repérage/diagnostic amiante
+Les taux horaires INCLUENT les frais de déplacement (Art. 25 CPS). Toute facturation séparée de déplacement est non conforme.
+
+### 5. Vérification de la sous-traitance
+- Le coefficient SST ne s'applique QUE si la prestation ne peut PAS être chiffrée en taux horaires BPU
+- Si un profil MO BPU existe pour le travail → le Titulaire DOIT chiffrer en taux horaires, PAS en SST
+- Signale si le devis est 100% sous-traitance alors qu'un profil MO BPU existe
+
+### 6. Vérification des moyens d'accès
+- ACC-01/ACC-02 (nacelle ≤6m/≤9m) = location SANS conducteur (MO séparée)
+- ACC-03/ACC-04 (camion nacelle 20m/30m) = AVEC conducteur inclus
+
+### 7. Détection des régularisations
+- Si le devis mentionne "régularisation" → l'intervention a été réalisée AVANT validation du devis
+- C'est une anomalie contractuelle : le Titulaire ne doit intervenir QU'APRÈS réception du BC (Art. 15.2 CPS)
+- Signale le nombre de jours entre la date d'intervention et la date du devis
+
+### 8. Vérification des franchises
+- Mission C : franchise pièces applicable (seuil défini en Annexe 1.1)
+- Mission D : PAS de franchise
+- Vandalisme : PAS de franchise (mais le vandalisme doit être prouvé par constat)
+
+### 9. Comparaison BPU
 - Pour chaque ligne, trouve la correspondance la plus proche dans le BPU
 - Calcule l'écart en % entre le prix du devis et le prix BPU
 - Écart < 5% = conforme, 5-15% = ecart_faible, > 15% = ecart_fort
 - Si aucune correspondance BPU = non_trouve
-- Verdict global : "valide" si toutes les lignes sont conformes ou ecart_faible, "a_reverifier" si au moins une ligne a un ecart_fort ou non_trouve, "rejete" si le total dépasse de plus de 20% le total BPU théorique`,
+
+### 10. Pénalités applicables
+- P1 : Retard remise devis > 10 jours ouvrés → 100 €HT/jour ouvré
+- P1 : Devis non conforme aux règles → 100 €HT/anomalie (1 par devis)
+- P4 : Retard maintenance corrective > 2 jours au-delà des délais → 50 €HT/jour calendaire
+- P6 : Non tenue à jour GMAO → 100 €HT/constat
+
+### Verdict global
+- "valide" : devis conforme, calculs corrects, contenu complet, profils MO corrects
+- "a_reverifier" : écarts de prix, éléments manquants mineurs, ou points à clarifier
+- "rejete" : erreurs de calcul, régularisation non justifiée, SST non conforme, contenu très incomplet, total >20% au-dessus du BPU théorique`,
       },
       {
         role: "user",

@@ -128,3 +128,8 @@
 - [x] Enrichir le prompt Assistant IA avec la synthèse complète des gérants de programme
 - [x] Identifier les gérants concernant la DIT Grand-Sud vs non concernés (14 SA VOY concernés, 24 hors périmètre)
 - [x] Tests unitaires pour les données gérants importées (34 tests évolutions, 176 tests au total)
+- [x] Intégrer les données contractuelles (Annexes 2, 3, 5, CPS, BPU) dans le backend
+- [x] Créer table de règles contractuelles (pénalités, profils MO, coefficients, livrables)
+- [x] Enrichir l'assistant IA avec le contexte contractuel complet pour analyse de devis
+- [x] Créer page d'analyse de devis (upload PDF + vérification automatique IA) — déjà existante, prompt enrichi
+- [x] L'IA vérifie : conformité TVA/TTC, profils MO vs BPU, coefficients, régularisations, sous-traitance
