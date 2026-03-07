@@ -1094,6 +1094,51 @@ Un devis conforme DOIT contenir :
 - Depuis 1er octobre 2024 : habilitation TCS ou AAE obligatoire
 - Défaut = interdiction d'accès aux emprises ferroviaires
 
+### NIVEAUX DE MAINTENANCE (Annexe 1.3A)
+La MO est-elle facturable en Mission D ? Applique les 8 questions Q1-Q8 :
+- Q1 : Vandalisme/malveillance ? → OUI = Mission D (MO facturable), exiger PHOTO justificative. NON → Q2
+- Q2 : Mise en conformité réglementaire ? → OUI = Mission D. NON → Q3
+- Q3 : Opération classifiée Niveau 5 dans les tableaux ? → OUI = Mission D. NON → Q4
+- Q4 : Équipement complet ou Pièce Détachée (PD) ? → PD = MO incluse Mission C. Équipement complet → Q5-Q8
+- Q5 : Remplacement installation globale (production+réseaux+terminaux) ? → OUI = Mission D. NON → Q6
+- Q6 : Changement profond des caractéristiques techniques ? → OUI = Mission D. NON → Q7
+- Q7 : Sous-traitance très spécialisée nécessaire (grutage, manutention lourde) ? → OUI = Mission D. NON → Q8
+- Q8 : Durée de vie théorique dépassée ? → OUI = Mission D. NON = MO incluse Mission C
+
+Équipements systématiquement N5 (MO facturable Mission D) :
+- CVCD : Chaudière ≥30kW, Groupe eau glacée, Split system complet, Armoire clim, PAC centralisée, CTA complète
+- Fermetures : Remplacement complet portes auto/portails/rideaux/barrières/bornes/portes ferroviaires
+- Électricité : Armoire >30 départs, Cellules HT/transfo/TGBT, Groupe électrogène, Onduleur >50kVA
+- Plomberie : Préparateur ECS >100L
+- SSI : Centrale incendie type 1-3
+- Levage : Nacelle, Plateformes élévatrices/PMR
+- Extincteurs : Remplacement complet
+
+Pièces Détachées (PD) — MO TOUJOURS incluse Mission C :
+- Brûleur, Compresseur frigo, Cartouche déshydratante, Filtres, Régulation/Variateur/Ventilateur CTA
+- Vannes/robinetterie tous diamètres, Régulateurs/capteurs/sondes/actionneurs
+- Lames tablier, Lisses barrière, Moteurs électriques, Dispositifs commande/sécurité, Feux signalisation
+- Disjoncteurs BT, Batteries onduleur, Appareillage électrique (prises, interrupteurs)
+- Contact de porte, Avertisseur sonore, Déclencheur manuel, Détecteur fumée
+- Pièces détachées extincteurs
+
+Durées de vie théoriques clés (au-delà = Q8 → Mission D) :
+- 10 ans : Vase expansion, Pompe relevage eaux chargées
+- 12 ans : BAES
+- 15 ans : Chaudière murale <30kW, Préparateur ECS ≤100L, Onduleur ≤50kVA, Lecteurs badge, Gâches/ventouses, Détecteurs volumétriques, Adoucisseur, Pompe eaux claires, Clapet <DN65
+- 20 ans : Ventilo-convecteur, Caisson VMC, Convecteur élec, Pompes/circulateurs, Préparateur ECS gaz, Centrale incendie type 4-5, UTL, Clapet ≥DN65
+- 25 ans : Compteurs volumétriques/énergie, Vannes plomberie, Désemboueur
+- 30 ans : Radiateur eau chaude, Armoire élec ≤30 départs, Appareils éclairage, Poste RIA, Compteur eau, Appareils sanitaires, Filtre eau
+
+Exemples contractuels :
+1. Brûleur chaudière 200kW en panne → PD, niveau 3 → MO incluse Mission C
+2. Porte ferroviaire après choc train → Q1 vandalisme OUI → MO facturable Mission D
+3. Tête détection incendie → PD, niveau 4 → MO incluse Mission C
+4. Clim R22 fonctionnelle → Q2 conformité réglementaire OUI → MO facturable Mission D
+5. Compresseur groupe frigo → PD, niveau 4 → MO incluse Mission C
+6. Chaudière murale 15 ans (DVT 20 ans) → Q8 NON → MO incluse Mission C
+7. Ballon ECS 100L 12 ans (DVT 15 ans) → Q8 NON → MO incluse Mission C
+
 Règles de réponse :
 - Réponds toujours en français
 - Sois précis et cite les références du contrat (articles CPS, annexes, pénalités P1-P19) quand c'est pertinent
@@ -1102,8 +1147,9 @@ Règles de réponse :
 - Pour les questions sur les prix, réfère-toi au BPU ci-dessus
 - Pour les questions sur les délais, réfère-toi aux délais contractuels D1/D2
 - Pour les questions sur les pénalités, réfère-toi au tableau des 19 pénalités ci-dessus
-- Pour l'analyse de devis, vérifie systématiquement : conformité TVA/TTC, profils MO vs BPU, coefficients, régularisations, sous-traitance, contenu obligatoire
-- Quand on te demande d'analyser un devis, applique les 14 vérifications du contenu obligatoire`,
+- Pour l'analyse de devis, vérifie systématiquement : conformité TVA/TTC, profils MO vs BPU, coefficients, régularisations, sous-traitance, contenu obligatoire, et NIVEAUX DE MAINTENANCE (la MO est-elle facturable ou incluse en Mission C ?)
+- Quand on te demande d'analyser un devis, applique les 14 vérifications du contenu obligatoire ET les 8 questions Q1-Q8 de l'Annexe 1.3A pour vérifier si la MO est facturable
+- Pour déterminer si la MO est facturable, parcours les questions Q1 à Q8 dans l'ordre et cite le résultat de chaque question`,
           },
         ];
 
@@ -1528,6 +1574,25 @@ Les taux horaires INCLUENT les frais de déplacement (Art. 25 CPS). Toute factur
 - P1 : Devis non conforme aux règles → 100 €HT/anomalie (1 par devis)
 - P4 : Retard maintenance corrective > 2 jours au-delà des délais → 50 €HT/jour calendaire
 - P6 : Non tenue à jour GMAO → 100 €HT/constat
+
+### 11. Vérification des niveaux de maintenance (Annexe 1.3A)
+Pour chaque devis, détermine si la MO est légitimement facturable en Mission D en appliquant les 8 questions Q1-Q8 :
+- Q1 : Vandalisme/malveillance ? OUI = MO facturable (exiger PHOTO). NON → Q2
+- Q2 : Mise en conformité réglementaire ? OUI = MO facturable. NON → Q3
+- Q3 : Opération classée Niveau 5 dans les tableaux Annexe 1.3A ? OUI = MO facturable. NON → Q4
+- Q4 : Équipement complet ou Pièce Détachée (PD) ? PD = MO incluse Mission C (non facturable). Équipement complet → Q5-Q8
+- Q5 : Remplacement installation globale ? OUI = MO facturable. NON → Q6
+- Q6 : Changement profond caractéristiques techniques ? OUI = MO facturable. NON → Q7
+- Q7 : Sous-traitance très spécialisée (grutage, manutention lourde) ? OUI = MO facturable. NON → Q8
+- Q8 : Durée de vie théorique dépassée ? OUI = MO facturable. NON = MO incluse Mission C
+
+Équipements systématiquement N5 (MO facturable) : Chaudière ≥30kW, Groupe eau glacée, Split complet, Armoire clim, PAC centralisée, CTA complète, Remplacement complet fermetures motorisées, Armoire élec >30 départs, Cellules HT/transfo/TGBT, Groupe électrogène, Onduleur >50kVA, Préparateur ECS >100L, Centrale incendie type 1-3, Nacelle/Plateforme PMR, Extincteur complet.
+
+Pièces Détachées (MO TOUJOURS incluse Mission C) : Brûleur, Compresseur frigo, Régulation/Variateur/Ventilateur CTA, Vannes/robinetterie, Moteurs électriques, Dispositifs commande/sécurité, Disjoncteurs BT, Batteries onduleur, Appareillage électrique, Contact porte, Détecteurs, Lames tablier, Lisses barrière.
+
+Durées de vie théoriques clés : 10 ans (vase expansion, pompe eaux chargées), 12 ans (BAES), 15 ans (chaudière <30kW, ECS ≤100L, onduleur ≤50kVA, lecteurs badge), 20 ans (ventilo-convecteur, VMC, pompes, ECS gaz), 25 ans (compteurs, vannes plomberie), 30 ans (radiateur, armoire ≤30 départs, éclairage, RIA, sanitaires).
+
+Si la MO est incluse en Mission C mais que le devis la facture quand même → signale comme anomalie majeure ("MO non facturable selon Annexe 1.3A").
 
 ### Verdict global
 - "valide" : devis conforme, calculs corrects, contenu complet, profils MO corrects

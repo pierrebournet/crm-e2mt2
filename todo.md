@@ -133,3 +133,6 @@
 - [x] Enrichir l'assistant IA avec le contexte contractuel complet pour analyse de devis
 - [x] Créer page d'analyse de devis (upload PDF + vérification automatique IA) — déjà existante, prompt enrichi
 - [x] L'IA vérifie : conformité TVA/TTC, profils MO vs BPU, coefficients, régularisations, sous-traitance
+- [x] Analyser l'Annexe 1.3A (Cadre niveaux de maintenance) et extraire les règles MO facturable/non facturable
+- [x] Intégrer les niveaux de maintenance dans le prompt IA assistant
+- [x] Intégrer les niveaux de maintenance dans le prompt analyse de devis
