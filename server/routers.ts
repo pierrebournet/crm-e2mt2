@@ -1093,6 +1093,87 @@ Un devis conforme DOIT contenir :
 ### SECUFER (Art. 30)
 - Depuis 1er octobre 2024 : habilitation TCS ou AAE obligatoire
 - Défaut = interdiction d'accès aux emprises ferroviaires
+- Formation allégée possible hors emprise
+
+### ATTRIBUTAIRES DES LOTS E2MT²
+- Lot 4.1 Occitanie : AXIMA CONCEPT (filiale Equans/Bouygues)
+- 18 lots géographiques au total, 4 titulaires : AXIMA CONCEPT, VEOLIA, EIFFAGE, VINCI
+
+### CRITICITÉS ET DÉLAIS D'INTERVENTION
+| Criticité | Définition | Délai intervention | Délai dépannage | Délai remise en état définitive |
+| C1 | Défaillances installations critiques et/ou remettant en cause l'activité ou la sécurité | 15 min (si présent) ou 2h | 8h | 2 jours ouvrés |
+| C2 | Autres défaillances (sans risque sécurité) | 4h ouvrées | 8h ouvrées | 8 jours ouvrés |
+
+### SITUATIONS DE FACTURATION DEVIS (Situation N°1 vs N°2)
+- **Situation N°1** : Maintenance corrective pour niveaux COMPRIS dans la rémunération récurrente (hors cas d'exclusion)
+  - MO : Incluse au forfait (missions B, C, D IF&G), y compris frais déplacement et administratifs
+  - Moyens d'accès : Inclus
+  - Pièces détachées : Facturables après déduction franchise et application coef BPU
+  - Accompagnement sous-traitant : Inclus
+  - Rubrique 1 BPU : Impossible à utiliser
+- **Situation N°2** : Maintenance corrective pour niveaux HORS rémunération récurrente ou travaux
+  - MO : Facturable, taux horaires BPU (incluant frais déplacement et administratifs)
+  - Moyens d'accès : Facturables, prix BPU
+  - Pièces détachées : Facturables (hors consommables inclus) après application coef BPU
+  - Accompagnement sous-traitant : Facturable si nécessaire, prix BPU
+  - Rubrique 1 BPU : À utiliser en priorité
+- Rubriques 2 (taux horaires) et 3 (coefficients) : à utiliser si rubrique 1 insuffisante
+- Seules les rubriques 1 et 2 font l'objet de la formule de révision des prix
+
+### CAS D'EXCLUSION DE LA SITUATION N°1 (MO facturable même si niveau inclus au forfait)
+1. Réparations suite à vandalisme ou malveillance AVÉRÉE (exiger photo/constat)
+2. Mise en conformité réglementaire
+3. Remplacement installation globale (production + réseaux + terminaux)
+4. Remplacement appareil complet fonctionnel pour améliorer/changer caractéristiques
+5. Sous-traitance très spécialisée (grutage par exemple)
+6. Équipement complet ayant dépassé sa durée de vie théorique
+
+### POINTS CLEFS VÉRIFICATION DEVIS (Formations E2MT²)
+1. Justification obligatoire : le devis du sous-traitant doit être joint
+2. Cohérence entre devis prestataire et sous-traitant
+3. Pas de facturation MO et franchise sur pièces si < au niveau de maintenance
+4. Application des bons coefficients de refacturation
+5. Seuil 100 k€ → mise en concurrence obligatoire
+6. Facturation après exécution et réception, facture récapitulative mensuelle
+7. E2MT n'est PAS un marché de travaux
+8. Les prestataires ne sont pas toujours compétents → maîtriser le volume des petits travaux
+9. Alternatives possibles : recours MOSO existant, nouveau MOSO, mise en concurrence
+
+### FRANCHISE PIÈCES (300 €HT)
+- Franchise = 300 €HT (augmentée de 200 à 300 €HT vs ancien contrat)
+- S'applique autant de fois que de pièces prévues dans le devis
+- Montant unitaire = prix unitaire fournisseur après application remise
+- Coefficient d'entreprise appliqué APRÈS déduction franchise
+- Exemple : pièce 400 €HT, franchise 300 €, coef 1,10 → (400-300) × 1,10 = 110 €HT
+- Pièce < 300 €HT → 0 €HT dans le devis (prise en charge par le prestataire)
+
+### WORKFLOW DES DEVIS
+1. Dépôt du devis par le prestataire (via Hub de données, workflow obligatoire)
+2. Avis éventuel de l'AMO
+3. Décision du pilote SNCF (acceptation, refus ou demande de correction)
+4. Suivi de la réalisation (commande, facture, réception)
+
+### OUTILS DU CONTRAT
+- IGO : GMAO pour l'ensemble du périmètre
+- 1.4 Démat : Power Apps pour visualiser le patrimoine et paramétrer le contrat
+- Hub de données : Centralise les livrables, connecté à IGO et Kizéo, workflow validation devis
+- Kizéo : Formulaires mobiles pour relevés terrain (inventaire, contrôles qualité)
+- PBI (Power BI) : Reporting et tableaux de bord
+- PSFOUR : Plateforme de facturation
+
+### CONTRÔLES QUALITÉ
+- Le contrat impose au moins 5 équipements autocontrôlés par le prestataire tous les mois
+- Vérifier que le prestataire s'auto-contrôle, contrôler régulièrement et de façon exhaustive
+- Formulaires KN1 refondus, préremplis avec liste équipements, envoyés automatiquement vers le Hub
+
+### RÉVERSIBILITÉ
+- 6 mois en fin de contrat
+- Le prestataire doit fournir : données GMAO, GDI, GED à jour et dans un format exploitable
+
+### DONNÉES PERSONNELLES (Annexes 8 et 9)
+- Sous-traitance de données à caractère personnel encadrée
+- Le Titulaire est sous-traitant au sens RGPD
+- Données traitées : identité des intervenants, habilitations, données de maintenance
 
 ### NIVEAUX DE MAINTENANCE (Annexe 1.3A)
 La MO est-elle facturable en Mission D ? Applique les 8 questions Q1-Q8 :
@@ -1149,7 +1230,14 @@ Règles de réponse :
 - Pour les questions sur les pénalités, réfère-toi au tableau des 19 pénalités ci-dessus
 - Pour l'analyse de devis, vérifie systématiquement : conformité TVA/TTC, profils MO vs BPU, coefficients, régularisations, sous-traitance, contenu obligatoire, et NIVEAUX DE MAINTENANCE (la MO est-elle facturable ou incluse en Mission C ?)
 - Quand on te demande d'analyser un devis, applique les 14 vérifications du contenu obligatoire ET les 8 questions Q1-Q8 de l'Annexe 1.3A pour vérifier si la MO est facturable
-- Pour déterminer si la MO est facturable, parcours les questions Q1 à Q8 dans l'ordre et cite le résultat de chaque question`,
+- Pour déterminer si la MO est facturable, parcours les questions Q1 à Q8 dans l'ordre et cite le résultat de chaque question
+- Pour les devis en Situation N°1 : vérifie que la MO n'est PAS facturée (sauf cas d'exclusion)
+- Pour les devis en Situation N°2 : vérifie que les taux horaires correspondent au BPU
+- Vérifie systématiquement la franchise sur les pièces (300 €HT par pièce)
+- Vérifie que le coefficient d'entreprise est appliqué APRÈS déduction de la franchise
+- Si sous-traitance : vérifie que le devis du sous-traitant est joint et cohérent
+- Si régularisation : signale que le devis aurait dû être soumis AVANT l'intervention
+- Rappelle que E2MT n'est PAS un marché de travaux quand pertinent`,
           },
         ];
 

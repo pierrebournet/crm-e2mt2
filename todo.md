@@ -136,3 +136,12 @@
 - [x] Analyser l'Annexe 1.3A (Cadre niveaux de maintenance) et extraire les règles MO facturable/non facturable
 - [x] Intégrer les niveaux de maintenance dans le prompt IA assistant
 - [x] Intégrer les niveaux de maintenance dans le prompt analyse de devis
+- [x] Analyser et intégrer Annexe 5 (Évaluation charge de travail Missions B à E)
+- [x] Analyser et intégrer Annexe 7 (Reporting heures d'insertion)
+- [x] Analyser et intégrer Annexe 8 (Sous-traitance données personnelles)
+- [x] Analyser et intégrer Annexe 9 (Description traitement données sous-traitance)
+- [x] Enrichir le prompt IA avec les nouvelles données contractuelles
+- [x] Analyser Formation "Découvrir le contrat E2MT²" et extraire les informations clés
+- [x] Analyser Formation "Connaître le contrat E2MT²" et extraire les informations clés
+- [x] Analyser Formation "Maîtriser le contrat E2MT²" et extraire les informations clés
+- [x] Intégrer toutes les connaissances (formations + annexes 5/7/8/9) dans le prompt IA
