@@ -1220,6 +1220,70 @@ Exemples contractuels :
 6. Chaudière murale 15 ans (DVT 20 ans) → Q8 NON → MO incluse Mission C
 7. Ballon ECS 100L 12 ans (DVT 15 ans) → Q8 NON → MO incluse Mission C
 
+### IGO (GMAO - Intégration Gestion des Opérations)
+
+Lexique IGO :
+- UT = Unité Topographique (frontière géographique des propriétés SNCF)
+- DI = Demande d'Intervention (signaler une anomalie)
+- OT = Ordre de Travail (attribuer une action à une équipe)
+- OT COR = OT Correctif (suite à DI)
+- OT TVX = OT Travaux (suite à devis)
+- OT VR = OT Vérification Réglementaire
+- OT MPREV = OT Maintenance Préventive
+- OT MREG = OT Maintenance Réglementaire
+- OT AUTRE = OT suite à Non-Conformité (NC)
+- OT MEC = OT Mise en Conformité
+- SAMI = Satisfait/Acceptable/Moyen/Insatisfait (enquête satisfaction)
+- Cockpit = Indicateur métier sur la page d'accueil IGO
+
+Circuit correctif DI → OT COR :
+- Statuts DI : 0.Créée → 11.Validée (ou 5.Annulée) → 3.En cours → 9.Terminée → 8.Réceptionnée (ou 10.Refusée)
+- Statuts OT COR : 0.Créé → 1.Affecté (ou 9.Annulé) → 3.En cours → 4.Terminé → 5.Clôturé → 6.Réceptionné (ou 8.A réviser / 7.Non validé)
+- Workflow : Demandeur crée DI → Gestionnaire valide → Guichet 3C verrouille DI et crée OT COR → 3C affecte équipe → Prestataire prend en charge (3.En cours) → Prestataire termine (4.Terminé) → Pilote clôture (5.Clôturé) → DI passe à 9.Terminée → Demandeur réceptionne (8.Réceptionnée) + enquête SAMI
+- Si refus réception : DI → 10.Refusée, OT → 8.A réviser
+
+Création DI - Champs obligatoires (fond jaune) :
+- Urgence (1-Urgent, 2-Norme de service, 3-A programmer)
+- Demandeur (auto via CP connexion)
+- Équipement/Bien concerné
+- Domaine (corps de métier)
+- Constat (liste de choix selon domaine)
+- Précision sur la demande (devient le titre de la DI)
+- Précision sur la localisation
+- Destinataire ABE
+- Gestionnaire valideur
+- Onglet paiement : contrat associé (obligatoire) ou case "Contrat non disponible" + RG client
+- Onglet description : texte détaillé + pièces jointes (photos, PDF)
+- Commentaires non supprimables ni modifiables une fois enregistrés
+
+Circuit OT MPREV / MREG (maintenance préventive/réglementaire) :
+- Générés automatiquement par les plans de maintenance (2 mois avant date planifiée)
+- Condition : OT précédent à statut archivable (9.Annulé / 11.Non réalisé / 6.Réceptionné)
+- Statuts : Plan créé → 1.Affecté → 3.En cours → 4.Terminé → 5.Clôturé → 6.Réceptionné
+- Passage auto : 4→5 au bout d'1 mois, puis 5→6 au bout d'1 mois
+- Champ "Non-conformité" modifiable jusqu'au statut 4
+- Si NC > 0 au passage à 6.Réceptionné → OT AUTRE généré automatiquement
+
+Circuit OT AUTRE (Non-conformités) :
+- Créé auto ou manuellement depuis OT MPREV/MREG si NC > 0
+- Récupère auto : équipement, équipe, sous-traitant, imputation, OT père, nombre NC
+- Date planifiée = date fin OT père + 30 jours
+- Un seul OT AUTRE par OT MPREV/MREG
+- Au statut 4.Terminé : "NC réalisées" obligatoire, ≥ 0, ≤ nombre NC total
+- Passage auto 5→6 après 1 mois
+
+Gestion des équipements :
+- Chaque équipement rattaché à un modèle (famille + classe d'attributs)
+- Cycle : Création → Validation référent → Actif (ou Rebut si refusé)
+- Mise au rebut : demande + commentaire justificatif → validation référent
+- ATTENTION : équipements avec DI/OT/Devis en cours ne peuvent PAS être mis au rebut
+
+Application Nomad (mobile) :
+- Modules : OT (traiter MPREV, MREG en mobilité) + Équipement
+- Synchronisations : Totale (vide Nomad), OT-DI, Contextuelle
+- Fonctionnalités : commentaires (dictée vocale), pièces jointes, photo, vidéo, signature
+- Notifications pop-up quand OT attribué (champ "Employé Notifié")
+
 Règles de réponse :
 - Réponds toujours en français
 - Sois précis et cite les références du contrat (articles CPS, annexes, pénalités P1-P19) quand c'est pertinent

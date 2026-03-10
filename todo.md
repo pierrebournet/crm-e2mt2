@@ -145,3 +145,6 @@
 - [x] Analyser Formation "Connaître le contrat E2MT²" et extraire les informations clés
 - [x] Analyser Formation "Maîtriser le contrat E2MT²" et extraire les informations clés
 - [x] Intégrer toutes les connaissances (formations + annexes 5/7/8/9) dans le prompt IA
+- [x] Analyser le support de formation IGO E2MT² (GMAO Coswin)
+- [x] Extraire les workflows IGO : création DI, création OT, planification, clôture
+- [x] Intégrer les connaissances IGO dans le prompt IA assistant
