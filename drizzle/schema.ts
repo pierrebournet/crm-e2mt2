@@ -241,6 +241,10 @@ export const devisLines = mysqlTable("devis_lines", {
   // Statut de la ligne: conforme, ecart_faible, ecart_fort, non_trouve
   lineStatus: mysqlEnum("lineStatus", ["conforme", "ecart_faible", "ecart_fort", "non_trouve"]).default("non_trouve").notNull(),
   matchConfidence: decimal("matchConfidence", { precision: 5, scale: 2 }),
+  // Nouvelles références BPU détaillées
+  bpuReference: text("bpuReference"),
+  bpuSource: text("bpuSource"),
+  moFacturable: text("moFacturable"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 

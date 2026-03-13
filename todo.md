@@ -148,3 +148,6 @@
 - [x] Analyser le support de formation IGO E2MT² (GMAO Coswin)
 - [x] Extraire les workflows IGO : création DI, création OT, planification, clôture
 - [x] Intégrer les connaissances IGO dans le prompt IA assistant
+- [x] Enrichir l'analyse de devis IA pour afficher les références BPU (profils MO, codes ACC, tranches coefficients FO/SST) avec pages et lignes
+- [x] Ajouter dans l'analyse : prix BPU de la MO et des pièces quand disponibles, sinon signaler l'absence de BPU signé
+- [x] Améliorer le format de sortie de l'analyse (tableau comparatif devis vs BPU)

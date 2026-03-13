@@ -469,6 +469,8 @@ function DevisDetail({ id }: { id: number }) {
                   <th className="text-right text-xs font-semibold text-muted-foreground p-3 uppercase tracking-wider">Écart</th>
                   <th className="text-center text-xs font-semibold text-muted-foreground p-3 uppercase tracking-wider">Statut</th>
                   <th className="text-center text-xs font-semibold text-muted-foreground p-3 uppercase tracking-wider">Confiance</th>
+                  <th className="text-left text-xs font-semibold text-muted-foreground p-3 uppercase tracking-wider">Réf. BPU</th>
+                  <th className="text-left text-xs font-semibold text-muted-foreground p-3 uppercase tracking-wider">MO Facturable</th>
                 </tr>
               </thead>
               <tbody>
@@ -503,6 +505,23 @@ function DevisDetail({ id }: { id: number }) {
                       {line.matchConfidence != null ? (
                         <span className="text-xs text-muted-foreground">{Number(line.matchConfidence).toFixed(0)}%</span>
                       ) : "—"}
+                    </td>
+                    <td className="p-3">
+                      {line.bpuReference ? (
+                        <div>
+                          <span className="text-xs font-semibold text-blue-700 dark:text-blue-400">{line.bpuReference}</span>
+                          {line.bpuSource && <span className="block text-[10px] text-muted-foreground mt-0.5">{line.bpuSource}</span>}
+                        </div>
+                      ) : <span className="text-xs text-muted-foreground">—</span>}
+                    </td>
+                    <td className="p-3">
+                      {line.moFacturable ? (
+                        <span className={`text-xs font-medium ${
+                          line.moFacturable.startsWith('OUI') ? 'text-emerald-600' :
+                          line.moFacturable.startsWith('NON') ? 'text-red-600' :
+                          'text-amber-600'
+                        }`}>{line.moFacturable}</span>
+                      ) : <span className="text-xs text-muted-foreground">—</span>}
                     </td>
                   </tr>
                 ))}

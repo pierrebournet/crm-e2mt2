@@ -1680,30 +1680,73 @@ Signale chaque élément manquant.
 - Vérifie que TTC = HT + TVA
 - Signale toute erreur de calcul
 
-### 4. Vérification des profils MO
-Les profils MO BPU autorisés sont :
-- Ingénieur Méthodes/Qualité/Sécurité/GMAO/Energies
-- Technicien CVCD/Plomberie (Plombier, Chauffagiste, Frigoriste)
-- Spécialiste constructeur Groupes Frigo/PAC
-- Technicien Fermetures motorisées
-- Technicien Protection incendie et Extincteurs
-- Technicien GTC/GTB/SSI | Spécialiste constructeur GTC/GTB/SSI
-- Technicien Clos et Couvert
-- Technicien Electricien CFO/CFA/Eclairage
-- Spécialiste constructeur CFO | Spécialiste constructeur CFA
-- Technicien Ascenseurs/Monte-charges/Levage
-- Technicien polyvalent second œuvre/menuisier/serrurier
-- Intervention repérage/diagnostic amiante
-Les taux horaires INCLUENT les frais de déplacement (Art. 25 CPS). Toute facturation séparée de déplacement est non conforme.
+### 4. Vérification des profils MO — Références BPU (Annexe 4, Rubrique 2 "Détail D-Prest. connexes 2")
+Pour chaque ligne de MO du devis, identifie le profil BPU correspondant et cite sa RÉFÉRENCE EXACTE :
 
-### 5. Vérification de la sous-traitance
+| Réf. BPU | Profil MO | Domaine |
+|----------|-----------|----------|
+| R05 | Ingénieur Méthodes/Qualité/Sécurité/GMAO/Energies | Transversal |
+| R12 | Technicien CVCD/Plomberie (Plombier, Chauffagiste, Frigoriste) | CVC/Plomberie |
+| R13 | Spécialiste constructeur Groupes Frigo/PAC | CVC spécialisé |
+| R14 | Technicien Fermetures motorisées | Fermetures |
+| R15 | Technicien Protection incendie et Extincteurs | Sécurité incendie |
+| R16 | Technicien GTC/GTB/SSI | Automatisme/SSI |
+| R17 | Spécialiste constructeur GTC/GTB/SSI | Automatisme spécialisé |
+| R18 | Technicien Clos et Couvert | Bâtiment |
+| R19 | Technicien Electricien CFO/CFA/Eclairage | Électricité |
+| R20 | Spécialiste constructeur CFO | Électricité spécialisée |
+| R21 | Spécialiste constructeur CFA | Courants faibles |
+| R22 | Technicien Ascenseurs/Monte-charges/Levage | Levage |
+| R23 | Technicien polyvalent second œuvre/menuisier/serrurier | Second œuvre |
+| R24 | Intervention repérage/diagnostic amiante | Amiante |
+
+Pour chaque ligne MO du devis, tu DOIS indiquer :
+- La référence BPU exacte (ex: R19)
+- Le profil correspondant
+- Le taux horaire facturé vs le taux BPU contractuel (si connu)
+- Si le taux BPU n'est pas connu (BPU signé non disponible), indique "Taux BPU non vérifié — BPU signé requis"
+
+Plages horaires BPU (Annexe 4, Rubrique 2) :
+- Taux de base : lundi-samedi 6h-21h
+- Majorations : dimanches/fériés jour, nuit LMMJVS 21h-6h, nuit dimanches/fériés
+Le taux horaire BPU INCLUT : frais de déplacement, majorations heures sup, charges salariales, petits matériels et fournitures courants, frais généraux, assurances, marges (Art. 25 CPS). Toute facturation séparée de déplacement est NON CONFORME.
+
+### 5. Vérification de la sous-traitance — Références BPU (Annexe 4, Rubrique 3 "Détail D-Prest. connexes 3")
+Le BPU définit 3 tranches de coefficients de sous-traitance :
+
+| Tranche SST | Montant achat SST |
+|-------------|-------------------|
+| Tranche 1 | < 2 000 €HT |
+| Tranche 2 | 2 000 à 5 000 €HT |
+| Tranche 3 | ≥ 5 000 €HT |
+
+RÈGLE CONTRACTUELLE CLEF (Annexe 4, Rubrique 3) : "Si et seulement si le prix de la main d'œuvre sous-traitée n'est pas déterminable à partir des taux horaires prévus dans la rubrique Détail D-Prest. connexes 2, le Prestataire s'engage à appliquer un coefficient d'entreprise sur l'achat de sous-traitance."
+
+Autrement dit :
 - Le coefficient SST ne s'applique QUE si la prestation ne peut PAS être chiffrée en taux horaires BPU
-- Si un profil MO BPU existe pour le travail → le Titulaire DOIT chiffrer en taux horaires, PAS en SST
-- Signale si le devis est 100% sous-traitance alors qu'un profil MO BPU existe
+- Si un profil MO BPU existe pour le travail (R05 à R24) → le Titulaire DOIT chiffrer en taux horaires, PAS en SST
+- Signale si le devis est 100% sous-traitance alors qu'un profil MO BPU existe, et cite le profil BPU applicable
 
-### 6. Vérification des moyens d'accès
-- ACC-01/ACC-02 (nacelle ≤6m/≤9m) = location SANS conducteur (MO séparée)
-- ACC-03/ACC-04 (camion nacelle 20m/30m) = AVEC conducteur inclus
+Coefficients de fournitures (Annexe 4, Rubrique 3) — 3 tranches :
+| Tranche FO | Montant achat fournitures |
+|------------|---------------------------|
+| Tranche 1 | < 500 €HT |
+| Tranche 2 | 500 à 2 000 €HT |
+| Tranche 3 | ≥ 2 000 €HT |
+
+Pour chaque coefficient appliqué dans le devis, vérifie la tranche correcte et cite la référence BPU.
+
+### 6. Vérification des moyens d'accès — Références BPU (Annexe 4, Rubrique 1 "Détail D-Prest. connexes 1")
+
+| Réf. BPU | Désignation | Unité | Conducteur |
+|----------|-------------|-------|------------|
+| ACC-01 | Nacelle ou plateforme mobile jusqu'à 6 m | Journée | SANS conducteur (MO séparée) |
+| ACC-02 | Nacelle ou plateforme mobile jusqu'à 9 m | Journée | SANS conducteur (MO séparée) |
+| ACC-03 | Camion nacelle 20 m | Journée | AVEC conducteur inclus |
+| ACC-04 | Camion nacelle 30 m | Journée | AVEC conducteur inclus |
+
+Pour chaque moyen d'accès facturé, cite la référence BPU exacte (ACC-01 à ACC-04), le prix facturé vs le prix BPU contractuel (si connu), et vérifie la cohérence conducteur/MO.
+ATTENTION : Pour les mâts d'éclairage inventoriés en Mission C (codes C11B/C11C), les moyens d'accès sont déjà inclus dans le forfait ("compris moyens d'accès"). Signale si la nacelle est potentiellement déjà incluse.
 
 ### 7. Détection des régularisations
 - Si le devis mentionne "régularisation" → l'intervention a été réalisée AVANT validation du devis
@@ -1745,6 +1788,15 @@ Pièces Détachées (MO TOUJOURS incluse Mission C) : Brûleur, Compresseur frig
 Durées de vie théoriques clés : 10 ans (vase expansion, pompe eaux chargées), 12 ans (BAES), 15 ans (chaudière <30kW, ECS ≤100L, onduleur ≤50kVA, lecteurs badge), 20 ans (ventilo-convecteur, VMC, pompes, ECS gaz), 25 ans (compteurs, vannes plomberie), 30 ans (radiateur, armoire ≤30 départs, éclairage, RIA, sanitaires).
 
 Si la MO est incluse en Mission C mais que le devis la facture quand même → signale comme anomalie majeure ("MO non facturable selon Annexe 1.3A").
+
+### 12. Tableau récapitulatif BPU obligatoire
+Pour CHAQUE ligne du devis, tu DOIS fournir dans le champ bpuReference un tableau structuré :
+- Référence BPU exacte (ex: R19, ACC-01, Tranche FO 1, Tranche SST 2)
+- Source dans l'Annexe 4 (ex: "Rubrique 2 — Détail D-Prest. connexes 2")
+- Prix BPU contractuel si connu, sinon "BPU signé non disponible — à vérifier"
+- Écart constaté entre le prix facturé et le prix BPU
+
+Si l'équipement est mentionné comme "non repris au périmètre" ou "hors périmètre", vérifie dans les codes BPU Mission C (C01 à C14) si l'équipement devrait être inventorié.
 
 ### Verdict global
 - "valide" : devis conforme, calculs corrects, contenu complet, profils MO corrects
@@ -1790,8 +1842,11 @@ Si la MO est incluse en Mission C mais que le devis la facture quand même → s
                   ecartPct: { type: "number", description: "Écart en % par rapport au BPU" },
                   lineStatus: { type: "string", enum: ["conforme", "ecart_faible", "ecart_fort", "non_trouve"] },
                   matchConfidence: { type: "number", description: "Confiance du matching 0-100" },
+                  bpuReference: { type: "string", description: "Référence BPU exacte (ex: R19 — Technicien Electricien CFO/CFA/Eclairage, Annexe 4 Rubrique 2) ou ACC-01, Tranche FO 1, etc. Si BPU signé non disponible, indiquer 'BPU signé requis pour vérification du taux'" },
+                  bpuSource: { type: "string", description: "Source dans l'Annexe 4 (ex: 'Rubrique 2 — Détail D-Prest. connexes 2' ou 'Rubrique 1 — Détail D-Prest. connexes 1')" },
+                  moFacturable: { type: "string", description: "Résultat de l'analyse Annexe 1.3A : 'OUI — MO facturable Mission D (raison)' ou 'NON — MO incluse Mission C (raison)' ou 'À VÉRIFIER (raison)'" },
                 },
-                required: ["description", "quantity", "unitPrice", "totalPrice", "unit", "matchedBpuCode", "bpuUnitPrice", "ecartPct", "lineStatus", "matchConfidence"],
+                required: ["description", "quantity", "unitPrice", "totalPrice", "unit", "matchedBpuCode", "bpuUnitPrice", "ecartPct", "lineStatus", "matchConfidence", "bpuReference", "bpuSource", "moFacturable"],
                 additionalProperties: false,
               },
             },
@@ -1840,6 +1895,9 @@ Si la MO est incluse en Mission C mais que le devis la facture quand même → s
       ecartPct: line.ecartPct != null ? String(line.ecartPct) : null,
       lineStatus: line.lineStatus || "non_trouve",
       matchConfidence: line.matchConfidence != null ? String(line.matchConfidence) : null,
+      bpuReference: line.bpuReference || null,
+      bpuSource: line.bpuSource || null,
+      moFacturable: line.moFacturable || null,
     }));
     await createDevisLines(lines);
   }
