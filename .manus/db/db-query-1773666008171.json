@@ -1,0 +1,38 @@
+{
+  "query": "SELECT code, name, priceHT, unit, category FROM bpu_items WHERE code IN ('R05','R12','R13','R14','R15','R16','R17','R18','R19','R20','R21','R22','R23','R24','ACC-01','ACC-02','ACC-03','ACC-04') ORDER BY code",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT code, name, priceHT, unit, category FROM bpu_items WHERE code IN ('R05','R12','R13','R14','R15','R16','R17','R18','R19','R20','R21','R22','R23','R24','ACC-01','ACC-02','ACC-03','ACC-04') ORDER BY code",
+  "rows": [
+    {
+      "code": "ACC-01",
+      "name": "Nacelle ou plate forme mobile jusqu'à 6 m",
+      "priceHT": "313.28",
+      "unit": "Journée",
+      "category": "Moyens d'accès"
+    },
+    {
+      "code": "ACC-02",
+      "name": "Nacelle ou plate forme mobile jusqu'à 9 m",
+      "priceHT": "321.78",
+      "unit": "Journée",
+      "category": "Moyens d'accès"
+    },
+    {
+      "code": "ACC-03",
+      "name": "Camion nacelle 20 m (avec conducteur)",
+      "priceHT": "1214.27",
+      "unit": "Journée",
+      "category": "Moyens d'accès"
+    },
+    {
+      "code": "ACC-04",
+      "name": "Camion nacelle 30 m (avec conducteur)",
+      "priceHT": "1359.97",
+      "unit": "Journée",
+      "category": "Moyens d'accès"
+    }
+  ],
+  "messages": [],
+  "stdout": "code\tname\tpriceHT\tunit\tcategory\nACC-01\tNacelle ou plate forme mobile jusqu'à 6 m\t313.28\tJournée\tMoyens d'accès\nACC-02\tNacelle ou plate forme mobile jusqu'à 9 m\t321.78\tJournée\tMoyens d'accès\nACC-03\tCamion nacelle 20 m (avec conducteur)\t1214.27\tJournée\tMoyens d'accès\nACC-04\tCamion nacelle 30 m (avec conducteur)\t1359.97\tJournée\tMoyens d'accès\n",
+  "stderr": "",
+  "execution_time_ms": 1440
+}

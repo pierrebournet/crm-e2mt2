@@ -1,0 +1,95 @@
+{
+  "query": "SELECT code, name, priceHT FROM bpu_items WHERE code LIKE 'ACC%' OR code LIKE 'EXT%' OR code LIKE 'AM%' ORDER BY code",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT code, name, priceHT FROM bpu_items WHERE code LIKE 'ACC%' OR code LIKE 'EXT%' OR code LIKE 'AM%' ORDER BY code",
+  "rows": [
+    {
+      "code": "ACC-01",
+      "name": "Nacelle ou plate forme mobile jusqu'à 6 m",
+      "priceHT": "313.28"
+    },
+    {
+      "code": "ACC-02",
+      "name": "Nacelle ou plate forme mobile jusqu'à 9 m",
+      "priceHT": "321.78"
+    },
+    {
+      "code": "ACC-03",
+      "name": "Camion nacelle 20 m (avec conducteur)",
+      "priceHT": "1214.27"
+    },
+    {
+      "code": "ACC-04",
+      "name": "Camion nacelle 30 m (avec conducteur)",
+      "priceHT": "1359.97"
+    },
+    {
+      "code": "AM-01",
+      "name": "Analyse amiante",
+      "priceHT": "80.68"
+    },
+    {
+      "code": "EXT-01",
+      "name": "Fourniture appareil neuf - Eau - 6 litres (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)",
+      "priceHT": "65.11"
+    },
+    {
+      "code": "EXT-02",
+      "name": "Fourniture appareil neuf - Eau - 9 litres (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)",
+      "priceHT": "67.90"
+    },
+    {
+      "code": "EXT-03",
+      "name": "Fourniture appareil neuf - CO2 - 2 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)",
+      "priceHT": "78.13"
+    },
+    {
+      "code": "EXT-04",
+      "name": "Fourniture appareil neuf - CO2 - 5 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)",
+      "priceHT": "130.21"
+    },
+    {
+      "code": "EXT-05",
+      "name": "Fourniture appareil neuf - Poudre ABC - 6 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)",
+      "priceHT": "121.95"
+    },
+    {
+      "code": "EXT-06",
+      "name": "Fourniture appareil neuf - Poudre ABC - 9 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)",
+      "priceHT": "154.77"
+    },
+    {
+      "code": "EXT-07",
+      "name": "Recharge suite malveillance ou sinistre - Eau - 6 litres",
+      "priceHT": "21.59"
+    },
+    {
+      "code": "EXT-08",
+      "name": "recharge suite malveillance ou sinistre - Eau - 9 litres",
+      "priceHT": "25.00"
+    },
+    {
+      "code": "EXT-09",
+      "name": "Recharge suite malveillance ou sinistre - CO2 - 2 kg",
+      "priceHT": "22.73"
+    },
+    {
+      "code": "EXT-10",
+      "name": "Recharge suite malveillance ou sinistre - CO2 - 5 kg",
+      "priceHT": "35.23"
+    },
+    {
+      "code": "EXT-11",
+      "name": "Recharge suite malveillance ou sinistre - Poudre ABC - 6 kg",
+      "priceHT": "32.95"
+    },
+    {
+      "code": "EXT-12",
+      "name": "Recharge suite malveillance ou sinistre - Poudre ABC - 9 kg",
+      "priceHT": "37.50"
+    }
+  ],
+  "messages": [],
+  "stdout": "code\tname\tpriceHT\nACC-01\tNacelle ou plate forme mobile jusqu'à 6 m\t313.28\nACC-02\tNacelle ou plate forme mobile jusqu'à 9 m\t321.78\nACC-03\tCamion nacelle 20 m (avec conducteur)\t1214.27\nACC-04\tCamion nacelle 30 m (avec conducteur)\t1359.97\nAM-01\tAnalyse amiante\t80.68\nEXT-01\tFourniture appareil neuf - Eau - 6 litres (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)\t65.11\nEXT-02\tFourniture appareil neuf - Eau - 9 litres (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)\t67.90\nEXT-03\tFourniture appareil neuf - CO2 - 2 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)\t78.13\nEXT-04\tFourniture appareil neuf - CO2 - 5 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)\t130.21\nEXT-05\tFourniture appareil neuf - Poudre ABC - 6 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)\t121.95\nEXT-06\tFourniture appareil neuf - Poudre ABC - 9 kg (Remplacement de l'équipement pièce et main d'oeuvre, support inclus)\t154.77\nEXT-07\tRecharge suite malveillance ou sinistre - Eau - 6 litres\t21.59\nEXT-08\trecharge suite malveillance ou sinistre - Eau - 9 litres\t25.00\nEXT-09\tRecharge suite malveillance ou sinistre - CO2 - 2 kg\t22.73\nEXT-10\tRecharge suite malveillance ou sinistre - CO2 - 5 kg\t35.23\nEXT-11\tRecharge suite malveillance ou sinistre - Poudre ABC - 6 kg\t32.95\nEXT-12\tRecharge suite malveillance ou sinistre - Poudre ABC - 9 kg\t37.50\n",
+  "stderr": "",
+  "execution_time_ms": 462
+}

@@ -1027,37 +1027,74 @@ Un devis conforme DOIT contenir :
 - Si un profil MO BPU existe pour le travail → le Titulaire DOIT chiffrer en taux horaires, pas en SST
 - 3 tranches de coefficient SST : <2000€, 2000-5000€, ≥5000€
 
-### Profils MO BPU (Rubrique 2) — Taux horaires lun-sam 8h-19h
-| Profil | Qté estimée DQE |
-|---|---|
-| Ingénieur Méthodes/Qualité/Sécurité/GMAO/Energies | 200 h |
-| Technicien CVCD/Plomberie | 2 000 h |
-| Spécialiste constructeur Groupes Frigo/PAC | 500 h |
-| Technicien Fermetures motorisées | 1 200 h |
-| Technicien Protection incendie et Extincteurs | 500 h |
-| Technicien GTC/GTB/SSI | 500 h |
-| Spécialiste constructeur GTC/GTB/SSI | 300 h |
-| Technicien Clos et Couvert | 500 h |
-| Technicien Electricien CFO/CFA/Eclairage | 600 h |
-| Spécialiste constructeur CFO | 40 h |
-| Spécialiste constructeur CFA | 40 h |
-| Technicien Ascenseurs/Monte-charges/Levage | 200 h |
-| Technicien polyvalent second œuvre/menuisier/serrurier | 600 h |
-| Intervention repérage/diagnostic amiante | 40 h |
+### Profils MO BPU (Rubrique 2) — Taux horaires contractuels Equans lun-sam 8h-19h
+| Code | Profil | Prix €HT/h | Qté DQE |
+|---|---|---|---|
+| R05 | Ingénieur Méthodes/Qualité/Sécurité/GMAO/Energies | 85,00 | 200 h |
+| R12 | Technicien CVCD/Plomberie (Plombier, Chauffagiste, Frigoriste) | 62,00 | 2 000 h |
+| R13 | Spécialiste constructeur Groupes Frigorifiques/PAC | 90,00 | 500 h |
+| R14 | Technicien Fermetures motorisées | 75,00 | 1 200 h |
+| R15 | Technicien Protection incendie et Extincteurs | 70,00 | 500 h |
+| R16 | Technicien de maintenance GTC/GTB/SSI | 95,00 | 500 h |
+| R17 | Spécialiste constructeur GTC/GTB/SSI | 155,00 | 300 h |
+| R18 | Technicien Clos et Couvert | 65,00 | 500 h |
+| R19 | Technicien Electricien CFO/CFA/Eclairage | 70,00 | 600 h |
+| R20 | Spécialiste constructeur CFO (Onduleurs/GE/HT) | 130,00 | 40 h |
+| R21 | Spécialiste constructeur CFA (Contrôle accès/Intrusion/Vidéo) | 110,00 | 40 h |
+| R22 | Technicien Ascenseurs/Monte-charges/Levage | 95,00 | 200 h |
+| R23 | Technicien polyvalent second œuvre/menuisier/serrurier | 55,00 | 600 h |
+| R24 | Intervention repérage/diagnostic amiante avant travaux | 98,00 | 40 h |
+
+Si le devis utilise un taux horaire DIFFÉRENT de ces prix contractuels, c'est une ANOMALIE à signaler.
 
 **IMPORTANT :** Les taux horaires comprennent DÉJÀ les frais de déplacement (Art. 25 CPS). Pas de facturation séparée.
 
-### Prestations particulières ACC (Moyens d'accès)
-| Code | Désignation | Unité |
-|---|---|---|
-| ACC-01 | Nacelle/plateforme mobile ≤6m (SANS conducteur) | Journée |
-| ACC-02 | Nacelle/plateforme mobile ≤9m (SANS conducteur) | Journée |
-| ACC-03 | Camion nacelle 20m (AVEC conducteur) | Journée |
-| ACC-04 | Camion nacelle 30m (AVEC conducteur) | Journée |
+### Prestations particulières ACC (Moyens d'accès) — Prix contractuels Equans
+| Code | Désignation | Prix €HT | Unité |
+|---|---|---|---|
+| ACC-01 | Nacelle/plateforme mobile ≤6m (SANS conducteur) | 313,28 | Journée |
+| ACC-02 | Nacelle/plateforme mobile ≤9m (SANS conducteur) | 321,78 | Journée |
+| ACC-03 | Camion nacelle 20m (AVEC conducteur) | 1 214,27 | Journée |
+| ACC-04 | Camion nacelle 30m (AVEC conducteur) | 1 359,97 | Journée |
 
-### Coefficients fournitures (Rubrique 3)
-- 3 tranches : <500€, 500-2000€, ≥2000€
-- Le coefficient s'applique sur le coût d'achat des fournitures (remises fournisseur déduites)
+ATTENTION : ACC-01/ACC-02 = location sèche SANS conducteur. ACC-03/ACC-04 = AVEC conducteur inclus.
+Les moyens d'accès pour les prestations récurrentes (Mission C) sont à la charge du Prestataire.
+
+### Coefficients fournitures (Rubrique 3) — Prix contractuels Equans
+| Tranche | Coefficient |
+|---|---|
+| < 500 €HT | 1,24 |
+| 500 - 2 000 €HT | 1,22 |
+| ≥ 2 000 €HT | 1,19 |
+Le coefficient s'applique sur le coût d'achat des fournitures (remises fournisseur déduites).
+
+### Coefficients sous-traitance (Rubrique 3) — Prix contractuels Equans
+| Tranche | Coefficient |
+|---|---|
+| < 2 000 €HT | 1,24 |
+| 2 000 - 5 000 €HT | 1,22 |
+| ≥ 5 000 €HT | 1,19 |
+
+### Prestations particulières — Extincteurs (Prix contractuels Equans)
+| Code | Désignation | Prix €HT | Unité |
+|---|---|---|---|
+| EXT-01 | Remplacement extincteur eau pulvérisée 6L | 68,18 | Appareil |
+| EXT-02 | Remplacement extincteur eau pulvérisée 9L | 77,27 | Appareil |
+| EXT-03 | Remplacement extincteur CO2 2kg | 93,18 | Appareil |
+| EXT-04 | Remplacement extincteur CO2 5kg | 136,36 | Appareil |
+| EXT-05 | Remplacement extincteur Poudre ABC 6kg | 63,64 | Appareil |
+| EXT-06 | Remplacement extincteur Poudre ABC 9kg | 72,73 | Appareil |
+| EXT-07 | Recharge eau pulvérisée 6L | 20,45 | Appareil |
+| EXT-08 | Recharge eau pulvérisée 9L | 25,00 | Appareil |
+| EXT-09 | Recharge CO2 2kg | 22,73 | Appareil |
+| EXT-10 | Recharge CO2 5kg | 35,23 | Appareil |
+| EXT-11 | Recharge Poudre ABC 6kg | 32,95 | Appareil |
+| EXT-12 | Recharge Poudre ABC 9kg | 37,50 | Appareil |
+
+### Prestations particulières — Amiante
+| Code | Désignation | Prix €HT | Unité |
+|---|---|---|---|
+| AM-01 | Analyse amiante (prélèvement + labo + rapport) | 80,68 | Forfait/prélèvement |
 
 ### Réception des prestations (Art. 22 CPS)
 - Mission D ≥ 8 000 €HT : PV de réception OBLIGATOIRE
@@ -1681,30 +1718,32 @@ Signale chaque élément manquant.
 - Signale toute erreur de calcul
 
 ### 4. Vérification des profils MO — Références BPU (Annexe 4, Rubrique 2 "Détail D-Prest. connexes 2")
-Pour chaque ligne de MO du devis, identifie le profil BPU correspondant et cite sa RÉFÉRENCE EXACTE :
+Pour chaque ligne de MO du devis, identifie le profil BPU correspondant et cite sa RÉFÉRENCE EXACTE.
 
-| Réf. BPU | Profil MO | Domaine |
-|----------|-----------|----------|
-| R05 | Ingénieur Méthodes/Qualité/Sécurité/GMAO/Energies | Transversal |
-| R12 | Technicien CVCD/Plomberie (Plombier, Chauffagiste, Frigoriste) | CVC/Plomberie |
-| R13 | Spécialiste constructeur Groupes Frigo/PAC | CVC spécialisé |
-| R14 | Technicien Fermetures motorisées | Fermetures |
-| R15 | Technicien Protection incendie et Extincteurs | Sécurité incendie |
-| R16 | Technicien GTC/GTB/SSI | Automatisme/SSI |
-| R17 | Spécialiste constructeur GTC/GTB/SSI | Automatisme spécialisé |
-| R18 | Technicien Clos et Couvert | Bâtiment |
-| R19 | Technicien Electricien CFO/CFA/Eclairage | Électricité |
-| R20 | Spécialiste constructeur CFO | Électricité spécialisée |
-| R21 | Spécialiste constructeur CFA | Courants faibles |
-| R22 | Technicien Ascenseurs/Monte-charges/Levage | Levage |
-| R23 | Technicien polyvalent second œuvre/menuisier/serrurier | Second œuvre |
-| R24 | Intervention repérage/diagnostic amiante | Amiante |
+**PRIX CONTRACTUELS EQUANS (BPU SIGNÉ) — Taux horaires lun-sam 8h-19h :**
+| Réf. BPU | Profil MO | Prix €HT/h |
+|----------|-----------|------------|
+| R05 | Ingénieur Méthodes/Qualité/Sécurité/GMAO/Energies | 85,00 |
+| R12 | Technicien CVCD/Plomberie (Plombier, Chauffagiste, Frigoriste) | 62,00 |
+| R13 | Spécialiste constructeur Groupes Frigo/PAC | 90,00 |
+| R14 | Technicien Fermetures motorisées | 75,00 |
+| R15 | Technicien Protection incendie et Extincteurs | 70,00 |
+| R16 | Technicien de maintenance GTC/GTB/SSI | 95,00 |
+| R17 | Spécialiste constructeur GTC/GTB/SSI | 155,00 |
+| R18 | Technicien Clos et Couvert | 65,00 |
+| R19 | Technicien Electricien CFO/CFA/Eclairage | 70,00 |
+| R20 | Spécialiste constructeur CFO (Onduleurs/GE/HT) | 130,00 |
+| R21 | Spécialiste constructeur CFA (Contrôle accès/Intrusion/Vidéo) | 110,00 |
+| R22 | Technicien Ascenseurs/Monte-charges/Levage | 95,00 |
+| R23 | Technicien polyvalent second œuvre/menuisier/serrurier | 55,00 |
+| R24 | Intervention repérage/diagnostic amiante avant travaux | 98,00 |
 
 Pour chaque ligne MO du devis, tu DOIS indiquer :
 - La référence BPU exacte (ex: R19)
 - Le profil correspondant
-- Le taux horaire facturé vs le taux BPU contractuel (si connu)
-- Si le taux BPU n'est pas connu (BPU signé non disponible), indique "Taux BPU non vérifié — BPU signé requis"
+- Le taux horaire facturé vs le taux BPU contractuel
+- L'écart en % entre le taux facturé et le taux contractuel
+- Si le taux facturé est DIFFÉRENT du taux contractuel, c'est une ANOMALIE à signaler impérativement
 
 Plages horaires BPU (Annexe 4, Rubrique 2) :
 - Taux de base : lundi-samedi 6h-21h
@@ -1712,13 +1751,15 @@ Plages horaires BPU (Annexe 4, Rubrique 2) :
 Le taux horaire BPU INCLUT : frais de déplacement, majorations heures sup, charges salariales, petits matériels et fournitures courants, frais généraux, assurances, marges (Art. 25 CPS). Toute facturation séparée de déplacement est NON CONFORME.
 
 ### 5. Vérification de la sous-traitance — Références BPU (Annexe 4, Rubrique 3 "Détail D-Prest. connexes 3")
-Le BPU définit 3 tranches de coefficients de sous-traitance :
 
-| Tranche SST | Montant achat SST |
-|-------------|-------------------|
-| Tranche 1 | < 2 000 €HT |
-| Tranche 2 | 2 000 à 5 000 €HT |
-| Tranche 3 | ≥ 5 000 €HT |
+**COEFFICIENTS CONTRACTUELS EQUANS (BPU SIGNÉ) :**
+
+Coefficients sous-traitance :
+| Tranche SST | Montant achat SST | Coefficient Equans |
+|-------------|-------------------|--------------------|
+| Tranche 1 | < 2 000 €HT | 1,24 |
+| Tranche 2 | 2 000 à 5 000 €HT | 1,22 |
+| Tranche 3 | ≥ 5 000 €HT | 1,19 |
 
 RÈGLE CONTRACTUELLE CLEF (Annexe 4, Rubrique 3) : "Si et seulement si le prix de la main d'œuvre sous-traitée n'est pas déterminable à partir des taux horaires prévus dans la rubrique Détail D-Prest. connexes 2, le Prestataire s'engage à appliquer un coefficient d'entreprise sur l'achat de sous-traitance."
 
@@ -1726,27 +1767,50 @@ Autrement dit :
 - Le coefficient SST ne s'applique QUE si la prestation ne peut PAS être chiffrée en taux horaires BPU
 - Si un profil MO BPU existe pour le travail (R05 à R24) → le Titulaire DOIT chiffrer en taux horaires, PAS en SST
 - Signale si le devis est 100% sous-traitance alors qu'un profil MO BPU existe, et cite le profil BPU applicable
+- Vérifie que le coefficient appliqué correspond à la bonne tranche et au coefficient contractuel Equans
 
-Coefficients de fournitures (Annexe 4, Rubrique 3) — 3 tranches :
-| Tranche FO | Montant achat fournitures |
-|------------|---------------------------|
-| Tranche 1 | < 500 €HT |
-| Tranche 2 | 500 à 2 000 €HT |
-| Tranche 3 | ≥ 2 000 €HT |
+Coefficients de fournitures (Annexe 4, Rubrique 3) :
+| Tranche FO | Montant achat fournitures | Coefficient Equans |
+|------------|---------------------------|--------------------|
+| Tranche 1 | < 500 €HT | 1,24 |
+| Tranche 2 | 500 à 2 000 €HT | 1,22 |
+| Tranche 3 | ≥ 2 000 €HT | 1,19 |
 
-Pour chaque coefficient appliqué dans le devis, vérifie la tranche correcte et cite la référence BPU.
+Pour chaque coefficient appliqué dans le devis, vérifie la tranche correcte et compare au coefficient contractuel Equans.
 
 ### 6. Vérification des moyens d'accès — Références BPU (Annexe 4, Rubrique 1 "Détail D-Prest. connexes 1")
 
-| Réf. BPU | Désignation | Unité | Conducteur |
-|----------|-------------|-------|------------|
-| ACC-01 | Nacelle ou plateforme mobile jusqu'à 6 m | Journée | SANS conducteur (MO séparée) |
-| ACC-02 | Nacelle ou plateforme mobile jusqu'à 9 m | Journée | SANS conducteur (MO séparée) |
-| ACC-03 | Camion nacelle 20 m | Journée | AVEC conducteur inclus |
-| ACC-04 | Camion nacelle 30 m | Journée | AVEC conducteur inclus |
+**PRIX CONTRACTUELS EQUANS (BPU SIGNÉ) :**
+| Réf. BPU | Désignation | Prix €HT | Unité | Conducteur |
+|----------|-------------|----------|-------|------------|
+| ACC-01 | Nacelle ou plateforme mobile jusqu'à 6 m | 313,28 | Journée | SANS conducteur (MO séparée) |
+| ACC-02 | Nacelle ou plateforme mobile jusqu'à 9 m | 321,78 | Journée | SANS conducteur (MO séparée) |
+| ACC-03 | Camion nacelle 20 m | 1 214,27 | Journée | AVEC conducteur inclus |
+| ACC-04 | Camion nacelle 30 m | 1 359,97 | Journée | AVEC conducteur inclus |
 
-Pour chaque moyen d'accès facturé, cite la référence BPU exacte (ACC-01 à ACC-04), le prix facturé vs le prix BPU contractuel (si connu), et vérifie la cohérence conducteur/MO.
+Pour chaque moyen d'accès facturé, cite la référence BPU exacte (ACC-01 à ACC-04), compare le prix facturé au prix contractuel Equans, et vérifie la cohérence conducteur/MO.
 ATTENTION : Pour les mâts d'éclairage inventoriés en Mission C (codes C11B/C11C), les moyens d'accès sont déjà inclus dans le forfait ("compris moyens d'accès"). Signale si la nacelle est potentiellement déjà incluse.
+
+**Prestations extincteurs (BPU SIGNÉ) :**
+| Code | Désignation | Prix €HT |
+|------|-------------|----------|
+| EXT-01 | Remplacement extincteur eau pulvérisée 6L | 68,18 |
+| EXT-02 | Remplacement extincteur eau pulvérisée 9L | 77,27 |
+| EXT-03 | Remplacement extincteur CO2 2kg | 93,18 |
+| EXT-04 | Remplacement extincteur CO2 5kg | 136,36 |
+| EXT-05 | Remplacement extincteur Poudre ABC 6kg | 63,64 |
+| EXT-06 | Remplacement extincteur Poudre ABC 9kg | 72,73 |
+| EXT-07 | Recharge eau pulvérisée 6L | 20,45 |
+| EXT-08 | Recharge eau pulvérisée 9L | 25,00 |
+| EXT-09 | Recharge CO2 2kg | 22,73 |
+| EXT-10 | Recharge CO2 5kg | 35,23 |
+| EXT-11 | Recharge Poudre ABC 6kg | 32,95 |
+| EXT-12 | Recharge Poudre ABC 9kg | 37,50 |
+
+**Analyse amiante (BPU SIGNÉ) :**
+| Code | Désignation | Prix €HT |
+|------|-------------|----------|
+| AM-01 | Analyse amiante (prélèvement + labo + rapport) | 80,68 |
 
 ### 7. Détection des régularisations
 - Si le devis mentionne "régularisation" → l'intervention a été réalisée AVANT validation du devis
@@ -1791,10 +1855,11 @@ Si la MO est incluse en Mission C mais que le devis la facture quand même → s
 
 ### 12. Tableau récapitulatif BPU obligatoire
 Pour CHAQUE ligne du devis, tu DOIS fournir dans le champ bpuReference un tableau structuré :
-- Référence BPU exacte (ex: R19, ACC-01, Tranche FO 1, Tranche SST 2)
+- Référence BPU exacte (ex: R19, ACC-01, Tranche FO 1, Tranche SST 2, EXT-03, AM-01)
 - Source dans l'Annexe 4 (ex: "Rubrique 2 — Détail D-Prest. connexes 2")
-- Prix BPU contractuel si connu, sinon "BPU signé non disponible — à vérifier"
-- Écart constaté entre le prix facturé et le prix BPU
+- Prix BPU contractuel Equans (OBLIGATOIRE — les prix sont maintenant connus, voir tableaux ci-dessus)
+- Écart constaté en % entre le prix facturé et le prix BPU contractuel
+- Si le prix facturé est différent du prix contractuel, SIGNALER comme ANOMALIE
 
 Si l'équipement est mentionné comme "non repris au périmètre" ou "hors périmètre", vérifie dans les codes BPU Mission C (C01 à C14) si l'équipement devrait être inventorié.
 

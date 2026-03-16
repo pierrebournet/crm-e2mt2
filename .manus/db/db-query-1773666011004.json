@@ -1,0 +1,301 @@
+{
+  "query": "SELECT code, name, priceHT, unit, category FROM bpu_items ORDER BY code LIMIT 50",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT code, name, priceHT, unit, category FROM bpu_items ORDER BY code LIMIT 50",
+  "rows": [
+    {
+      "code": "ACC-01",
+      "name": "Nacelle ou plate forme mobile jusqu'à 6 m",
+      "priceHT": "313.28",
+      "unit": "Journée",
+      "category": "Moyens d'accès"
+    },
+    {
+      "code": "ACC-02",
+      "name": "Nacelle ou plate forme mobile jusqu'à 9 m",
+      "priceHT": "321.78",
+      "unit": "Journée",
+      "category": "Moyens d'accès"
+    },
+    {
+      "code": "ACC-03",
+      "name": "Camion nacelle 20 m (avec conducteur)",
+      "priceHT": "1214.27",
+      "unit": "Journée",
+      "category": "Moyens d'accès"
+    },
+    {
+      "code": "ACC-04",
+      "name": "Camion nacelle 30 m (avec conducteur)",
+      "priceHT": "1359.97",
+      "unit": "Journée",
+      "category": "Moyens d'accès"
+    },
+    {
+      "code": "AM-01",
+      "name": "Analyse amiante",
+      "priceHT": "80.68",
+      "unit": "Forfait par prélèvement",
+      "category": "Amiante"
+    },
+    {
+      "code": "CFO-01",
+      "name": "Remplacement d'une prise de courant (en saillie ou encastrée)",
+      "priceHT": "61.56",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "Électricité CF"
+    },
+    {
+      "code": "CFO-02",
+      "name": "Remplacement d'un arrêt d'urgence (bouton coup de poing)",
+      "priceHT": "147.48",
+      "unit": "NULL",
+      "category": "Électricité CF"
+    },
+    {
+      "code": "CFO-03",
+      "name": "Remplacement d'un interrupteur (en saillie ou encastré)",
+      "priceHT": "60.30",
+      "unit": "NULL",
+      "category": "Électricité CF"
+    },
+    {
+      "code": "CFO-04",
+      "name": "Déplacement d’une prise électrique, d’un interrupteur ou d’un convecteur électrique.",
+      "priceHT": "297.94",
+      "unit": "NULL",
+      "category": "Électricité CF"
+    },
+    {
+      "code": "CVCD-02",
+      "name": "Remplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique inférieure à 6 kW froid 1 unité intérieure plafonnière",
+      "priceHT": "3385.23",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-03",
+      "name": "Remplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid 1 unité intérieure en allège",
+      "priceHT": "6117.05",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-04",
+      "name": "Remplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid 1 unité intérieure plafonnière",
+      "priceHT": "6378.41",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-07",
+      "name": "Remplacement d'un BI split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid 2 unités intérieures plafonnières",
+      "priceHT": "6569.47",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-09",
+      "name": "Remplacement d'une chaudière murale gaz d'une puissance de 5 à 10kW",
+      "priceHT": "3398.86",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-10",
+      "name": "Remplacement d'une chaudière murale gaz d'une puissance de 11 à 20kW",
+      "priceHT": "4350.00",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-11",
+      "name": "Remplacement d'une chaudière murale gaz d'une puissance de 21 à 30kW",
+      "priceHT": "4894.32",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-12",
+      "name": "Remplacement d'une chaudière murale gaz d'une puissance de 31 à 45kW",
+      "priceHT": "6797.73",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-13",
+      "name": "Remplacement d'un préparateur ECS Gaz d'une capacité inférieure à 100 L",
+      "priceHT": "5368.18",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-14",
+      "name": "Remplacement d'un préparateur ECS Gaz d'une capacité comprise entre 100 et 199 L",
+      "priceHT": "6071.59",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-15",
+      "name": "Remplacement d'un préparateur ECS Gaz d'une capacité comprise entre 200 et 300 L",
+      "priceHT": "6393.18",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-16",
+      "name": "Remplacement d'un radiateur eau chaude horizontal ou vertical d'une puissance inférieure ou égale à 1000 W",
+      "priceHT": "781.82",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-17",
+      "name": "Remplacement d'un radiateur eau chaude horizontal ou vertical d'une puissance de 1001 à 2000 W",
+      "priceHT": "1067.05",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-18",
+      "name": "Remplacement d'un convecteur électrique d'une puissance inférieure ou égale à 750 W",
+      "priceHT": "265.91",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-19",
+      "name": "Remplacement d'un convecteur électrique d'une puissance de 751 à 1250 W",
+      "priceHT": "281.82",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-20",
+      "name": "Remplacement d'un convecteur électrique d'une puissance de 1251 à 2000 W",
+      "priceHT": "302.27",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-21",
+      "name": "Remplacement d'un vase d'expansion d'une capacité entre 1 et 15 L",
+      "priceHT": "226.65",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-22",
+      "name": "Remplacement d'un vase d'expansion d'une capacité entre 16 et 50 L",
+      "priceHT": "329.28",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-23",
+      "name": "Remplacement d'un vase d'expansion d'une capacité entre 51 et 100 L",
+      "priceHT": "395.40",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-24",
+      "name": "Remplacement d'un vase d'expansion d'une capacité entre 101 et 200",
+      "priceHT": "498.74",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-25",
+      "name": "Fourniture et pose d'un compteur gaz à membrane Diamètre 20",
+      "priceHT": "514.22",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-26",
+      "name": "Fourniture et pose d'un compteur gaz à membrane Diamètre 32",
+      "priceHT": "692.45",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-27",
+      "name": "Fourniture et pose d'un compteur gaz à membrane Diamètre 50",
+      "priceHT": "1467.02",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-28",
+      "name": "Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 25",
+      "priceHT": "678.41",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-29",
+      "name": "Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 32",
+      "priceHT": "985.23",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-30",
+      "name": "Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 40",
+      "priceHT": "1087.50",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-31",
+      "name": "Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 50",
+      "priceHT": "1228.41",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-32",
+      "name": "Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 65",
+      "priceHT": "1307.95",
+      "unit": "NULL",
+      "category": "CVC"
+    },
+    {
+      "code": "CVCD-33",
+      "name": "Fourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 80",
+      "priceHT": "1477.27",
+      "unit": "NULL",
+      "category": "CVC"
+    }
+  ],
+  "messages": [
+    "CC-01\tNettoyage d'un chéneau\t6.82\tml",
+    "(mètre linéaire)\tClos et couvert",
+    "CC-02\tRéfection de l'étanchéité d'une toiture terrasse\t79.55\tm²",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-03\tRévision et entretien de l'étanchéité d'une toiture terrasse\t17.05\tm²",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-04\tDémoussage d'une toiture en tuiles\t6.82\tm²",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-05\tFourniture et pose d'une ligne de vie en toiture\t244.32\tml",
+    "(mètre linéaire)\tClos et couvert",
+    "CC-06\tFourniture et pose d'un crochet d'ancrage\t122.73\tUnité",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-07\tFourniture et pose d'une échelle à crinoline pour accès toiture\t669.32\tml",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-08\tRemplacement d'un store extérieur screen avec manivelle et cordelette de guidage\t298.86\tUnité",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CVCD-01\tRemplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique inférieure à 6 kW froid 1 unité intérieure en allège\t3262.50\tUnité",
+    "(pièces et main d'œuvre)\tCVC",
+    "CVCD-05\tRemplacement du réseau du fluide frigorigène pour un split system froid seul ou réversible\t95.35\tml",
+    "(mètre linéaire de réseau, pièces et main d'oeuvre)\tCVC",
+    "CVCD-06\tRemplacement d'un BI split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid 2 unités intérieures en allège\t6363.34\tUnité",
+    "(pièces et main d'œuvre)\tCVC",
+    "CVCD-08\tRemplacement du réseau du fluide frigorigène pour un BI split system froid seul ou réversible\t143.03\tml",
+    "(mètre linéaire de réseau, pièces et main d'oeuvre)\tCVC"
+  ],
+  "stdout": "code\tname\tpriceHT\tunit\tcategory\nACC-01\tNacelle ou plate forme mobile jusqu'à 6 m\t313.28\tJournée\tMoyens d'accès\nACC-02\tNacelle ou plate forme mobile jusqu'à 9 m\t321.78\tJournée\tMoyens d'accès\nACC-03\tCamion nacelle 20 m (avec conducteur)\t1214.27\tJournée\tMoyens d'accès\nACC-04\tCamion nacelle 30 m (avec conducteur)\t1359.97\tJournée\tMoyens d'accès\nAM-01\tAnalyse amiante\t80.68\tForfait par prélèvement\tAmiante\nCC-01\tNettoyage d'un chéneau\t6.82\tml\n(mètre linéaire)\tClos et couvert\nCC-02\tRéfection de l'étanchéité d'une toiture terrasse\t79.55\tm²\n(fournitures et main d'œuvre)\tClos et couvert\nCC-03\tRévision et entretien de l'étanchéité d'une toiture terrasse\t17.05\tm²\n(fournitures et main d'œuvre)\tClos et couvert\nCC-04\tDémoussage d'une toiture en tuiles\t6.82\tm²\n(fournitures et main d'œuvre)\tClos et couvert\nCC-05\tFourniture et pose d'une ligne de vie en toiture\t244.32\tml\n(mètre linéaire)\tClos et couvert\nCC-06\tFourniture et pose d'un crochet d'ancrage\t122.73\tUnité\n(fournitures et main d'œuvre)\tClos et couvert\nCC-07\tFourniture et pose d'une échelle à crinoline pour accès toiture\t669.32\tml\n(fournitures et main d'œuvre)\tClos et couvert\nCC-08\tRemplacement d'un store extérieur screen avec manivelle et cordelette de guidage\t298.86\tUnité\n(fournitures et main d'œuvre)\tClos et couvert\nCFO-01\tRemplacement d'une prise de courant (en saillie ou encastrée)\t61.56\tForfait pièces et main d'œuvre\tÉlectricité CF\nCFO-02\tRemplacement d'un arrêt d'urgence (bouton coup de poing)\t147.48\tNULL\tÉlectricité CF\nCFO-03\tRemplacement d'un interrupteur (en saillie ou encastré)\t60.30\tNULL\tÉlectricité CF\nCFO-04\tDéplacement d’une prise électrique, d’un interrupteur ou d’un convecteur électrique.\t297.94\tNULL\tÉlectricité CF\nCVCD-01\tRemplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique inférieure à 6 kW froid 1 unité intérieure en allège\t3262.50\tUnité\n(pièces et main d'œuvre)\tCVC\nCVCD-02\tRemplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique inférieure à 6 kW froid 1 unité intérieure plafonnière\t3385.23\tNULL\tCVC\nCVCD-03\tRemplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid 1 unité intérieure en allège\t6117.05\tNULL\tCVC\nCVCD-04\tRemplacement d'un split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid 1 unité intérieure plafonnière\t6378.41\tNULL\tCVC\nCVCD-05\tRemplacement du réseau du fluide frigorigène pour un split system froid seul ou réversible\t95.35\tml\n(mètre linéaire de réseau, pièces et main d'oeuvre)\tCVC\nCVCD-06\tRemplacement d'un BI split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid 2 unités intérieures en allège\t6363.34\tUnité\n(pièces et main d'œuvre)\tCVC\nCVCD-07\tRemplacement d'un BI split-system froid seul ou réversible ayant une puissance frigorifique comprise entre 6 et 15 kW froid 2 unités intérieures plafonnières\t6569.47\tNULL\tCVC\nCVCD-08\tRemplacement du réseau du fluide frigorigène pour un BI split system froid seul ou réversible\t143.03\tml\n(mètre linéaire de réseau, pièces et main d'oeuvre)\tCVC\nCVCD-09\tRemplacement d'une chaudière murale gaz d'une puissance de 5 à 10kW\t3398.86\tForfait pièces et main d'œuvre\tCVC\nCVCD-10\tRemplacement d'une chaudière murale gaz d'une puissance de 11 à 20kW\t4350.00\tNULL\tCVC\nCVCD-11\tRemplacement d'une chaudière murale gaz d'une puissance de 21 à 30kW\t4894.32\tForfait pièces et main d'œuvre\tCVC\nCVCD-12\tRemplacement d'une chaudière murale gaz d'une puissance de 31 à 45kW\t6797.73\tNULL\tCVC\nCVCD-13\tRemplacement d'un préparateur ECS Gaz d'une capacité inférieure à 100 L\t5368.18\tForfait pièces et main d'œuvre\tCVC\nCVCD-14\tRemplacement d'un préparateur ECS Gaz d'une capacité comprise entre 100 et 199 L\t6071.59\tNULL\tCVC\nCVCD-15\tRemplacement d'un préparateur ECS Gaz d'une capacité comprise entre 200 et 300 L\t6393.18\tNULL\tCVC\nCVCD-16\tRemplacement d'un radiateur eau chaude horizontal ou vertical d'une puissance inférieure ou égale à 1000 W\t781.82\tForfait pièces et main d'œuvre\tCVC\nCVCD-17\tRemplacement d'un radiateur eau chaude horizontal ou vertical d'une puissance de 1001 à 2000 W\t1067.05\tNULL\tCVC\nCVCD-18\tRemplacement d'un convecteur électrique d'une puissance inférieure ou égale à 750 W\t265.91\tNULL\tCVC\nCVCD-19\tRemplacement d'un convecteur électrique d'une puissance de 751 à 1250 W\t281.82\tNULL\tCVC\nCVCD-20\tRemplacement d'un convecteur électrique d'une puissance de 1251 à 2000 W\t302.27\tNULL\tCVC\nCVCD-21\tRemplacement d'un vase d'expansion d'une capacité entre 1 et 15 L\t226.65\tForfait pièces et main d'œuvre\tCVC\nCVCD-22\tRemplacement d'un vase d'expansion d'une capacité entre 16 et 50 L\t329.28\tNULL\tCVC\nCVCD-23\tRemplacement d'un vase d'expansion d'une capacité entre 51 et 100 L\t395.40\tNULL\tCVC\nCVCD-24\tRemplacement d'un vase d'expansion d'une capacité entre 101 et 200\t498.74\tNULL\tCVC\nCVCD-25\tFourniture et pose d'un compteur gaz à membrane Diamètre 20\t514.22\tForfait pièces et main d'œuvre\tCVC\nCVCD-26\tFourniture et pose d'un compteur gaz à membrane Diamètre 32\t692.45\tNULL\tCVC\nCVCD-27\tFourniture et pose d'un compteur gaz à membrane Diamètre 50\t1467.02\tNULL\tCVC\nCVCD-28\tFourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 25\t678.41\tForfait pièces et main d'œuvre\tCVC\nCVCD-29\tFourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 32\t985.23\tNULL\tCVC\nCVCD-30\tFourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 40\t1087.50\tNULL\tCVC\nCVCD-31\tFourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 50\t1228.41\tNULL\tCVC\nCVCD-32\tFourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 65\t1307.95\tNULL\tCVC\nCVCD-33\tFourniture et pose d'un compteur d'énergie thermique (eau chaude/eau glacée) à ultrasons, diamètre 80\t1477.27\tNULL\tCVC\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

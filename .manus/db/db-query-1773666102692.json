@@ -1,0 +1,74 @@
+{
+  "query": "SELECT category, COUNT(*) as nb FROM bpu_items GROUP BY category ORDER BY category",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT category, COUNT(*) as nb FROM bpu_items GROUP BY category ORDER BY category",
+  "rows": [
+    {
+      "category": "Amiante",
+      "nb": "1"
+    },
+    {
+      "category": "Clos et couvert",
+      "nb": "8"
+    },
+    {
+      "category": "Coefficients fournitures",
+      "nb": "3"
+    },
+    {
+      "category": "Coefficients sous-traitance",
+      "nb": "3"
+    },
+    {
+      "category": "CVC",
+      "nb": "49"
+    },
+    {
+      "category": "Éclairage",
+      "nb": "1"
+    },
+    {
+      "category": "Électricité CF",
+      "nb": "4"
+    },
+    {
+      "category": "Extincteurs",
+      "nb": "12"
+    },
+    {
+      "category": "Fermetures motorisées",
+      "nb": "5"
+    },
+    {
+      "category": "Main d'œuvre",
+      "nb": "14"
+    },
+    {
+      "category": "Management énergie",
+      "nb": "17"
+    },
+    {
+      "category": "Moyens d'accès",
+      "nb": "4"
+    },
+    {
+      "category": "Plomberie",
+      "nb": "23"
+    },
+    {
+      "category": "Protection incendie",
+      "nb": "7"
+    },
+    {
+      "category": "Second-œuvre",
+      "nb": "9"
+    },
+    {
+      "category": "Sécurité incendie",
+      "nb": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\tnb\nAmiante\t1\nClos et couvert\t8\nCoefficients fournitures\t3\nCoefficients sous-traitance\t3\nCVC\t49\nÉclairage\t1\nÉlectricité CF\t4\nExtincteurs\t12\nFermetures motorisées\t5\nMain d'œuvre\t14\nManagement énergie\t17\nMoyens d'accès\t4\nPlomberie\t23\nProtection incendie\t7\nSecond-œuvre\t9\nSécurité incendie\t2\n",
+  "stderr": "",
+  "execution_time_ms": 370
+}
