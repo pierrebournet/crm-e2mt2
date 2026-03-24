@@ -1364,6 +1364,30 @@ Règles de réponse :
 
   // ===== SUIVI (Tableau de suivi Excel) =====
   suivi: router({
+    uploadDevis: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        fileBase64: z.string(),
+        fileName: z.string(),
+        contentType: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, fileBase64, fileName, contentType } = input;
+        const buffer = Buffer.from(fileBase64, "base64");
+        const ext = fileName.split(".").pop() || "pdf";
+        const safeKey = `suivi-devis/${id}-${nanoid(8)}.${ext}`;
+        const { url } = await storagePut(safeKey, buffer, contentType);
+        await updateSuiviEntry(id, { devisUrl: url, devisFilename: fileName } as any);
+        return { url, fileName };
+      }),
+
+    removeDevis: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await updateSuiviEntry(input.id, { devisUrl: null, devisFilename: null } as any);
+        return { success: true };
+      }),
+
     list: protectedProcedure
       .input(z.object({
         search: z.string().optional(),
@@ -1402,6 +1426,8 @@ Règles de réponse :
         dateDacia: z.string().optional(),
         clotureAT: z.string().optional(),
         commentaires: z.string().optional(),
+        devisUrl: z.string().optional(),
+        devisFilename: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
         const id = await createSuiviEntry(input as any);
@@ -1430,6 +1456,8 @@ Règles de réponse :
         dateDacia: z.string().optional(),
         clotureAT: z.string().optional(),
         commentaires: z.string().optional(),
+        devisUrl: z.string().optional(),
+        devisFilename: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;

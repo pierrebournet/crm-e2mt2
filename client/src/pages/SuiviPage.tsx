@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,8 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import {
   Search, Plus, Download, Edit2, Trash2, Eye, ChevronLeft, ChevronRight,
-  FileSpreadsheet, Building2, User, Hash, Calendar, Euro, FileText, MapPin
+  FileSpreadsheet, Building2, User, Hash, Calendar, Euro, FileText, MapPin,
+  Paperclip, Upload, X, ExternalLink, File, Loader2
 } from "lucide-react";
 
 const COLUMNS = [
@@ -39,7 +40,7 @@ const COLUMNS = [
   { key: "commentaires", label: "Commentaires", icon: FileText },
 ];
 
-type SuiviEntry = { id: number; [key: string]: any };
+type SuiviEntry = { id: number; devisUrl?: string | null; devisFilename?: string | null; [key: string]: any };
 
 function emptyForm() {
   const obj: Record<string, string> = {};
@@ -56,6 +57,8 @@ export default function SuiviPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState(emptyForm());
+  const [uploadingDevisId, setUploadingDevisId] = useState<number | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const limit = 50;
 
   const { data, isLoading, refetch } = trpc.suivi.list.useQuery({
@@ -80,6 +83,30 @@ export default function SuiviPage() {
     onError: (err) => toast.error(err.message),
   });
 
+  const uploadDevisMutation = trpc.suivi.uploadDevis.useMutation({
+    onSuccess: (result) => {
+      toast.success(`Devis "${result.fileName}" importé`);
+      refetch();
+      setUploadingDevisId(null);
+      // Refresh detail if open
+      if (selectedEntry) {
+        setSelectedEntry({ ...selectedEntry, devisUrl: result.url, devisFilename: result.fileName });
+      }
+    },
+    onError: (err) => { toast.error("Erreur upload : " + err.message); setUploadingDevisId(null); },
+  });
+
+  const removeDevisMutation = trpc.suivi.removeDevis.useMutation({
+    onSuccess: () => {
+      toast.success("Devis supprimé");
+      refetch();
+      if (selectedEntry) {
+        setSelectedEntry({ ...selectedEntry, devisUrl: null, devisFilename: null });
+      }
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
   const { data: exportData } = trpc.suivi.exportAll.useQuery({
     prestataire: prestataire !== "all" ? prestataire : undefined,
     search: search || undefined,
@@ -94,9 +121,9 @@ export default function SuiviPage() {
 
   const handleExportCSV = () => {
     if (!exportData || exportData.length === 0) { toast.error("Aucune donnée à exporter"); return; }
-    const headers = COLUMNS.map((c) => c.label);
+    const headers = [...COLUMNS.map((c) => c.label), "Devis PJ"];
     const rows = exportData.map((entry: any) =>
-      COLUMNS.map((c) => `"${String(entry[c.key] ?? "").replace(/"/g, '""')}"`)
+      [...COLUMNS.map((c) => `"${String(entry[c.key] ?? "").replace(/"/g, '""')}"`), `"${entry.devisFilename || ""}"`]
     );
     const csv = [headers.join(";"), ...rows.map((r: string[]) => r.join(";"))].join("\n");
     const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
@@ -127,6 +154,53 @@ export default function SuiviPage() {
     if (confirm("Supprimer cette ligne du tableau de suivi ?")) { deleteMutation.mutate({ id }); }
   };
 
+  const handleUploadDevis = (entryId: number) => {
+    setUploadingDevisId(entryId);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !uploadingDevisId) return;
+
+    // Vérifier taille (max 16 MB)
+    if (file.size > 16 * 1024 * 1024) {
+      toast.error("Le fichier est trop volumineux (max 16 Mo)");
+      setUploadingDevisId(null);
+      return;
+    }
+
+    // Vérifier type
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/png", "image/webp", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
+    if (!allowedTypes.includes(file.type) && !file.name.endsWith(".pdf") && !file.name.endsWith(".xlsx")) {
+      toast.error("Format non supporté. Utilisez PDF, JPG, PNG ou XLSX.");
+      setUploadingDevisId(null);
+      return;
+    }
+
+    // Lire en base64
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = (reader.result as string).split(",")[1];
+      uploadDevisMutation.mutate({
+        id: uploadingDevisId,
+        fileBase64: base64,
+        fileName: file.name,
+        contentType: file.type || "application/pdf",
+      });
+    };
+    reader.readAsDataURL(file);
+
+    // Reset input
+    e.target.value = "";
+  };
+
+  const handleRemoveDevis = (entryId: number) => {
+    if (confirm("Supprimer la pièce jointe du devis ?")) {
+      removeDevisMutation.mutate({ id: entryId });
+    }
+  };
+
   const totalPages = Math.ceil((data?.total ?? 0) / limit);
 
   const totalMontant = useMemo(() => {
@@ -137,9 +211,39 @@ export default function SuiviPage() {
     }, 0);
   }, [data?.items]);
 
+  const DevisIndicator = ({ entry }: { entry: SuiviEntry }) => {
+    if (entry.devisUrl) {
+      return (
+        <div className="flex items-center gap-1">
+          <a
+            href={entry.devisUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
+            onClick={(e) => e.stopPropagation()}
+            title={entry.devisFilename || "Télécharger le devis"}
+          >
+            <Paperclip className="h-3.5 w-3.5" />
+            <span className="text-xs max-w-[80px] truncate">{entry.devisFilename || "Devis"}</span>
+          </a>
+        </div>
+      );
+    }
+    return <span className="text-muted-foreground text-xs">-</span>;
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        {/* Hidden file input for devis upload */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".pdf,.jpg,.jpeg,.png,.webp,.xlsx"
+          className="hidden"
+          onChange={handleFileSelected}
+        />
+
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -221,7 +325,7 @@ export default function SuiviPage() {
         {/* Table */}
         <Card>
           <ScrollArea className="w-full">
-            <div className="min-w-[2200px]">
+            <div className="min-w-[2400px]">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b bg-muted/50">
@@ -230,14 +334,19 @@ export default function SuiviPage() {
                         {col.label}
                       </th>
                     ))}
+                    <th className="px-3 py-3 text-left font-semibold text-xs uppercase tracking-wider text-muted-foreground whitespace-nowrap">
+                      <div className="flex items-center gap-1">
+                        <Paperclip className="h-3.5 w-3.5" />Devis PJ
+                      </div>
+                    </th>
                     <th className="px-3 py-3 text-right font-semibold text-xs uppercase tracking-wider text-muted-foreground">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {isLoading ? (
-                    <tr><td colSpan={COLUMNS.length + 1} className="text-center py-12 text-muted-foreground">Chargement...</td></tr>
+                    <tr><td colSpan={COLUMNS.length + 2} className="text-center py-12 text-muted-foreground">Chargement...</td></tr>
                   ) : !data?.items?.length ? (
-                    <tr><td colSpan={COLUMNS.length + 1} className="text-center py-12 text-muted-foreground">
+                    <tr><td colSpan={COLUMNS.length + 2} className="text-center py-12 text-muted-foreground">
                       <FileSpreadsheet className="h-8 w-8 mx-auto mb-2 opacity-40" />Aucune entrée trouvée
                     </td></tr>
                   ) : (
@@ -261,6 +370,26 @@ export default function SuiviPage() {
                             )}
                           </td>
                         ))}
+                        {/* Devis PJ column */}
+                        <td className="px-3 py-2.5 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                          {uploadDevisMutation.isPending && uploadingDevisId === entry.id ? (
+                            <div className="flex items-center gap-1 text-muted-foreground">
+                              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              <span className="text-xs">Upload...</span>
+                            </div>
+                          ) : entry.devisUrl ? (
+                            <DevisIndicator entry={entry} />
+                          ) : (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+                              onClick={() => handleUploadDevis(entry.id)}
+                            >
+                              <Upload className="h-3.5 w-3.5 mr-1" />Importer
+                            </Button>
+                          )}
+                        </td>
                         <td className="px-3 py-2.5 text-right whitespace-nowrap">
                           <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
                             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => { setSelectedEntry(entry); setShowDetail(true); }}>
@@ -314,6 +443,64 @@ export default function SuiviPage() {
                     <Badge variant="outline">BAT: {selectedEntry.bat || "N/A"}</Badge>
                   </div>
                 </div>
+
+                {/* Devis PJ section */}
+                <div className="rounded-lg border p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm font-semibold flex items-center gap-2">
+                      <Paperclip className="h-4 w-4" />Pièce jointe — Devis
+                    </h4>
+                  </div>
+                  {selectedEntry.devisUrl ? (
+                    <div className="flex items-center gap-3 bg-blue-50 rounded-lg p-3">
+                      <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                        <File className="h-5 w-5 text-blue-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{selectedEntry.devisFilename || "Devis"}</p>
+                        <p className="text-xs text-muted-foreground">Fichier importé</p>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <a href={selectedEntry.devisUrl} target="_blank" rel="noopener noreferrer">
+                          <Button variant="outline" size="sm" className="h-8">
+                            <ExternalLink className="h-3.5 w-3.5 mr-1.5" />Ouvrir
+                          </Button>
+                        </a>
+                        <a href={selectedEntry.devisUrl} download={selectedEntry.devisFilename || "devis"}>
+                          <Button variant="outline" size="sm" className="h-8">
+                            <Download className="h-3.5 w-3.5 mr-1.5" />Télécharger
+                          </Button>
+                        </a>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-destructive hover:text-destructive"
+                          onClick={() => handleRemoveDevis(selectedEntry.id)}
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 py-4 border-2 border-dashed rounded-lg text-muted-foreground">
+                      <Upload className="h-8 w-8 opacity-40" />
+                      <p className="text-sm">Aucun devis importé</p>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleUploadDevis(selectedEntry.id)}
+                        disabled={uploadDevisMutation.isPending}
+                      >
+                        {uploadDevisMutation.isPending && uploadingDevisId === selectedEntry.id ? (
+                          <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Upload en cours...</>
+                        ) : (
+                          <><Upload className="h-4 w-4 mr-2" />Importer un devis (PDF, JPG, PNG, XLSX)</>
+                        )}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {COLUMNS.map((col) => (
                     <div key={col.key} className="space-y-1">

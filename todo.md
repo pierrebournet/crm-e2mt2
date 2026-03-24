@@ -155,3 +155,8 @@
 - [x] Intégrer les prix BPU contractuels Equans dans le prompt IA assistant et le prompt analyse de devis
 - [x] Insérer les 14 profils MO + 4 ACC + 12 EXT + 1 AM + 6 coefficients FO/SST dans la base de données BPU
 - [x] Tests unitaires BPU prix contractuels (36 tests, 212 tests au total)
+- [x] Ajouter la possibilité d'importer un devis en PJ (PDF/image) dans le tableau de suivi
+- [x] Ajouter les colonnes devisUrl et devisFilename dans la table suivi_entries
+- [x] Créer les routes backend tRPC uploadDevis et removeDevis vers S3
+- [x] Mettre à jour le frontend du tableau de suivi avec colonne Devis PJ, bouton Importer, Ouvrir, Télécharger
+- [x] Tests unitaires pour la fonctionnalité PJ devis (26 tests, 238 tests au total)

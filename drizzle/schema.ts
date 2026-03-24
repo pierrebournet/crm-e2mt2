@@ -275,6 +275,8 @@ export const suiviEntries = mysqlTable("suivi_entries", {
   dateDacia: varchar("dateDacia", { length: 50 }),
   clotureAT: varchar("clotureAT", { length: 100 }),
   commentaires: text("commentaires"),
+  devisUrl: text("devisUrl"),
+  devisFilename: varchar("devisFilename", { length: 500 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

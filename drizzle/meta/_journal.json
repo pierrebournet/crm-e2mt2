@@ -71,6 +71,13 @@
       "when": 1773383130253,
       "tag": "0009_thin_pepper_potts",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1774331649176,
+      "tag": "0010_nifty_giant_girl",
+      "breakpoints": true
     }
   ]
 }
