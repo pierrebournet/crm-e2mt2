@@ -661,43 +661,222 @@ Voici les principales applications utilis\u00e9es par le pilote DIT :
 - Kiz\u00e9o Forms : Formulaires terrain mobile (PEC, contr\u00f4les r\u00e9glementaires)
 - Teams Microsoft : Collaboration et communication (hub central pour le pilotage)
 
-## Guide Connect'Immo - Procédures détaillées
+## Guide Connect'Immo V.8 — Procédures détaillées (Power Apps SNCF Immobilier)
 
-### Créer un projet OPEX dans Connect'Immo
-1. Menu "Opérations" > "Création" > Cliquer "+" pour nouveau projet
-2. Champs obligatoires (*) : DIT*, Région*, UT*, Bien*, Intitulé du projet*, Origine*, Sous-Types*, Gérants de programme*, Attributaire*
-3. Après création : ID projet au format P-23-XXXXXX, commande par défaut au format 23-XXXXXX
-4. 5 onglets du projet : Emergence, Prévision pluriannuelle, Ouverture AT/OS, Synthèse commande(s), Demande de devis / Vie de la commande
-5. Astuce : saisir "MULTI" pour UT et/ou Bien quand la valeur est inconnue (AT générique)
+Connect'Immo est la solution informatique (Power Apps) de SNCF Immobilier pour la programmation, planification et pilotage des opérations de travaux et maintenance sur le parc immobilier SNCF. Elle permet aussi le suivi budgétaire des projets OPEX. Fonctionne exclusivement sur Google Chrome.
 
-### Attribuer un N° AT/OS dans Connect'Immo
-- Règle d'unicité : un N° AT/OS ne peut plus être utilisé sur plusieurs projets
-- Onglet "Ouverture AT/OS" > Sélectionner ou "Ajouter un nouveau N° AT/OS"
-- Si le N° existe déjà : message d'erreur, rechercher le projet existant via "Filtrer par région"
+### Navigation principale Connect'Immo (barre latérale)
+- Accueil
+- Création (Chantier, Projets, Commandes, MyH)
+- Modification en masse (Filtrer par région / Filtrer par pilote)
+- Reporting (Rapports OPEX)
+- Planification
+- Programmation
+- Archives
+- Guide utilisateur
 
-### Créer un chantier dans Connect'Immo
-- Menu "Opérations" > "Chantier" > Renseigner DIT*, Région*, UT*, Bien*
-- Cocher les projets à associer > Flèche droite > "Créer le chantier"
-- Un projet = un seul chantier à la fois
-- Montant total = somme des montants des ATs des projets associés
+### Créer un projet OPEX dans Connect'Immo — Procédure complète
+1. Cliquer sur "Création" dans la barre latérale
+2. Sélectionner le bouton radio "Projets"
+3. Renseigner les champs obligatoires : DIT et Région
+4. IMPORTANT : Vérifier d'abord via la Loupe si un projet existe déjà pour le même UT_BAT
+5. Cliquer sur "+" pour créer une nouvelle opération
+6. Fenêtre "Créer une opération" — Champs obligatoires (*) :
+   - DIT* et Région* (pré-remplis depuis la page précédente, restent modifiables)
+   - Agence*
+   - UT* (saisir "MULTI" si inconnu)
+   - Bien* (saisir "_MULTI" si inconnu)
+   - Intitulé du projet*
+   - Origine* (ex: Agence EDT)
+   - Sous-types* (ex: Petits Travaux Propriétaire, Economies d'énergie...)
+   - Gérants de programme* (ex: C32)
+   - Attributaire* (valeur par défaut "A renseigner" autorisée)
+7. Switch "Afficher les données budgétaires" = option d'aide à la décision (affiche suivi budgétaire exercice en cours)
+8. Cliquer sur la Disquette pour enregistrer → message "Projet créé avec succès"
+9. RÈGLE : À la création d'un projet, une commande par défaut est AUTOMATIQUEMENT créée
+10. La fenêtre reste ouverte pour créer plusieurs opérations. Cliquer sur X pour fermer.
+11. ID projet au format P-XX-XXXXXX (ex: P-23-001168)
 
-### Vie de la commande dans Connect'Immo
-- Renseigner : N° devis, N° DA, N° CDA, N° réception pour compléter le camembert de statut
-- Référence du contrat : liste déroulante + "Ajouter un nouveau N° de contrat"
-- Quand Axe local/central non valorisés : vérifier N° AT/OS dans "Ouverture AT/OS" et Référence contrat dans "Vie de la commande"
+### Détail du projet Connect'Immo — 7 onglets
 
-### Rapports OPEX Connect'Immo
-- Menu "Reporting" > "OPEX" > 3 rapports : données en cours, données projets, données antérieures N-2
-- Export : "..." > "Exporter des données" > "Exporter"
-- Les données s'actualisent chaque nuit
+**Onglet Emergence :**
+- Switches (s'appliquent au projet ET à toutes ses commandes) : Démolition, Locatif, Mise en sécurité ferroviaire, Risques Ferroviaires, Pollution
+- Champs : Intitulé du projet*, Statut du projet (Emergence, Transféré vers MyH...), Attributaire
+- Infos affichées : Nom UT, Nom BAT, Numéro UEX, Libellé UEX, Nature du bien, Portefeuille, Propriétaire interne
+- Codes comptables : RG, BUPO, DIVISION, BUGL
+- Regroupement_transverse : liste de programmes prioritaires (Enveloppe RH IST 4.4, ADAP, AUTRES (C2MI/PLI/VRD), ECO NRJ DECARBONATION, MIXITE, MEC MCO MES CEPIA)
+- Pôle : liste déroulante uniquement pour DI IDF (TERTIAIRE CAMPUS, IDF hors Paris et Campus, TERTIAIRE Paris)
+
+**Onglet Prévision pluriannuelle :** Planification budgétaire sur plusieurs années.
+
+**Onglet Ouverture AT/OS :**
+- Renseigner le N° AT/OS
+- RÈGLE D'UNICITÉ : un N° AT/OS ne peut être utilisé que sur UN SEUL projet
+- Si le N° AT/OS n'existe pas dans la liste → bouton "Ajouter un nouveau N° AT/OS"
+- Si le N° AT/OS existe déjà → message d'erreur → rechercher le projet existant et y ajouter des commandes
+- Après saisie, cliquer sur "Enregistrer" pour vérifier l'unicité
+
+**Onglet Démolition (si switch activé) :**
+- Surface démolie récupérée automatiquement d'Immosis Inventaire
+- Les données saisies appartiennent à la commande sélectionnée
+- Les switches Démolition correspondent au projet et s'appliquent à toutes les commandes
+
+**Onglet Synthèse commande(s) :**
+- Créer, supprimer, visualiser toutes les commandes rattachées au projet
+- Bouton "+" pour créer une nouvelle commande
+- Bouton Corbeille pour supprimer (SAUF la 1ère commande par défaut → règle : Un projet + 1 CDA minimum)
+- Cliquer sur la flèche > pour accéder au détail d'une commande
+
+**Onglet Demande de devis :**
+- Switches spécifiques à la commande sélectionnée (pas au projet)
+- Menu déroulant pour sélectionner la commande parmi celles du projet
+- Renseigner : N° de devis, N° DA, N° CDA, N° de réception
+- IMPORTANT : C'est le renseignement de ces 4 numéros qui alimente les quartiers colorés du statut de la commande
+
+**Onglet Vie de la commande :**
+- Renseigner la Référence du contrat pour chaque commande (liste déroulante + "Ajouter un nouveau N° de contrat")
+- BONNE PRATIQUE : Quand les champs "Axe local" et "Axe central" ne sont pas valorisés → vérifier 2 choses :
+  1. N° AT/OS bien renseigné et enregistré dans "Ouverture AT/OS"
+  2. Bonne "Référence du contrat" dans "Vie de la commande" pour chaque commande du même projet
+
+### Montant total commandé
+Le "Montant total commandé" affiché en haut de la fiche projet = somme des "Montants CDA" de toutes les commandes rattachées à ce projet OPEX.
+
+### Attribuer un N° AT/OS — 2 méthodes
+**Méthode 1 : N° AT/OS jamais utilisé**
+1. Onglet "Ouverture AT/OS" > Sélectionner dans la liste déroulante
+2. Si inexistant → "Ajouter un nouveau N° AT/OS" > Saisir le numéro > Enregistrer
+3. Cliquer "Enregistrer" pour vérifier l'unicité
+
+**Méthode 2 : N° AT/OS déjà utilisé sur un autre projet**
+1. Message d'erreur si on tente de l'utiliser sur un nouveau projet
+2. Solution : rechercher le projet existant ("Modification en masse" > DIT + Région + N° AT/OS)
+3. Ajouter de nouvelles commandes sur ce projet existant via "Synthèse commande(s)" > "+"
+
+### Créer et gérer un chantier Connect'Immo
+**Créer un nouveau chantier :**
+1. Rubrique "Création" > Bouton radio "Chantier"
+2. Renseigner DIT* et Région*
+3. Lancer la recherche via la Loupe pour afficher les projets
+4. Cocher les lignes des projets à associer (cases grisées = projets déjà associés à un autre chantier)
+5. Cliquer sur la flèche droite pour les désigner
+6. Cliquer sur "Créer le chantier"
+- RÈGLE : Un projet ne peut être associé qu'à UN SEUL chantier à la fois
+- Le montant total du chantier = somme des montants des ATs des projets associés
+
+**Mettre à jour un chantier existant :**
+1. Espace "Mise à jour du chantier existant" > Sélectionner le chantier > Chevron pour voir les projets
+2. Ajouter des projets : cocher + flèche droite
+3. Retirer des projets : cocher + flèche gauche
+- RÈGLE : Un chantier avec un seul projet est automatiquement supprimé si ce projet est dissocié
+
+### Consulter les projets/commandes OPEX et CAPEX MyHorizon
+**Vue Projets (par défaut) :**
+- Rubrique "Création" > bouton radio "Projets" > Filtres : DIT*, Région*, UT (facultatif), Bien (facultatif)
+- Filtres 2ème rang : Pilote, Statut projet, Exercice, ID projet, Gérant de prog., Rech. Intitulé projet
+- Bouton "Réinitialiser" pour effacer les filtres
+
+**Vue Commandes :**
+- Bouton radio "Commandes" > Les filtres géographiques sont conservés
+- Filtres 2ème rang spécifiques aux commandes
+
+**Vue My Horizon (CAPEX) :**
+- Bouton radio "MyH" > Filtres : DIT*, Région*, Statut projet
+- ATTENTION : Projets CAPEX en mode CONSULTATION uniquement (pas de modification dans Connect'Immo)
+
+### Statut "Transféré vers MyH"
+- Quand le statut du projet passe à "Transféré vers MyH" → renseigner l'ID_MyH (ex: DI__XXXXX)
+- Cela permet de récupérer le commentaire production Connect'Immo dans le commentaire du projet CAPEX de myHorizon
+- Les projets "Transféré vers MyH" disparaissent du tableau du programmateur pour éviter les doublons
+- Seul le programmateur peut renseigner le "Commentaire programmation"
 
 ### Modification en masse Connect'Immo
-- "Filtrer par région" : DIT*, Région*, filtres avancés (Pilote, Gérant, N° AT, Sous-type, Statut, etc.)
-- "Filtrer par pilote" : DIT*, Pilote*
-- Modification directe dans le tableau + bouton "Enregistrer"
+**Filtrer par région :**
+1. Rubrique "Modification en masse" > Vue par défaut : Projets
+2. Filtres obligatoires : DIT* et Région* > Cliquer "Rechercher"
+3. Filtres avancés : Pilote, Gérant de prog., N° AT, Sous-type, Statut, Démolition (Oui/Non/Vide)
+4. Modifier les données directement dans le tableau
+5. Cliquer "Enregistrer" pour sauvegarder
+6. Basculer sur la vue "Commandes" pour modifier les commandes
 
-### Regroupement transverse Connect'Immo
-Liste de programmes prioritaires : Enveloppe RH IST 4.4, Enveloppe RH IST ADAP, AUTRES (Dont C2MI, PLI, VRD), ECO NRJ – DECRET TERTIAIRE-DECARBONATION, MIXITE, MEC MCO MES CEPIA
+**Filtrer par pilote :**
+1. Onglet "Filtrer par pilote"
+2. Filtres obligatoires : DIT* et Pilote*
+3. Même principe de modification directe dans le tableau
+
+### Actualiser l'UT_BAT d'un projet ou d'une commande
+**Modifier l'UT_BAT d'un projet :**
+1. Cliquer sur un onglet du projet > Bouton "Crayon"
+2. Pop-up "Modification de l'UT_BAT détaillée" s'affiche (précise l'ID du projet)
+3. Modifier l'UT et/ou le Bien du projet
+4. Cliquer "Enregistrer" dédié au projet
+5. IMPORTANT : Les nouvelles valeurs s'appliquent automatiquement aux FUTURES commandes, mais PAS aux commandes existantes → mettre à jour chaque commande séparément
+
+**Modifier l'UT_BAT d'une commande :**
+1. Onglet "Demande de devis" ou "Vie de la commande" > Bouton "Crayon"
+2. Pop-up spécifique à la commande (précise ID projet + N° commande)
+3. Modifier et enregistrer
+
+### Principe de calcul du budget disponible
+Activé via le switch "Afficher les données budgétaires" dans la pop-up de création.
+
+**Étape 1 — Sélection des projets :**
+- Mêmes critères géographiques (DIT/Région/Agence)
+- Même gérant de programme (identifie la SA)
+- Même sous-type (identifie la catégorie)
+- Exclusions : Statuts Sans suite, Annulé, Transféré vers MyH ; Sous-types Compte-sinistre, Occupations sans titre, Logements, Régularisation, Gestion foncière
+
+**Étape 2 — Sélection des commandes :**
+- Date CDA = Exercice en cours
+- Attributaire CDA = DIT, ABE ou Gestionnaire (ESSET)
+- Montant CDA renseigné
+- Regroupement par région (ou par agence pour DIT Grand Sud et Centre Ouest)
+- Données du cadrage budgétaire récupérées de Perf'Eco
+
+### Rapports OPEX Connect'Immo (BI)
+- Menu "Reporting" > 3 rapports disponibles :
+  1. Tableau complet des données en cours : commandes avec Date Fin travaux ≥ 1er janvier N-2
+  2. Tableau complet des données projets : projets avec Date Fin travaux ≥ 1er janvier N-2
+  3. Tableau complet des données antérieures à N-2 : commandes avec Date Fin travaux ≤ 31 décembre N-2
+- Export : cliquer "..." > "Exporter des données" > "Exporter"
+
+### Archiver des projets OPEX
+- Archivage automatique le 31 juillet de chaque année
+- Condition : la "Date de fin des travaux" doit être correctement renseignée
+- Rubrique "Archives" pour consulter les projets archivés (mode consultation uniquement)
+
+### Créer une commande dans Connect'Immo (procédure terrain)
+1. Accéder au projet via "Modification en masse" ou "Création" > rechercher par ID projet
+2. Flèche descendante : voir les travaux rattachés à l'AT
+3. Flèche horizontale : nouvelle ligne
+4. Onglet "SYNTHÈSE COMMANDE" > "+" > Crayon
+5. Remplacer MULTI par UT et BIEN réels > Attendre validation
+6. Remplir les champs > Enregistrer
+7. Onglet "VIE DE LA COMMANDE" > Renseigner le montant > Enregistrer
+8. Vérifier que l'axe central et l'axe local sont bien renseignés
+
+### Astuces importantes Connect'Immo
+- Sélectionner "MULTI" pour UT et/ou Bien quand les valeurs sont inconnues (AT générique)
+- Mettre à jour l'UT_BAT des commandes APRÈS modification de l'UT_BAT du projet
+- Renseigner correctement tous les champs (Intitulé du projet, Intitulé CDA)
+- Ne JAMAIS supprimer les valeurs "A renseigner" par défaut (éviter les champs vides)
+- Champs avec "A renseigner" par défaut : Gestionnaire d'actifs, Occupant bénéficiaire, N° AT/OS, N° de devis, N° DA, Détail fournisseur
+- Toujours garder le champ "Gérant de programme" renseigné (valeur connue ou "A renseigner")
+- 3 cas pour le Gérant de programme :
+  1. UT_BAT connus à la création → valeur automatique
+  2. UT_BAT renseignés après création (via Crayon) → "A renseigner" par défaut, à mettre à jour manuellement
+  3. Projet régional (MULTI) → "A renseigner" par défaut
+
+### Suppression dans Connect'Immo
+- Supprimer un projet : sélectionner la ligne > icône Corbeille → supprime le projet ET TOUTES ses commandes
+- Supprimer une commande : possible sauf la 1ère commande par défaut (règle : 1 projet = minimum 1 CDA)
+
+### 5 cas d'usage Connect'Immo
+1. AT régionale sans UT-BAT (contrats forfaitaires/EMT)
+2. AT régionale avec UT-BAT au niveau commande (PTP)
+3. AT non-régionale avec UT, sans BAT
+4. AT non-régionale avec UT et BAT au niveau commande
+5. AT non-régionale avec UT-BAT hérité du projet
 
 ## DA Spéciale ERP 9.2 - Mode opératoire détaillé
 

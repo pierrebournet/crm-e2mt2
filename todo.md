@@ -160,3 +160,6 @@
 - [x] Créer les routes backend tRPC uploadDevis et removeDevis vers S3
 - [x] Mettre à jour le frontend du tableau de suivi avec colonne Devis PJ, bouton Importer, Ouvrir, Télécharger
 - [x] Tests unitaires pour la fonctionnalité PJ devis (26 tests, 238 tests au total)
+- [x] Intégrer le guide Connect'Immo V.8 dans le prompt de l'assistant IA (procédures complètes : création projet, onglets, chantiers, AT/OS, UT_BAT, rapports, archivage, budget, modification en masse, astuces)
+- [x] L'IA peut répondre aux questions sur : création projet OPEX, commandes, chantiers, AT/OS, UT_BAT, rapports, archivage, budget, modification en masse
+- [x] Tests unitaires Connect'Immo (37 tests, 275 tests au total)
