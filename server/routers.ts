@@ -464,12 +464,35 @@ export const appRouter = router({
 
   // ===== ASSISTANT IA =====
   assistant: router({
+    uploadFile: protectedProcedure
+      .input(z.object({
+        fileBase64: z.string(),
+        fileName: z.string(),
+        mimeType: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const buffer = Buffer.from(input.fileBase64, "base64");
+        const maxSize = 16 * 1024 * 1024; // 16MB
+        if (buffer.length > maxSize) {
+          throw new Error("Le fichier dépasse la taille maximale de 16 Mo");
+        }
+        const randomSuffix = Math.random().toString(36).substring(2, 10);
+        const fileKey = `assistant-docs/${Date.now()}-${randomSuffix}-${input.fileName}`;
+        const { url } = await storagePut(fileKey, buffer, input.mimeType);
+        return { url, fileName: input.fileName, mimeType: input.mimeType };
+      }),
+
     ask: protectedProcedure
       .input(z.object({
         question: z.string().min(1),
         conversationHistory: z.array(z.object({
           role: z.enum(["user", "assistant"]),
           content: z.string(),
+        })).optional(),
+        attachments: z.array(z.object({
+          url: z.string(),
+          fileName: z.string(),
+          mimeType: z.string(),
         })).optional(),
       }))
       .mutation(async ({ input }) => {
@@ -1528,8 +1551,29 @@ Règles de réponse :
           }
         }
 
-        // Add current question
-        messages.push({ role: "user" as const, content: input.question });
+        // Add current question with optional file attachments
+        if (input.attachments && input.attachments.length > 0) {
+          const contentParts: any[] = [];
+          // Add text question
+          contentParts.push({ type: "text", text: input.question });
+          // Add file attachments
+          for (const att of input.attachments) {
+            if (att.mimeType.startsWith("image/")) {
+              contentParts.push({
+                type: "image_url",
+                image_url: { url: att.url, detail: "high" },
+              });
+            } else if (att.mimeType === "application/pdf") {
+              contentParts.push({
+                type: "file_url",
+                file_url: { url: att.url, mime_type: "application/pdf" },
+              });
+            }
+          }
+          messages.push({ role: "user" as const, content: contentParts });
+        } else {
+          messages.push({ role: "user" as const, content: input.question });
+        }
 
         const result = await invokeLLM({ messages });
         const answer = result.choices[0]?.message?.content;

@@ -163,3 +163,8 @@
 - [x] Intégrer le guide Connect'Immo V.8 dans le prompt de l'assistant IA (procédures complètes : création projet, onglets, chantiers, AT/OS, UT_BAT, rapports, archivage, budget, modification en masse, astuces)
 - [x] L'IA peut répondre aux questions sur : création projet OPEX, commandes, chantiers, AT/OS, UT_BAT, rapports, archivage, budget, modification en masse
 - [x] Tests unitaires Connect'Immo (37 tests, 275 tests au total)
+- [x] Ajouter la possibilité d'uploader des documents (PDF, images) dans l'assistant IA
+- [x] Backend : route tRPC assistant.uploadFile pour upload vers S3 + route ask avec attachments multimodaux (image_url, file_url)
+- [x] Frontend : bouton Paperclip dans le chat, prévisualisation des PJ, badges sur les messages, support multi-fichiers
+- [x] L'IA peut lire et analyser les PDF et images uploadés via le LLM multimodal (Gemini)
+- [x] Tests unitaires upload documents assistant IA (30 tests, 305 tests au total)

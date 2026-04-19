@@ -1,0 +1,147 @@
+{
+  "query": "SELECT code, name, detail, priceHT, unit, category FROM bpu_items WHERE category LIKE '%clos%' OR category LIKE '%fermeture%' OR category LIKE '%menuiserie%' OR category LIKE '%serrur%' OR name LIKE '%porte%' OR name LIKE '%fermeture%' OR name LIKE '%menuiserie%' OR name LIKE '%serrur%' OR name LIKE '%store%' OR name LIKE '%volet%' OR name LIKE '%rideau%' OR name LIKE '%barrière%' OR name LIKE '%portail%' OR name LIKE '%clôture%' OR name LIKE '%grille%' OR name LIKE '%fenêtre%' OR name LIKE '%vitrage%' OR name LIKE '%vitre%' OR name LIKE '%huisserie%' ORDER BY category, code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT code, name, detail, priceHT, unit, category FROM bpu_items WHERE category LIKE '%clos%' OR category LIKE '%fermeture%' OR category LIKE '%menuiserie%' OR category LIKE '%serrur%' OR name LIKE '%porte%' OR name LIKE '%fermeture%' OR name LIKE '%menuiserie%' OR name LIKE '%serrur%' OR name LIKE '%store%' OR name LIKE '%volet%' OR name LIKE '%rideau%' OR name LIKE '%barrière%' OR name LIKE '%portail%' OR name LIKE '%clôture%' OR name LIKE '%grille%' OR name LIKE '%fenêtre%' OR name LIKE '%vitrage%' OR name LIKE '%vitre%' OR name LIKE '%huisserie%' ORDER BY category, code;",
+  "rows": [
+    {
+      "code": "FERM-01",
+      "name": "Remplacement d'un moteur électrique d'un rideau métallique, d'un volet roulant ou d'un portail sectionnel",
+      "detail": "Dépose et évacuation du moteur défaillant. Fourniture et pose d'un moteur identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.",
+      "priceHT": "1971.59",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "Fermetures motorisées"
+    },
+    {
+      "code": "FERM-02",
+      "name": "Remplacement d'une barre palpeuse sur un rideau métallique ou un portail sectionnel",
+      "detail": "Dépose et évacuation organes défaillants. Fourniture et pose d'une barre palpeuse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.",
+      "priceHT": "770.45",
+      "unit": "NULL",
+      "category": "Fermetures motorisées"
+    },
+    {
+      "code": "FERM-03",
+      "name": "Remplacement d'une barre palpeuse sur un portail coulissant",
+      "detail": "Dépose et évacuation organes défaillants. Fourniture et pose d'une barre palpeuse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.",
+      "priceHT": "826.14",
+      "unit": "NULL",
+      "category": "Fermetures motorisées"
+    },
+    {
+      "code": "FERM-04",
+      "name": "Remplacement d'une lame de rideau métallique",
+      "detail": "Dépose et évacuation de la lame cassée ou tordue. Fourniture et pose d'une lame identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.",
+      "priceHT": "476.14",
+      "unit": "NULL",
+      "category": "Fermetures motorisées"
+    },
+    {
+      "code": "FERM-05",
+      "name": "Remplacement d'une lisse de barrière levante",
+      "detail": "Dépose et évacuation organes défaillants. Fourniture et pose d'une lisse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.",
+      "priceHT": "657.95",
+      "unit": "NULL",
+      "category": "Fermetures motorisées"
+    },
+    {
+      "code": "R14",
+      "name": "Technicien Fermetures motorisées",
+      "detail": "Taux horaire lun-sam 8h-19h, comprend déplacements (Art. 25 CPS)",
+      "priceHT": "75.00",
+      "unit": "Heure",
+      "category": "Main d'œuvre"
+    },
+    {
+      "code": "R23",
+      "name": "Technicien polyvalent second œuvre/menuisier/serrurier",
+      "detail": "Taux horaire lun-sam 8h-19h, comprend déplacements (Art. 25 CPS)",
+      "priceHT": "55.00",
+      "unit": "Heure",
+      "category": "Main d'œuvre"
+    },
+    {
+      "code": "PB-09",
+      "name": "Lavabos / lave-mains / bac à laver : Fourniture et pose mitigeur temporisé à fermeture automatique.",
+      "detail": "Robinet avec temporisation de 7 secondes - débit préconisé de 3 l/min. Tous accessoires inclus.",
+      "priceHT": "245.00",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "Plomberie"
+    },
+    {
+      "code": "SOE-01",
+      "name": "Remplacement d'un ferme-porte avec bras à compas",
+      "detail": "Dépose et évacuation du matériel défectueux. Fourniture et pose d'un ferme-porte VACHETTE, GEZE, DORMA ou qualité technique équivalentee - Compris matériel de montage et accessoires.",
+      "priceHT": "244.10",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "Second-œuvre"
+    },
+    {
+      "code": "SOE-02",
+      "name": "Remplacement d'un ferme-porte avec bras à coulisse",
+      "detail": "NULL",
+      "priceHT": "333.69",
+      "unit": "NULL",
+      "category": "Second-œuvre"
+    },
+    {
+      "code": "SOE-05",
+      "name": "Remplacement d'une barre anti-panique un point sur menuiserie bois ou aluminium (vitrée ou non)",
+      "detail": "Compris dépose de la barre hors service, fourniture et pose d'une barre anti-panique et de la serrurerie associée et repose du canon en conservation (portes issues de secours).",
+      "priceHT": "440.95",
+      "unit": "NULL",
+      "category": "Second-œuvre"
+    },
+    {
+      "code": "SOE-06",
+      "name": "Remplacement d'une barre anti-panique 3 points sur menuiserie bois ou aluminium (vitrée ou non)",
+      "detail": "NULL",
+      "priceHT": "440.95",
+      "unit": "NULL",
+      "category": "Second-œuvre"
+    },
+    {
+      "code": "SOE-07",
+      "name": "Remplacement d'un store intérieur screen avec manivelle et cordelette de guidage",
+      "detail": "Dépose et évacuation du store hors service. Fourniture et pose d'un store screen intérieur identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle par manivelle y compris cordelette de guidage si nécessaire.",
+      "priceHT": "239.77",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "Second-œuvre"
+    },
+    {
+      "code": "SOE-08",
+      "name": "Remplacement d'un store vénitien intérieur de bureau",
+      "detail": "Dépose et évacuation du store hors service. Fourniture et pose d'un store vénitien identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle .",
+      "priceHT": "94.32",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "Second-œuvre"
+    },
+    {
+      "code": "SOE-09",
+      "name": "Remplacement d'un store intérieur à lamelles verticales",
+      "detail": "Dépose et évacuation du store hors service. Fourniture et pose d'un store à lamelles verticales identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle.",
+      "priceHT": "281.82",
+      "unit": "Forfait pièces et main d'œuvre",
+      "category": "Second-œuvre"
+    }
+  ],
+  "messages": [
+    "CC-01\tNettoyage d'un chéneau\tY compris des crapaudines\t6.82\tml",
+    "(mètre linéaire)\tClos et couvert",
+    "CC-02\tRéfection de l'étanchéité d'une toiture terrasse\tDépose et évacuation de l'étanchéité percée Fourniture et pose d'un complexe d'étanchéité y compris soudure\t79.55\tm²",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-03\tRévision et entretien de l'étanchéité d'une toiture terrasse\tContrôle visuel de l'état du complexe d'étanchéité, désherbage, démoussage, nettoyage. Inspection de tous les ouvrages complémentaires et points singuliers tels que les souches, édicules, lanterneaux, ventilations, etc. Réfection localisée, si besoin. Vérification et nettoyage des chéneaux, gouttières, entrées d'eaux pluviales.\t17.05\tm²",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-04\tDémoussage d'une toiture en tuiles\tFourniture et pulvérisation d'un produit de démoussage type DALEP 2100 ou qualité technique équivalente\t6.82\tm²",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-05\tFourniture et pose d'une ligne de vie en toiture\tConforme à la réglementation et aux préconisations du fabricant, compris toutes sujétions.\t244.32\tml",
+    "(mètre linéaire)\tClos et couvert",
+    "CC-06\tFourniture et pose d'un crochet d'ancrage\tConforme à la réglementation et aux préconisations du fabricant, compris toutes sujétions.\t122.73\tUnité",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-07\tFourniture et pose d'une échelle à crinoline pour accès toiture\tConforme à la réglementation avec panneau de condamnation et cadenas ou équivalent empêchant l'accès à toute personne non autorisée, compris toutes sujétions.\t669.32\tml",
+    "(fournitures et main d'œuvre)\tClos et couvert",
+    "CC-08\tRemplacement d'un store extérieur screen avec manivelle et cordelette de guidage\tDépose et évacuation du store hors service. Fourniture et pose d'un store screen extérieur identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle par manivelle y compris cordelette de guidage si nécessaire.\t298.86\tUnité",
+    "(fournitures et main d'œuvre)\tClos et couvert"
+  ],
+  "stdout": "code\tname\tdetail\tpriceHT\tunit\tcategory\nCC-01\tNettoyage d'un chéneau\tY compris des crapaudines\t6.82\tml\n(mètre linéaire)\tClos et couvert\nCC-02\tRéfection de l'étanchéité d'une toiture terrasse\tDépose et évacuation de l'étanchéité percée Fourniture et pose d'un complexe d'étanchéité y compris soudure\t79.55\tm²\n(fournitures et main d'œuvre)\tClos et couvert\nCC-03\tRévision et entretien de l'étanchéité d'une toiture terrasse\tContrôle visuel de l'état du complexe d'étanchéité, désherbage, démoussage, nettoyage. Inspection de tous les ouvrages complémentaires et points singuliers tels que les souches, édicules, lanterneaux, ventilations, etc. Réfection localisée, si besoin. Vérification et nettoyage des chéneaux, gouttières, entrées d'eaux pluviales.\t17.05\tm²\n(fournitures et main d'œuvre)\tClos et couvert\nCC-04\tDémoussage d'une toiture en tuiles\tFourniture et pulvérisation d'un produit de démoussage type DALEP 2100 ou qualité technique équivalente\t6.82\tm²\n(fournitures et main d'œuvre)\tClos et couvert\nCC-05\tFourniture et pose d'une ligne de vie en toiture\tConforme à la réglementation et aux préconisations du fabricant, compris toutes sujétions.\t244.32\tml\n(mètre linéaire)\tClos et couvert\nCC-06\tFourniture et pose d'un crochet d'ancrage\tConforme à la réglementation et aux préconisations du fabricant, compris toutes sujétions.\t122.73\tUnité\n(fournitures et main d'œuvre)\tClos et couvert\nCC-07\tFourniture et pose d'une échelle à crinoline pour accès toiture\tConforme à la réglementation avec panneau de condamnation et cadenas ou équivalent empêchant l'accès à toute personne non autorisée, compris toutes sujétions.\t669.32\tml\n(fournitures et main d'œuvre)\tClos et couvert\nCC-08\tRemplacement d'un store extérieur screen avec manivelle et cordelette de guidage\tDépose et évacuation du store hors service. Fourniture et pose d'un store screen extérieur identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle par manivelle y compris cordelette de guidage si nécessaire.\t298.86\tUnité\n(fournitures et main d'œuvre)\tClos et couvert\nFERM-01\tRemplacement d'un moteur électrique d'un rideau métallique, d'un volet roulant ou d'un portail sectionnel\tDépose et évacuation du moteur défaillant. Fourniture et pose d'un moteur identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.\t1971.59\tForfait pièces et main d'œuvre\tFermetures motorisées\nFERM-02\tRemplacement d'une barre palpeuse sur un rideau métallique ou un portail sectionnel\tDépose et évacuation organes défaillants. Fourniture et pose d'une barre palpeuse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.\t770.45\tNULL\tFermetures motorisées\nFERM-03\tRemplacement d'une barre palpeuse sur un portail coulissant\tDépose et évacuation organes défaillants. Fourniture et pose d'une barre palpeuse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.\t826.14\tNULL\tFermetures motorisées\nFERM-04\tRemplacement d'une lame de rideau métallique\tDépose et évacuation de la lame cassée ou tordue. Fourniture et pose d'une lame identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.\t476.14\tNULL\tFermetures motorisées\nFERM-05\tRemplacement d'une lisse de barrière levante\tDépose et évacuation organes défaillants. Fourniture et pose d'une lisse identique à l'existant ou équivalent. Essai et contrôle de bon fonctionnement.\t657.95\tNULL\tFermetures motorisées\nR14\tTechnicien Fermetures motorisées\tTaux horaire lun-sam 8h-19h, comprend déplacements (Art. 25 CPS)\t75.00\tHeure\tMain d'œuvre\nR23\tTechnicien polyvalent second œuvre/menuisier/serrurier\tTaux horaire lun-sam 8h-19h, comprend déplacements (Art. 25 CPS)\t55.00\tHeure\tMain d'œuvre\nPB-09\tLavabos / lave-mains / bac à laver : Fourniture et pose mitigeur temporisé à fermeture automatique.\tRobinet avec temporisation de 7 secondes - débit préconisé de 3 l/min. Tous accessoires inclus.\t245.00\tForfait pièces et main d'œuvre\tPlomberie\nSOE-01\tRemplacement d'un ferme-porte avec bras à compas\tDépose et évacuation du matériel défectueux. Fourniture et pose d'un ferme-porte VACHETTE, GEZE, DORMA ou qualité technique équivalentee - Compris matériel de montage et accessoires.\t244.10\tForfait pièces et main d'œuvre\tSecond-œuvre\nSOE-02\tRemplacement d'un ferme-porte avec bras à coulisse\tNULL\t333.69\tNULL\tSecond-œuvre\nSOE-05\tRemplacement d'une barre anti-panique un point sur menuiserie bois ou aluminium (vitrée ou non)\tCompris dépose de la barre hors service, fourniture et pose d'une barre anti-panique et de la serrurerie associée et repose du canon en conservation (portes issues de secours).\t440.95\tNULL\tSecond-œuvre\nSOE-06\tRemplacement d'une barre anti-panique 3 points sur menuiserie bois ou aluminium (vitrée ou non)\tNULL\t440.95\tNULL\tSecond-œuvre\nSOE-07\tRemplacement d'un store intérieur screen avec manivelle et cordelette de guidage\tDépose et évacuation du store hors service. Fourniture et pose d'un store screen intérieur identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle par manivelle y compris cordelette de guidage si nécessaire.\t239.77\tForfait pièces et main d'œuvre\tSecond-œuvre\nSOE-08\tRemplacement d'un store vénitien intérieur de bureau\tDépose et évacuation du store hors service. Fourniture et pose d'un store vénitien identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle .\t94.32\tForfait pièces et main d'œuvre\tSecond-œuvre\nSOE-09\tRemplacement d'un store intérieur à lamelles verticales\tDépose et évacuation du store hors service. Fourniture et pose d'un store à lamelles verticales identique à l'existant ou qualité technique équivalente d'une hauteur max de 2,5 ml à commande manuelle.\t281.82\tForfait pièces et main d'œuvre\tSecond-œuvre\n",
+  "stderr": "",
+  "execution_time_ms": 359
+}

@@ -1,0 +1,94 @@
+{
+  "query": "SELECT code, name, priceHT, unit FROM bpu_items WHERE category = 'Fermetures motorisées' OR category = 'Second-œuvre' ORDER BY category, code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT code, name, priceHT, unit FROM bpu_items WHERE category = 'Fermetures motorisées' OR category = 'Second-œuvre' ORDER BY category, code;",
+  "rows": [
+    {
+      "code": "FERM-01",
+      "name": "Remplacement d'un moteur électrique d'un rideau métallique, d'un volet roulant ou d'un portail sectionnel",
+      "priceHT": "1971.59",
+      "unit": "Forfait pièces et main d'œuvre"
+    },
+    {
+      "code": "FERM-02",
+      "name": "Remplacement d'une barre palpeuse sur un rideau métallique ou un portail sectionnel",
+      "priceHT": "770.45",
+      "unit": "NULL"
+    },
+    {
+      "code": "FERM-03",
+      "name": "Remplacement d'une barre palpeuse sur un portail coulissant",
+      "priceHT": "826.14",
+      "unit": "NULL"
+    },
+    {
+      "code": "FERM-04",
+      "name": "Remplacement d'une lame de rideau métallique",
+      "priceHT": "476.14",
+      "unit": "NULL"
+    },
+    {
+      "code": "FERM-05",
+      "name": "Remplacement d'une lisse de barrière levante",
+      "priceHT": "657.95",
+      "unit": "NULL"
+    },
+    {
+      "code": "SOE-01",
+      "name": "Remplacement d'un ferme-porte avec bras à compas",
+      "priceHT": "244.10",
+      "unit": "Forfait pièces et main d'œuvre"
+    },
+    {
+      "code": "SOE-02",
+      "name": "Remplacement d'un ferme-porte avec bras à coulisse",
+      "priceHT": "333.69",
+      "unit": "NULL"
+    },
+    {
+      "code": "SOE-03",
+      "name": "Remplacement d'une ventouse électromagnétique",
+      "priceHT": "262.19",
+      "unit": "NULL"
+    },
+    {
+      "code": "SOE-04",
+      "name": "Remplacement d'un cylindre européen tous types",
+      "priceHT": "133.49",
+      "unit": "NULL"
+    },
+    {
+      "code": "SOE-05",
+      "name": "Remplacement d'une barre anti-panique un point sur menuiserie bois ou aluminium (vitrée ou non)",
+      "priceHT": "440.95",
+      "unit": "NULL"
+    },
+    {
+      "code": "SOE-06",
+      "name": "Remplacement d'une barre anti-panique 3 points sur menuiserie bois ou aluminium (vitrée ou non)",
+      "priceHT": "440.95",
+      "unit": "NULL"
+    },
+    {
+      "code": "SOE-07",
+      "name": "Remplacement d'un store intérieur screen avec manivelle et cordelette de guidage",
+      "priceHT": "239.77",
+      "unit": "Forfait pièces et main d'œuvre"
+    },
+    {
+      "code": "SOE-08",
+      "name": "Remplacement d'un store vénitien intérieur de bureau",
+      "priceHT": "94.32",
+      "unit": "Forfait pièces et main d'œuvre"
+    },
+    {
+      "code": "SOE-09",
+      "name": "Remplacement d'un store intérieur à lamelles verticales",
+      "priceHT": "281.82",
+      "unit": "Forfait pièces et main d'œuvre"
+    }
+  ],
+  "messages": [],
+  "stdout": "code\tname\tpriceHT\tunit\nFERM-01\tRemplacement d'un moteur électrique d'un rideau métallique, d'un volet roulant ou d'un portail sectionnel\t1971.59\tForfait pièces et main d'œuvre\nFERM-02\tRemplacement d'une barre palpeuse sur un rideau métallique ou un portail sectionnel\t770.45\tNULL\nFERM-03\tRemplacement d'une barre palpeuse sur un portail coulissant\t826.14\tNULL\nFERM-04\tRemplacement d'une lame de rideau métallique\t476.14\tNULL\nFERM-05\tRemplacement d'une lisse de barrière levante\t657.95\tNULL\nSOE-01\tRemplacement d'un ferme-porte avec bras à compas\t244.10\tForfait pièces et main d'œuvre\nSOE-02\tRemplacement d'un ferme-porte avec bras à coulisse\t333.69\tNULL\nSOE-03\tRemplacement d'une ventouse électromagnétique\t262.19\tNULL\nSOE-04\tRemplacement d'un cylindre européen tous types\t133.49\tNULL\nSOE-05\tRemplacement d'une barre anti-panique un point sur menuiserie bois ou aluminium (vitrée ou non)\t440.95\tNULL\nSOE-06\tRemplacement d'une barre anti-panique 3 points sur menuiserie bois ou aluminium (vitrée ou non)\t440.95\tNULL\nSOE-07\tRemplacement d'un store intérieur screen avec manivelle et cordelette de guidage\t239.77\tForfait pièces et main d'œuvre\nSOE-08\tRemplacement d'un store vénitien intérieur de bureau\t94.32\tForfait pièces et main d'œuvre\nSOE-09\tRemplacement d'un store intérieur à lamelles verticales\t281.82\tForfait pièces et main d'œuvre\n",
+  "stderr": "",
+  "execution_time_ms": 356
+}

@@ -1,0 +1,67 @@
+{
+  "query": "SELECT code, name, priceHT, unit FROM bpu_items WHERE category = 'Clos et couvert' ORDER BY code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2jmBhHtNbTGMJ6j.98534cf58914 --database aWsWyTpyYNQEe6v8ygdsYe --execute SELECT code, name, priceHT, unit FROM bpu_items WHERE category = 'Clos et couvert' ORDER BY code;",
+  "rows": [
+    {
+      "code": "CC-01",
+      "name": "Nettoyage d'un chéneau",
+      "priceHT": "6.82",
+      "unit": "ml"
+    },
+    {
+      "code": "CC-02",
+      "name": "Réfection de l'étanchéité d'une toiture terrasse",
+      "priceHT": "79.55",
+      "unit": "m²"
+    },
+    {
+      "code": "CC-03",
+      "name": "Révision et entretien de l'étanchéité d'une toiture terrasse",
+      "priceHT": "17.05",
+      "unit": "m²"
+    },
+    {
+      "code": "CC-04",
+      "name": "Démoussage d'une toiture en tuiles",
+      "priceHT": "6.82",
+      "unit": "m²"
+    },
+    {
+      "code": "CC-05",
+      "name": "Fourniture et pose d'une ligne de vie en toiture",
+      "priceHT": "244.32",
+      "unit": "ml"
+    },
+    {
+      "code": "CC-06",
+      "name": "Fourniture et pose d'un crochet d'ancrage",
+      "priceHT": "122.73",
+      "unit": "Unité"
+    },
+    {
+      "code": "CC-07",
+      "name": "Fourniture et pose d'une échelle à crinoline pour accès toiture",
+      "priceHT": "669.32",
+      "unit": "ml"
+    },
+    {
+      "code": "CC-08",
+      "name": "Remplacement d'un store extérieur screen avec manivelle et cordelette de guidage",
+      "priceHT": "298.86",
+      "unit": "Unité"
+    }
+  ],
+  "messages": [
+    "(mètre linéaire)",
+    "(fournitures et main d'œuvre)",
+    "(fournitures et main d'œuvre)",
+    "(fournitures et main d'œuvre)",
+    "(mètre linéaire)",
+    "(fournitures et main d'œuvre)",
+    "(fournitures et main d'œuvre)",
+    "(fournitures et main d'œuvre)"
+  ],
+  "stdout": "code\tname\tpriceHT\tunit\nCC-01\tNettoyage d'un chéneau\t6.82\tml\n(mètre linéaire)\nCC-02\tRéfection de l'étanchéité d'une toiture terrasse\t79.55\tm²\n(fournitures et main d'œuvre)\nCC-03\tRévision et entretien de l'étanchéité d'une toiture terrasse\t17.05\tm²\n(fournitures et main d'œuvre)\nCC-04\tDémoussage d'une toiture en tuiles\t6.82\tm²\n(fournitures et main d'œuvre)\nCC-05\tFourniture et pose d'une ligne de vie en toiture\t244.32\tml\n(mètre linéaire)\nCC-06\tFourniture et pose d'un crochet d'ancrage\t122.73\tUnité\n(fournitures et main d'œuvre)\nCC-07\tFourniture et pose d'une échelle à crinoline pour accès toiture\t669.32\tml\n(fournitures et main d'œuvre)\nCC-08\tRemplacement d'un store extérieur screen avec manivelle et cordelette de guidage\t298.86\tUnité\n(fournitures et main d'œuvre)\n",
+  "stderr": "",
+  "execution_time_ms": 358
+}

@@ -2,9 +2,18 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Loader2, Send, User, Sparkles } from "lucide-react";
+import { Loader2, Send, User, Sparkles, Paperclip, X, FileText, Image as ImageIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Streamdown } from "streamdown";
+
+/**
+ * Attachment type for files uploaded in chat
+ */
+export type Attachment = {
+  url: string;
+  fileName: string;
+  mimeType: string;
+};
 
 /**
  * Message type matching server-side LLM Message interface
@@ -12,108 +21,28 @@ import { Streamdown } from "streamdown";
 export type Message = {
   role: "system" | "user" | "assistant";
   content: string;
+  attachments?: Attachment[];
 };
 
 export type AIChatBoxProps = {
-  /**
-   * Messages array to display in the chat.
-   * Should match the format used by invokeLLM on the server.
-   */
   messages: Message[];
-
-  /**
-   * Callback when user sends a message.
-   * Typically you'll call a tRPC mutation here to invoke the LLM.
-   */
-  onSendMessage: (content: string) => void;
-
-  /**
-   * Whether the AI is currently generating a response
-   */
+  onSendMessage: (content: string, attachments?: Attachment[]) => void;
+  onUploadFile?: (file: File) => Promise<Attachment>;
   isLoading?: boolean;
-
-  /**
-   * Placeholder text for the input field
-   */
+  isUploading?: boolean;
   placeholder?: string;
-
-  /**
-   * Custom className for the container
-   */
   className?: string;
-
-  /**
-   * Height of the chat box (default: 600px)
-   */
   height?: string | number;
-
-  /**
-   * Empty state message to display when no messages
-   */
   emptyStateMessage?: string;
-
-  /**
-   * Suggested prompts to display in empty state
-   * Click to send directly
-   */
   suggestedPrompts?: string[];
 };
 
-/**
- * A ready-to-use AI chat box component that integrates with the LLM system.
- *
- * Features:
- * - Matches server-side Message interface for seamless integration
- * - Markdown rendering with Streamdown
- * - Auto-scrolls to latest message
- * - Loading states
- * - Uses global theme colors from index.css
- *
- * @example
- * ```tsx
- * const ChatPage = () => {
- *   const [messages, setMessages] = useState<Message[]>([
- *     { role: "system", content: "You are a helpful assistant." }
- *   ]);
- *
- *   const chatMutation = trpc.ai.chat.useMutation({
- *     onSuccess: (response) => {
- *       // Assuming your tRPC endpoint returns the AI response as a string
- *       setMessages(prev => [...prev, {
- *         role: "assistant",
- *         content: response
- *       }]);
- *     },
- *     onError: (error) => {
- *       console.error("Chat error:", error);
- *       // Optionally show error message to user
- *     }
- *   });
- *
- *   const handleSend = (content: string) => {
- *     const newMessages = [...messages, { role: "user", content }];
- *     setMessages(newMessages);
- *     chatMutation.mutate({ messages: newMessages });
- *   };
- *
- *   return (
- *     <AIChatBox
- *       messages={messages}
- *       onSendMessage={handleSend}
- *       isLoading={chatMutation.isPending}
- *       suggestedPrompts={[
- *         "Explain quantum computing",
- *         "Write a hello world in Python"
- *       ]}
- *     />
- *   );
- * };
- * ```
- */
 export function AIChatBox({
   messages,
   onSendMessage,
+  onUploadFile,
   isLoading = false,
+  isUploading = false,
   placeholder = "Type your message...",
   className,
   height = "600px",
@@ -121,15 +50,15 @@ export function AIChatBox({
   suggestedPrompts,
 }: AIChatBoxProps) {
   const [input, setInput] = useState("");
+  const [pendingAttachments, setPendingAttachments] = useState<Attachment[]>([]);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputAreaRef = useRef<HTMLFormElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Filter out system messages
   const displayMessages = messages.filter((msg) => msg.role !== "system");
 
-  // Calculate min-height for last assistant message to push user message to top
   const [minHeightForLastMessage, setMinHeightForLastMessage] = useState(0);
 
   useEffect(() => {
@@ -137,30 +66,19 @@ export function AIChatBox({
       const containerHeight = containerRef.current.offsetHeight;
       const inputHeight = inputAreaRef.current.offsetHeight;
       const scrollAreaHeight = containerHeight - inputHeight;
-
-      // Reserve space for:
-      // - padding (p-4 = 32px top+bottom)
-      // - user message: 40px (item height) + 16px (margin-top from space-y-4) = 56px
-      // Note: margin-bottom is not counted because it naturally pushes the assistant message down
       const userMessageReservedHeight = 56;
       const calculatedHeight = scrollAreaHeight - 32 - userMessageReservedHeight;
-
       setMinHeightForLastMessage(Math.max(0, calculatedHeight));
     }
   }, []);
 
-  // Scroll to bottom helper function with smooth animation
   const scrollToBottom = () => {
     const viewport = scrollAreaRef.current?.querySelector(
       '[data-radix-scroll-area-viewport]'
     ) as HTMLDivElement;
-
     if (viewport) {
       requestAnimationFrame(() => {
-        viewport.scrollTo({
-          top: viewport.scrollHeight,
-          behavior: 'smooth'
-        });
+        viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
       });
     }
   };
@@ -168,15 +86,13 @@ export function AIChatBox({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmedInput = input.trim();
-    if (!trimmedInput || isLoading) return;
+    if ((!trimmedInput && pendingAttachments.length === 0) || isLoading || isUploading) return;
 
-    onSendMessage(trimmedInput);
+    const messageText = trimmedInput || (pendingAttachments.length > 0 ? `Analyse ce(s) document(s) : ${pendingAttachments.map(a => a.fileName).join(", ")}` : "");
+    onSendMessage(messageText, pendingAttachments.length > 0 ? [...pendingAttachments] : undefined);
     setInput("");
-
-    // Scroll immediately after sending
+    setPendingAttachments([]);
     scrollToBottom();
-
-    // Keep focus on input
     textareaRef.current?.focus();
   };
 
@@ -185,6 +101,44 @@ export function AIChatBox({
       e.preventDefault();
       handleSubmit(e);
     }
+  };
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !onUploadFile) return;
+
+    for (const file of Array.from(files)) {
+      const allowedTypes = [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/gif",
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        continue;
+      }
+      if (file.size > 16 * 1024 * 1024) {
+        continue;
+      }
+      try {
+        const attachment = await onUploadFile(file);
+        setPendingAttachments(prev => [...prev, attachment]);
+      } catch (err) {
+        console.error("Upload failed:", err);
+      }
+    }
+    // Reset file input
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const removePendingAttachment = (index: number) => {
+    setPendingAttachments(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const getFileIcon = (mimeType: string) => {
+    if (mimeType.startsWith("image/")) return <ImageIcon className="size-4" />;
+    return <FileText className="size-4" />;
   };
 
   return (
@@ -226,7 +180,6 @@ export function AIChatBox({
           <ScrollArea className="h-full">
             <div className="flex flex-col space-y-4 p-4">
               {displayMessages.map((message, index) => {
-                // Apply min-height to last message only if NOT loading (when loading, the loading indicator gets it)
                 const isLastMessage = index === displayMessages.length - 1;
                 const shouldApplyMinHeight =
                   isLastMessage && !isLoading && minHeightForLastMessage > 0;
@@ -260,6 +213,30 @@ export function AIChatBox({
                           : "bg-muted text-foreground"
                       )}
                     >
+                      {/* Show attachments if any */}
+                      {message.attachments && message.attachments.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-2">
+                          {message.attachments.map((att, attIdx) => (
+                            <div
+                              key={attIdx}
+                              className={cn(
+                                "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs",
+                                message.role === "user"
+                                  ? "bg-primary-foreground/20 text-primary-foreground"
+                                  : "bg-background/50 text-foreground"
+                              )}
+                            >
+                              {att.mimeType.startsWith("image/") ? (
+                                <ImageIcon className="size-3" />
+                              ) : (
+                                <FileText className="size-3" />
+                              )}
+                              <span className="max-w-[150px] truncate">{att.fileName}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
                       {message.role === "assistant" ? (
                         <div className="prose prose-sm dark:prose-invert max-w-none">
                           <Streamdown>{message.content}</Streamdown>
@@ -302,12 +279,63 @@ export function AIChatBox({
         )}
       </div>
 
+      {/* Pending Attachments Preview */}
+      {pendingAttachments.length > 0 && (
+        <div className="flex flex-wrap gap-2 px-4 pt-2 border-t bg-background/30">
+          {pendingAttachments.map((att, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-1.5 rounded-md border bg-muted px-2 py-1 text-xs text-foreground"
+            >
+              {getFileIcon(att.mimeType)}
+              <span className="max-w-[150px] truncate">{att.fileName}</span>
+              <button
+                type="button"
+                onClick={() => removePendingAttachment(idx)}
+                className="ml-1 rounded-full p-0.5 hover:bg-destructive/20 text-muted-foreground hover:text-destructive"
+              >
+                <X className="size-3" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Input Area */}
       <form
         ref={inputAreaRef}
         onSubmit={handleSubmit}
         className="flex gap-2 p-4 border-t bg-background/50 items-end"
       >
+        {/* File upload button */}
+        {onUploadFile && (
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png,.webp,.gif"
+              multiple
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isLoading || isUploading}
+              className="shrink-0 h-[38px] w-[38px]"
+              title="Joindre un document (PDF, image)"
+            >
+              {isUploading ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Paperclip className="size-4" />
+              )}
+            </Button>
+          </>
+        )}
+
         <Textarea
           ref={textareaRef}
           value={input}
@@ -320,7 +348,7 @@ export function AIChatBox({
         <Button
           type="submit"
           size="icon"
-          disabled={!input.trim() || isLoading}
+          disabled={(!input.trim() && pendingAttachments.length === 0) || isLoading || isUploading}
           className="shrink-0 h-[38px] w-[38px]"
         >
           {isLoading ? (

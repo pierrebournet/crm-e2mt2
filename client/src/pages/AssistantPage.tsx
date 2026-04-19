@@ -1,5 +1,5 @@
 import { trpc } from "@/lib/trpc";
-import { AIChatBox, type Message } from "@/components/AIChatBox";
+import { AIChatBox, type Message, type Attachment } from "@/components/AIChatBox";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -16,6 +16,9 @@ const SUGGESTED_PROMPTS = [
 
 export default function AssistantPage() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const uploadMutation = trpc.assistant.uploadFile.useMutation();
 
   const askMutation = trpc.assistant.ask.useMutation({
     onSuccess: (result) => {
@@ -26,7 +29,6 @@ export default function AssistantPage() {
     },
     onError: (err) => {
       toast.error(`Erreur : ${err.message}`);
-      // Remove the pending user message or add error message
       setMessages((prev) => [
         ...prev,
         {
@@ -38,11 +40,40 @@ export default function AssistantPage() {
     },
   });
 
-  const handleSendMessage = (content: string) => {
-    // Add user message to display
+  const handleUploadFile = async (file: File): Promise<Attachment> => {
+    setIsUploading(true);
+    try {
+      // Convert file to base64
+      const buffer = await file.arrayBuffer();
+      const base64 = btoa(
+        new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), "")
+      );
+
+      const result = await uploadMutation.mutateAsync({
+        fileBase64: base64,
+        fileName: file.name,
+        mimeType: file.type,
+      });
+
+      toast.success(`${file.name} uploadé`);
+      return {
+        url: result.url,
+        fileName: result.fileName,
+        mimeType: result.mimeType,
+      };
+    } catch (err: any) {
+      toast.error(`Erreur upload : ${err.message}`);
+      throw err;
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleSendMessage = (content: string, attachments?: Attachment[]) => {
+    // Add user message to display (with attachments info)
     const newMessages: Message[] = [
       ...messages,
-      { role: "user", content },
+      { role: "user", content, attachments },
     ];
     setMessages(newMessages);
 
@@ -51,10 +82,15 @@ export default function AssistantPage() {
       .filter((m) => m.role === "user" || m.role === "assistant")
       .map((m) => ({ role: m.role as "user" | "assistant", content: m.content }));
 
-    // Send to backend (pass history minus the current question)
+    // Send to backend
     askMutation.mutate({
       question: content,
       conversationHistory: conversationHistory.slice(0, -1),
+      attachments: attachments?.map(a => ({
+        url: a.url,
+        fileName: a.fileName,
+        mimeType: a.mimeType,
+      })),
     });
   };
 
@@ -63,7 +99,7 @@ export default function AssistantPage() {
       <div>
         <h1 className="text-2xl font-bold text-foreground">Assistant IA — Contrat E2MT²</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Posez vos questions sur le contrat E2MT², le BPU, les procédures d'achat (DA/CDA), Connect'Immo, les 20 applications métier ou toute autre règle de maintenance.
+          Posez vos questions sur le contrat E2MT², le BPU, les procédures d'achat (DA/CDA), Connect'Immo, les 20 applications métier ou toute autre règle de maintenance. Vous pouvez aussi joindre des documents (PDF, images) pour analyse.
         </p>
       </div>
 
@@ -71,10 +107,12 @@ export default function AssistantPage() {
         <AIChatBox
           messages={messages}
           onSendMessage={handleSendMessage}
+          onUploadFile={handleUploadFile}
           isLoading={askMutation.isPending}
-          placeholder="Posez votre question sur le contrat, le BPU, les procédures d'achat, les outils métier..."
+          isUploading={isUploading}
+          placeholder="Posez votre question ou joignez un document (PDF, image)..."
           height="calc(100vh - 200px)"
-          emptyStateMessage="Posez une question sur le contrat E2MT², les procédures ou les outils métier"
+          emptyStateMessage="Posez une question ou joignez un document pour analyse"
           suggestedPrompts={SUGGESTED_PROMPTS}
         />
       </div>
