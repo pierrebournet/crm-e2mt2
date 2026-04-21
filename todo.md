@@ -168,3 +168,6 @@
 - [x] Frontend : bouton Paperclip dans le chat, prévisualisation des PJ, badges sur les messages, support multi-fichiers
 - [x] L'IA peut lire et analyser les PDF et images uploadés via le LLM multimodal (Gemini)
 - [x] Tests unitaires upload documents assistant IA (30 tests, 305 tests au total)
+- [x] Analyser le Guide du Pilote E2MT² v3 complet (60 pages, document très important)
+- [x] Intégrer le Guide du Pilote v3 dans le prompt IA (présentation générale, missions A-E, niveaux maintenance N1-N5, criticités C1/C2, délais D1/D2, moyens humains/matériels, outils numériques, reporting/réunions, pilotage renforcé, contrôles qualité, 12 fiches pratiques FP01-FP12, 3 annexes ODJ COSUI/COPIL)
+- [x] Tests unitaires Guide du Pilote (305 tests au total, tous passés)

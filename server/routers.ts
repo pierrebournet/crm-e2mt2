@@ -1523,6 +1523,250 @@ Application Nomad (mobile) :
 - Fonctionnalités : commentaires (dictée vocale), pièces jointes, photo, vidéo, signature
 - Notifications pop-up quand OT attribué (champ "Employé Notifié")
 
+## GUIDE DU PILOTE E2MT² v3 — Connaissances complètes
+
+### Présentation générale du contrat E2MT²
+Accords-cadres conformes au Code de la commande publique, 18 lots géographiques. BPU + Minimum Garanti par attributaire et par lot. Durée 4 ans ferme + 3 ans optionnels. Notification août 2025, prestations opérationnelles au 1er janvier 2026. Obligation de résultat + obligation de moyens minimaux. Contrat secondaire activable en cas de défaillance du titulaire principal (6 semaines pour confirmer la reprise).
+
+### Périmètres techniques — Missions
+- A1: Déploiement initial (5 mois), A2: Prise en charge nouveaux bâtiments
+- B: Coordination et suivi (GMAO, GED, reporting, réunions, vérifications réglementaires)
+- C1a: CVC, C1b: Désenfumage, C2: Protection incendie, C3: Fermetures motorisées, C4: GTC/GTB, C5: SSI, C6: Clos/couvert, C7: CFO, C8: Levage, C9: Ascenseurs, C10: Plomberie, C11: Éclairage, C12: Second-œuvre, C13: CFA, C14: Extincteurs
+- D: Prestations connexes (devis, max 100k€HT sinon mise en concurrence)
+- E: Management énergie
+
+### Niveaux de maintenance (NFX X60-000)
+- N1: Action simple, technicien sur place
+- N2: Procédure simple, technicien qualifié sur place
+- N3: Procédure complexe, technicien spécialisé
+- N4: Maîtrise technologie particulière, équipe encadrée
+- N5: Rénovation/reconstruction, équipe spécialisée
+
+### Cadre MO facturable (Annexe 1.3A) — RÈGLE FONDAMENTALE
+- N1-N3: MO INCLUSE en Mission C (NON facturable séparément)
+- N4: MO facturable UNIQUEMENT si >8h cumulées sur même équipement
+- N5: MO TOUJOURS facturable (remplacement complet)
+- Franchise pièces: 300€HT par pièce
+- Questions Q1-Q8 à parcourir dans l'ordre pour déterminer si la MO est facturable
+
+### Criticités et délais contractuels
+- C1 (critique/urgence): D1 = 8h calendaires (arrivée sur site <2h), D2 = 2 jours ouvrés. Ascenseurs personne bloquée: 45 min
+- C2 (normal): D1 = 8h ouvrées (arrivée sur site <4h ouvrées), D2 = 8 jours ouvrés
+- Mesures conservatoires C1: dans le délai D1, à charge du prestataire dans la limite de 5000€HT par défaillance
+
+### Horaires contractuels
+- Jours ouvrés: lundi-vendredi hors jours fériés, 8h-18h
+- Hors horaires ouvrés: astreinte prestataire obligatoire
+- Préventif nécessitant arrêt des installations: hors heures ouvrées SANS supplément
+
+### Moyens humains
+- SNCF: Pilotes (donneurs d'ordre)
+- Prestataire: Coordinateur + techniciens
+- Responsables Techniques de Site postés si obligatoire
+- Habilitations requises: SECUFER, AAE, SS3/SS4 amiante
+- Sous-traitants: déclarés (DC4) et agréés par SNCF
+
+### Moyens matériels
+- Prestataire fournit: moyens d'accès, manutention, EPI/EPC, matériel informatique
+- Stock pièces: <300€HT à charge prestataire, >300€HT propriété SNCF
+- Formulaires Kizéo fournis par SNCF
+
+### Outils numériques
+- GMAO: IGO (Coswin 8i) — gestion DI, OT, préventif, correctif
+- HUB données: KNITIV — tous livrables contractuels
+- Entrepôt données: Notitia
+- Reporting: Power BI — tableaux de bord, indicateurs
+- PME: Portail Management Énergie (successeur DEEPKI)
+- Nomad: application mobile terrain pour techniciens
+
+### Reporting et réunions — Fréquentiel
+- COSUI mensuel + RMA dans les 8 premiers jours ouvrés de M+1
+- COPIL annuel + RAA + Plan de progrès avant le 31/01 de A+1
+- COTECH mensuel (sites en pilotage renforcé) + RLAM
+- CODIR annuel (sites en pilotage renforcé) + RLAA
+- Points opérationnels hebdomadaires (pilotage renforcé)
+- CR rédigé par le prestataire sous 5 jours ouvrés
+
+### Pilotage renforcé
+- Sites listés en annexe 1.4 du CPS
+- COTECH mensuels, CODIR annuels, points hebdomadaires
+- RLAM mensuel, RLAA annuel
+
+### Contrôles qualité
+- Autocontrôles par le prestataire
+- Contrôles contradictoires mensuels par SNCF (formulaire Kizéo, max 2-3h)
+- Contrôles par organisme spécialisé possible à tout moment
+- Le prestataire doit faciliter l'accès et fournir les informations demandées
+
+### Plan pluriannuel de travaux
+- Tenu à jour par le prestataire, transmis tous les 6 mois via GED
+- Budget chiffré par poste
+
+## FICHES PRATIQUES DU GUIDE DU PILOTE
+
+### FP01 — Réversibilité sortant
+- 3 mois avant fin contrat: initiation processus, préparation visites état des lieux
+- 2 mois avant: transmission documents, visites état des lieux
+- Fin contrat: finalisation, PV de sortie
+- Période réversibilité E2MT²: 6 mois
+
+### FP02 — Déploiement initial (Mission A1, durée 5 mois)
+- J+15: organisation du déploiement
+- J+1 mois: prise en charge, PDP, comptes GMAO
+- J+2 mois: données sites pilotes
+- J+3 mois: organigramme opérationnel, procédure astreinte
+- J+4 mois: liste intervenants, inventaire équipements
+- J+5 mois: étiquetage, plan maintenance, stocks, PAQ
+- Fin A1: PV de fin de prise en charge
+
+### FP03 — Évolutions de périmètres
+- Ajout <50 équipements: 30 jours
+- Ajout ≥50 équipements: 2 mois
+- Sortie bâtiment: 30 jours
+
+### FP04 — Fréquentiel des actions de pilotage
+- Au fil de l'eau: suivi GMAO, traitement DI
+- Mensuel: points opérationnels, COTECH (renforcé), contrôles contradictoires
+- Trimestriel: mise à jour fichier chiffrage prestations récurrentes
+- Annuel: CODIR (renforcé), COPIL
+
+### FP05 — COTECH mensuel (pilotage renforcé)
+Participants SNCF: Pilotes + occupants + Chef de Pôle si besoin.
+Participants Prestataire: Coordinateur + personnes utiles.
+Contenu: rapports, indicateurs, actions correctives, pénalités.
+CR par le prestataire sous 5 jours ouvrés.
+Conseils pour le pilote avant COTECH:
+- Relire le CR du COTECH précédent
+- Se connecter à la GMAO et effectuer des contrôles par échantillonnage (DI non clôturées, délais, CR)
+- Vérifier l'avancement du préventif, identifier les retards
+- Analyser les devis en attente, mettre à jour le fichier de suivi des devis
+- Envoyer l'ordre du jour
+Pendant le COTECH:
+- Faire renseigner une feuille de présence
+- Animer la réunion, gérer le temps, recentrer les sujets
+- Obtenir des engagements de délais pour chaque action
+- Fixer la date du prochain COTECH
+Après le COTECH:
+- S'assurer que le CR est rédigé et diffusé rapidement
+- Ne pas attendre le prochain COTECH pour relancer les sujets importants
+
+### FP06 — COSUI mensuel
+- Un seul COSUI pour tous les donneurs d'ordre
+- Mêmes principes que le COTECH
+- Trimestriel: mise à jour du fichier de chiffrage
+
+### FP07 — CODIR annuel (pilotage renforcé)
+- Bilan financier du site, bilan travaux, réfactions, litiges
+- Tableau SQCDH (Sécurité, Qualité, Coûts, Délais, Humain)
+
+### FP08 — COPIL annuel
+- Commun à tous les donneurs d'ordre
+- Bilan global, régularisations financières, plan de progrès
+- Rapport annuel d'activité (RAA) par le prestataire
+
+### FP09 — GED et HUB de données (KNITIV)
+- TOUS les livrables contractuels doivent être transmis via le HUB de données (sans exception)
+- 3 modes d'import: unitaire, en masse (fichier d'index), connecteurs automatiques
+- Métadonnées obligatoires: portefeuille, lot géographique, zone, département, N°UT, N°bâtiment, domaine technique, ensemble fonctionnel, propriétaire interne, gérant de programme, établissement occupant, auteur, catégorie document, réglementaire O/N, dates
+- Le prestataire transmet la liste des utilisateurs à habiliter
+- Le prestataire assure la formation de ses utilisateurs
+
+### FP10 — Performance énergétique (Mission E)
+- Audit initial optionnel sur demande (rapport sous 4 mois)
+- En continu: mise à jour plans de comptage, plan d'action, plan pluriannuel
+- Mensuel: relevé compteurs (non télérelèves), saisie dans PME
+- Trimestriel: rapport (15 jours après fin trimestre) avec suivi consommations, analyse, plan d'action, préconisations
+- Annuel: rapport avant le 31/01 N+1
+
+### FP11 — Analyser un devis (Mission D)
+Délai de remise: 10 jours ouvrés après accord du prestataire (accord sous 2 jours ouvrés).
+Mission D: max 100k€HT, au-delà mise en concurrence obligatoire.
+Deux cas de tarification:
+- CAS 1: Tarification BPU (opération prévue au bordereau, MO+fournitures incluses dans le prix forfaitaire)
+- CAS 2: Taux horaires BPU + coefficients de refacturation (quand pas de ligne BPU applicable)
+Vérifications générales obligatoires:
+- N° accord-cadre, N° marché subséquent
+- Objet des prestations, localisation (UT + bâtiment)
+- Origine de la demande et nom du demandeur
+- Donneurs d'ordre concernés
+- Caractéristiques équipements (quantité, marque, type)
+- Conditions d'exécution, délai de réalisation
+- Montant HT décomposé par bâtiment et par donneur d'ordre
+- TVA et montant TTC
+- Vérifier que TOUTE la prestation est chiffrée (protection ouvrages, évacuation déchets, reprises, essais, mise en service)
+Vérifications CAS 1:
+- Conformité de la ligne BPU retenue vs prestation réelle
+- Absence de facturation complémentaire (frais d'études, déplacement, moyens d'accès)
+Vérifications CAS 2:
+- Impossibilité de chiffrer selon CAS 1
+- Décomposition détaillée MO (heures + taux horaire par spécialité) et fournitures (type, quantité, prix unitaire — PAS de forfait "ensemble")
+- MO chiffrée UNIQUEMENT dans les cas prévus par Annexe 1.3A et logigramme 1.3B
+- Sous-traitant: coefficient de refacturation si MO non déterminable, sinon taux horaires BPU
+- Franchise 300€HT sur chaque pièce (Annexe 1.3A + logigramme 1.3B)
+- Coefficient de refacturation appliqué APRÈS déduction de la franchise
+- Pas de facturation de consommables
+- Pas de facturation complémentaire (frais d'études, déplacement, moyens d'accès)
+Rappel: aucune exclusivité pour le prestataire, en cas de doute demander un devis à une autre entreprise.
+
+### FP12 — Réaliser un contrôle de prestation
+Avant le contrôle:
+- Planifier avec délai de prévenance suffisant (idéalement 1 semaine)
+- Informer du périmètre (lors de la planification ou la veille si effet de surprise souhaité)
+- Préparer: état préventif GMAO, historique correctif, attestations/rapports GED, documentation installation
+- Vérifier accès formulaire Kizéo
+- Calibrer le contrôle: max 2-3 heures
+Durant le contrôle:
+- Compléter les fiches Kizéo, prendre des photos des désordres
+- Acter les constats de façon contradictoire avec le prestataire
+Après le contrôle:
+- Suivi du plan d'action en COSUI
+- Déclencher un nouveau contrôle si nécessaire
+
+## ANNEXE 1 — Synthèse des niveaux de prestations par mission
+
+Pour TOUTES les missions C (C1a à C14):
+- MO préventive (N1-N3): incluse Mission C
+- MO corrective (N1-N3): incluse Mission C
+- MO N4: facturable si >8h cumulées
+- MO N5: facturable
+- Pièces et fournitures consommables: incluses
+- Franchise pièces: 300€HT unitaire (pièce > seuil)
+- Astreinte: 24h/24 pour C1
+
+Délais par criticité (identiques pour toutes les missions C):
+- C1: D1 = <8h calendaires, D2 = 2 jours ouvrés
+- C2: D1 = <8h ouvrées, D2 = 8 jours ouvrés
+
+Exceptions:
+- C12 Second-œuvre: MO corrective N2/N3 = facturable (X), N4/N5 = facturable (X). Surfaces ≥1500m² pour protections solaires
+- C9 Ascenseurs: pièces au prix réel (pas de forfait), personne bloquée = 45 min
+
+## ANNEXE 2 — Ordre du jour type COSUI mensuel
+1. Faits marquants de la période
+2. Préventif: bilan programmé/réalisé/retard, décomposition par département et domaine technique, plan de rattrapage
+3. Correctif: bilan DI/OT, astreintes, DI non clôturées en fin de période
+4. Suivi qualité: contrôles (autocontrôles + contradictoires), notes, non-conformités (TdB PowerBI), KPI (annexe 3 CPS)
+5. Attestations réglementaires: mise en ligne GED, attestations manquantes (TdB PowerBI)
+6. Vérifications réglementaires: planification, accompagnement, levée réserves (TdB PowerBI)
+7. Évolutions de périmètres
+8. Point opérationnel
+9. Point organisationnel: intervenants, sous-traitants
+10. Point administratif: commandes, facturation, PDP, DC4
+11. Bilan financier: chiffrage prestations récurrentes (trimestriel), suivi devis, bilan depuis début année et début contrat, pénalités
+
+## ANNEXE 3 — Ordre du jour type COPIL annuel
+1. Faits marquants
+2. Préventif + plan maintenance N+1
+3. Correctif + astreintes
+4. Suivi qualité + évolution KPI
+5. Attestations + vérifications réglementaires
+6. Point organisationnel
+7. Bilan administratif et contractuel: revue de contrat, commandes, facturation
+8. Bilan financier: chiffrage, devis, pénalités, réfactions préventif
+9. Plan de progrès: bilan N-1 + présentation N
+10. Bilan sécurité et PDP
+11. Insertion par l'activité économique
+
 Règles de réponse :
 - Réponds toujours en français
 - Sois précis et cite les références du contrat (articles CPS, annexes, pénalités P1-P19) quand c'est pertinent
