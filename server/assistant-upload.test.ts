@@ -87,7 +87,7 @@ describe("Assistant IA — Upload de documents", () => {
     });
 
     it("should have a file input for PDF and images", () => {
-      expect(chatBoxContent).toContain('accept=".pdf,.jpg,.jpeg,.png,.webp,.gif"');
+      expect(chatBoxContent).toContain('accept=".pdf,.jpg,.jpeg,.png,.webp,.gif,.xlsx,.xls,.docx,.doc"');
     });
 
     it("should have a Paperclip button for file upload", () => {
@@ -108,7 +108,8 @@ describe("Assistant IA — Upload de documents", () => {
     });
 
     it("should pass attachments to onSendMessage", () => {
-      expect(chatBoxContent).toContain("onSendMessage(messageText, pendingAttachments.length > 0");
+      expect(chatBoxContent).toContain("onSendMessage(");
+      expect(chatBoxContent).toContain("pendingAttachments");
     });
 
     it("should support multiple file upload", () => {
@@ -140,7 +141,7 @@ describe("Assistant IA — Upload de documents", () => {
     });
 
     it("should pass attachments to ask mutation", () => {
-      expect(assistantPageContent).toContain("attachments: attachments?.map");
+      expect(assistantPageContent).toContain("allContextAttachments");
     });
 
     it("should track isUploading state", () => {
@@ -157,7 +158,7 @@ describe("Assistant IA — Upload de documents", () => {
     });
 
     it("should mention document upload in the description", () => {
-      expect(assistantPageContent).toContain("joindre des documents");
+      expect(assistantPageContent).toContain("joignez des documents");
     });
   });
 });

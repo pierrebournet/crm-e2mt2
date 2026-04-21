@@ -171,3 +171,12 @@
 - [x] Analyser le Guide du Pilote E2MT² v3 complet (60 pages, document très important)
 - [x] Intégrer le Guide du Pilote v3 dans le prompt IA (présentation générale, missions A-E, niveaux maintenance N1-N5, criticités C1/C2, délais D1/D2, moyens humains/matériels, outils numériques, reporting/réunions, pilotage renforcé, contrôles qualité, 12 fiches pratiques FP01-FP12, 3 annexes ODJ COSUI/COPIL)
 - [x] Tests unitaires Guide du Pilote (305 tests au total, tous passés)
+- [x] Drag & drop de fichiers dans la zone de chat de l'assistant IA (overlay visuel, compteur anti-flickering)
+- [x] Coller des screenshots depuis le presse-papier (Ctrl+V / Cmd+V) dans le chat (nommage automatique screenshot-timestamp)
+- [x] Prévisualisation améliorée des images : miniatures cliquables, lightbox plein écran avec zoom, téléchargement, fermeture Escape
+- [x] Support formats supplémentaires : Excel (.xlsx, .xls), Word (.docx, .doc) avec icônes dédiées
+- [x] Historique des documents uploadés : panneau récapitulatif, dédoublonnage, contexte persistant envoyé au LLM à chaque message
+- [x] Backend : gestion des formats non-image/non-PDF en référence texte pour le LLM
+- [x] Bouton "Analyser devis" sur chaque PDF dans le panneau documents (lance analyse BPU automatique)
+- [x] Bouton "Effacer" conversation avec icône Trash2
+- [x] Tests unitaires améliorations upload V2 (39 tests, 344 tests au total)

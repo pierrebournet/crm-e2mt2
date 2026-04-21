@@ -1812,6 +1812,13 @@ Règles de réponse :
                 type: "file_url",
                 file_url: { url: att.url, mime_type: "application/pdf" },
               });
+            } else {
+              // For Excel, Word and other file types, add as text reference
+              // The LLM cannot read these directly, so we note them in context
+              contentParts.push({
+                type: "text",
+                text: `[Document joint : ${att.fileName} (${att.mimeType}) — URL : ${att.url}]`,
+              });
             }
           }
           messages.push({ role: "user" as const, content: contentParts });
