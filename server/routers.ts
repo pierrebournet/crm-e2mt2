@@ -1902,6 +1902,116 @@ Propriétaire doit agir pour régulariser ou faire cesser l'occupation
    - Intra SNCF RG 24051/24052 : pas de loyer (actifs sociétaux)
    - Bâtiments vacants : charges au propriétaire
 
+## PPT 2026 — Modèle de Gestion Propriétaire et Locatif
+
+**Référence :** Mode d'Emploi Propriétaire et locatif PPT 2026
+**Auteur :** Xavier Reale | **Validé par :** B. KELLE | **Date :** 25 février 2026
+
+Ce modèle de gestion définit les 8 familles budgétaires 2026 et les règles de saisie des opérations dans Immosis.
+
+### 8 Familles Budgétaires PPT 2026
+
+| Famille | Code | Seuil | Car. | Description |
+|---------|------|-------|------|-------------|
+| **Gros Entretien & Réparation** | GER | > 3 500€ | Non neg. | Gros entretien, réparations, désamiantage, sécurisation |
+| **Mise en Conformité** | MEC | Variable | Mixte | Suite contrôles/visites réglementaires |
+| **Contrats Maintenance** | CME | Variable | Mixte | Maintenance externe/interne, E2MT, Électrique MPS |
+| **Petits Travaux Propriétaire** | PTP | ≤ 3 500€ | Neg. | Petits travaux, entretien courant |
+| **Maintenance Locative** | ML | Variable | Mixte | Entretien locatif courant |
+| **Travaux Locatifs** | TL | > 3 500€ | Mixte | Travaux locatifs importants |
+| **Visites Réglementaires** | VR | Variable | Non neg. | Contrôles, diagnostics, vérifications obligatoires |
+| **Diagnostics & Audits** | DIAG | Variable | Neg. | Diagnostics, visites de gestion, audits non réglementaires |
+
+**Car. = Caractère | Non neg. = Non négociable | Neg. = Négociable | Mixte = Partiellement négociable**
+
+### Règles de Saisie des AT (Autorisations de Travaux)
+
+**1. Intitulé explicite :**
+- Doit être compris par quelqu'un d'extérieur au projet
+- Inclure : localisation (UT, n° bâtiment), type travail, ville
+- Exemple : "Remplacement toiture bâtiment 45 UT 12345 - Toulouse"
+
+**2. Seuils critiques :**
+- **> 3 500€** : GER ou TL (1 AT identifiée par travail)
+- **≤ 3 500€** : PTP ou enveloppe budgétaire (1 AT régionale)
+- **> 15 000€** : Exception si > 1/3 remplacement corps d'état
+
+**3. Sous-types Immosis :**
+- Tous les sous-types peuvent être ouverts quel que soit le GP
+- Doivent correspondre à la famille budgétaire
+
+**4. Gérants de Programme (GP) :**
+- 1er groupe : Réseau, ISM TGV, ISM Transilien, ISM TER, Voyageurs, Fret, SNCF
+- 2e groupe : RÉSEAU/MOBILITÉS travaux à la demande
+- 3e groupe : DI pour RHL demande
+- 4e groupe : DI pour RH/IST (CER/CCE)
+- 5e groupe : Maintenance Locative (I&F, T&S, TER)
+
+**5. Fournisseurs :**
+- **Interne ABE** : Connaissent les axes locaux (TechniGares, DSIM, etc.)
+- **Interne autre** : ATA, Infra pôles, EVEN, EIMM, ASTI (axes à communiquer)
+- **TIERS** : Fournisseurs externes SNCF (OBLIGATOIRE pour externes)
+
+### Affectation des Travaux par Domaine
+
+**Patrimoine Réseau (Ferroviaire) → TechniGares :**
+- GE, CME/PTP, Pilotage E2MT, Maintenance électrique régie, VR
+- Exceptions : Désamiantage (spécialistes), missions gestionnaires
+
+**Patrimoine Industriel (Réseau & Voyageurs) → TechniGares :**
+- Maintenance électrique, vérifications réglementaires électriques, MEC électrique
+
+**Reste du patrimoine → DIT :**
+- Pilotage et travaux en direct
+
+**Division Immobilière (DS) → DSIM :**
+- MDG spécifique
+
+### Structure Budgétaire par SA
+
+| SA | Reventilation B/D | Division |
+|---|---|---|
+| **SNCF** | 100% DI CGVI | Direction Immobilière CGVI |
+| **VOYAGEURS** | 100% DI SA Voyageurs | Direction Immobilière SA Voyageurs |
+| **RÉSEAU** | 100% RÉSEAU Division Immobilière | Division Immobilière RÉSEAU |
+| **FRET** | 100% FRET Transport Logistique | Division Transport Logistique |
+| **Locatif** | 100% Direction Immobilier | Direction Immobilier |
+
+### Facturation
+
+**Principe :** Facturation à l'avancement = **avancement physique** (pas d'avancement financier)
+
+**Axes locaux :**
+- Générés automatiquement via Immosis
+- Prestataires ABE : imputation automatique
+- Autres prestataires : communiquer explicitement aux services ERP
+
+### Cas Particuliers
+
+**Bâtiments Non Courants (VTR G BNC) :**
+- Ossature/charpente métallique (portée > 10m, surface > 150m²)
+- Structures innovantes avec efforts importants
+- Structures avec grands porte-à-faux (marquises, auvents)
+- Ouvrages de soutènement liés à bâtiment/terrain
+- Châteaux d'eau
+- Autres structures exceptionnelles
+
+**Accompagnement Diagnostic (VTR ACC DIAG) :**
+- Accompagnements ABE pour diagnostics externes (ex : ascenseurs)
+- Non compris dans CME
+
+### Checklist Validation Saisie AT
+
+- [ ] Intitulé explicite et compréhensible
+- [ ] Famille budgétaire correcte (GER/MEC/CME/PTP/ML/TL/VR/DIAG)
+- [ ] Sous-type Immosis approprié
+- [ ] Gérant de Programme valide
+- [ ] Fournisseur identifié (ABE/Interne/TIERS)
+- [ ] Montant cohérent avec seuils (> 3 500€ pour GER/TL, ≤ 3 500€ pour PTP)
+- [ ] Axes locaux générés et documentés
+- [ ] Donneur d'ordre renseigné
+- [ ] Reventilation B/D correcte selon SA
+
 Règles de réponse :
 - Réponds toujours en français
 - Sois précis et cite les références du contrat (articles CPS, annexes, pénalités P1-P19) quand c'est pertinent
