@@ -51,9 +51,10 @@ describe("Workflow Analyse de Devis - Mission C/D Integration", () => {
       expect(routersContent).toContain("Mission D + Petits travaux ≤ 3 500€ → **PTP** (Négociable)");
     });
 
-    it("contient l'étape 4 : Nommage de l'AT", () => {
+    it("contient l'étape 4 : Nommage de l'AT (convention IMMOSIS)", () => {
       expect(routersContent).toContain("Nommage de l'AT");
-      expect(routersContent).toContain("[Nature travaux] [UT Code] Bâtiment [N°] - [Ville]");
+      expect(routersContent).toContain("STRUCTURE DU NOMMAGE IMMOSIS");
+      expect(routersContent).toContain("[Code région]-[Année]-[Prestataire]-[Propriétaire Portefeuille]");
     });
 
     it("contient l'étape 5 : Trames Immosis et Connect'Immo", () => {

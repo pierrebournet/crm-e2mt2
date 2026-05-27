@@ -2097,29 +2097,68 @@ Présente le résultat :
 
 ### ÉTAPE 4 : Nommage de l'AT (Nomenclature PPT 2026)
 
-Génère un intitulé EXPLICITE en respectant la nomenclature PPT 2026 :
+Génère le nommage IMMOSIS en respectant la convention officielle :
 
-**Règles de nommage obligatoires :**
-- Doit être compris par quelqu'un d'EXTÉRIEUR au projet
-- Format : [Nature travaux] [UT Code] Bâtiment [N°] - [Ville]
-- Inclure TOUJOURS : localisation (UT, n° bâtiment), type de travail, ville
-- Pas d'abréviations incompréhensibles
-- Pas de référence OT seule (pas "Suite OT COR 3402905" sans description)
+**STRUCTURE DU NOMMAGE IMMOSIS :**
+Chaque élément est séparé par un tiret (-). Format :
+[Code région]-[Année]-[Prestataire]-[Propriétaire Portefeuille]-[Particularité]-[UT-BAT]-[N° devis si ESBE]-[Nature opération]
 
-**Exemples conformes :**
-- "Remplacement toiture bâtiment 45 UT 12345 - Toulouse"
-- "Mise en conformité électrique UT 004714Y B032 - Tarbes"
-- "Remplacement faux plafond + refixation tuyauteries UT 004714Y B032 - Tarbes"
-- "Désamiantage local technique UT 56789 B012 - Montpellier"
+**Éléments obligatoires pour TOUTES les AT :**
+- Code région : 2 chiffres (Occitanie Ouest = 47, PACA = 58, Occitanie Est = 59)
+- Année : 2 chiffres (ex: 26 pour 2026)
+- Prestataire : DI ou ESBE
+- Propriétaire et portefeuille : RES TERTIAIRE, MOBI INDUS, TETE RHIST, RES FERRO, MOBI SOCIAL, FRET, etc.
 
-**Exemples NON conformes (rejetés) :**
-- "OT COR 3402905" (pas de description)
-- "Travaux B032" (trop vague, pas de ville, pas d'UT)
-- "Remplacement" (incomplet)
+**Pour les AT ANNUELLES (ajouter après propriétaire) :**
+- Type de dépense : VRE, ACCOMP LINKY, PTP E2MT, AMO QUADRIM, ASC, MPS ELEC, etc.
+- Terminer par : ANNUEL
+
+**Pour les AT PONCTUELLES (ajouter après propriétaire) :**
+- Particularité éventuelle : OPS (travaux locatifs OPTIM'SERVICES), FRUG (frugalité énergétique), VG (suite visite de gestion)
+- UT-BAT : 7 + 4 caractères (ex: 005737JB010)
+- Si ESBE : ajouter le N° du devis
+- Nature de l'opération : descriptif court et explicite
+
+**EXEMPLES CONFORMES :**
+- 47-23-ESBE-RESO FERRO-005654VB061-Brochage de fissures
+- 59-23-DI-MOBI INDUS TER-005737JB010-Rplct 2 BAES CMPP
+- 58-23-DI-MOBI SOCIAL-OPS-005737JB010-Rplct 2 BAES CMPP
+- 59-23-ESBE-RES FERRO-005654VB061-MP 220 2022-Brochage de fissures
+- 59-23-ESBE-RES INDUS-MPS ELEC-ANNUEL
+- 58-23-DI-FRET-PTP E2MT-ANNUEL
+- 47-26-ESBE-RES TERTIAIRE-004714YB032-Rplct faux plafond + refixation tuyauteries
+
+**TYPE À CHOISIR DANS IMMOSIS :**
+| Nature dépense | Type IMMOSIS | Libellé | Budget |
+|---|---|---|---|
+| GE - B5 | GE | Gros Entretiens | GE_A2.2_B5_D2_E2_G5 |
+| GE - B5 | GE IST CCE | Gros Entretien IST CCE | GE_A2.2_B5_D2_E2_G5 |
+| GE - B5 | GE_CMT | Gros entretiens - CMT | GE_A2.2_B5_D2_E2_G5 |
+| Etude Faisabilité | EF | Etude de Faisabilité | GE_A2.2_B5_D2_E2_G5 |
+| Eco Energie/DigiWatt/Linky | CA EE | Campagne d'économies d'énergies | GE_A2.2_B5_D2_E2_G5 |
+| MEC E | MEC_EE | Mise en conformité énergie électrique | GE_A2.2_B5_D2_E2_G5 |
+| Plomb | TRPB | Retrait du Plomb | GE_A2.2_B5_D2_E2_G5 |
+| DTA/DAAT - A3.2 | VTR AMIA INIT | Diagnostic Initial Amiante | AM_VR_TVX_A3.2 |
+| Trx AM A3.2 | TDA | Travaux de Désamiantage | AM_VR_TVX_A3.2 |
+| Trx AM A3.2 | TDANF | Travaux Enlèvement Amiante Non Friable | AM_VR_TVX_A3.2 |
+| VR E / HT/BT | VTR_EE | Visite réglementaire énergie électrique | AM_VR_TVX_A3.2 |
+| Visites de Gestion | VTR G | Visites de Gestion | AM_VR_TVX_A3.2 |
+| BNC | VTR GBNC | Visites Gestion Bâtiments Non Courants | AM_VR_TVX_A3.2 |
+| VR | VTR PR | Vérifications Réglementaires | AM_VR_TVX_A3.2 |
+| Forfait E2MT | CME_CMT | Contrats maintenance externe - CMT | CME |
+| AMOA / Ascenseurs / Dégrilleur / PPI | CME | Contrats maintenance externe | CME |
+| Forfait E2MT - ESBE | CMI | Contrats de Maintenance Interne | CME |
+| PTP | PTP_CMT | Petits travaux propriétaires - CMT | PTP |
+| PTP H | PTP | Contrats Petits Travaux du Propriétaire | PTP |
+| MPS E | EE_MPS | Energie électrique MPS | EE_MPS |
+| Chateau eau | CME_CMT | Contrats maintenance externe - CMT | CME |
 
 ---
-## 📝 NOMMAGE AT
-Intitulé proposé : [Intitulé conforme à la nomenclature]
+## 📝 NOMMAGE AT IMMOSIS
+- **Nommage complet :** [Code région]-[Année]-[Prestataire]-[Portefeuille]-[Particularité si applicable]-[UT-BAT]-[Nature opération]
+- **Type IMMOSIS :** [Code type]
+- **Libellé type :** [Libellé complet]
+- **Budget impacté :** [Code budget]
 ---
 
 ### ÉTAPE 5 : Vérification conformité du devis (Contrôle BPU)
@@ -2210,7 +2249,10 @@ Voici un exemple complet d'analyse réalisée sur un devis EQUANS (OT COR 340290
 
 **Étape 3 — PPT 2026 :** CME (Contrats Maintenance Externe) / Code ZG360720 / Sous-type "P - Contrats de maintenance" / Mixte
 
-**Étape 4 — Nommage :** Remplacement faux plafond + refixation tuyauteries UT 004714Y B032 - Tarbes
+**Étape 4 — Nommage IMMOSIS :**
+- Nommage complet : 47-26-ESBE-RES TERTIAIRE-004714YB032-Rplct faux plafond + refixation tuyauteries
+- Type IMMOSIS : CME_CMT (Contrats maintenance externe - CMT)
+- Budget impacté : CME
 
 **Étape 5 — Conformité BPU :**
 - Taux R12 = 62€/h → CONFORME au BPU
