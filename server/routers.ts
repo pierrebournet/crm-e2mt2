@@ -1767,6 +1767,141 @@ Exceptions:
 10. Bilan sécurité et PDP
 11. Insertion par l'activité économique
 
+## IMMO 104 V3 — Gestion SNCF Immobilier des Occupations du Groupe Public Unifié
+
+**Référence :** IMO00104 - Version 03 du 8 Mars 2023 (AG2A) — Émetteur : SNCF IMMOBILIER
+
+Ce référentiel fixe les règles de gestion des occupations d'immeubles propriété des SA du Groupe Public Unifié (GPU : SNCF SA, SNCF Réseau, SNCF Voyageurs, Fret SNCF, SNCF Gares & Connexions) ou pris à bail par ces dernières.
+
+### Types de conventions locatives
+
+**Convention Intra SA :**
+- Occupation d'une SA dans ses propres immeubles
+- Durée : 1 an, reconduction tacite
+- Formalisme : inventaire validé au budget (simples baux de gestion IMMOSIS)
+- Cas particuliers : SNCF Réseau et Fret SNCF = pas de loyer interne
+- SNCF Voyageurs inter-RG : loyer coût complet (DAP + impôts + entretien forfait)
+- SNCF SA : loyer marché (sauf RG 24051/24052 = actifs sociétaux sans loyer)
+
+**Convention Inter SA :**
+- Occupation d'une SA dans immeuble propriété d'une autre SA Cliente
+- Formalisé obligatoirement
+- Durée : fixée dans contrat (pas de tacite reconduction)
+- Nature juridique :
+  - Domaine public (SNCF Réseau) : COT (Convention d'Occupation Temporaire)
+  - Domaine privé (SNCF, Voyageurs, Fret) : Bail civil
+- Charges minimales facturées : loyer marché + quote-part taxe foncière + rémunération SNCF Immobilier
+
+**Prise à Bail Externe (PABE) :**
+- Occupation d'une SA ou filiale SNCF dans biens appartenant à tiers externe au GPU
+- Preneur à bail principal : généralement SNCF SA
+- Contrats de sous-location régissent l'occupation des SA Clientes
+
+### Postes de charges immobilières
+
+**Charges incombant au propriétaire :**
+- Entretien et maintenance propriétaire (gros entretien, grosses réparations, investissements)
+- Bâtiments non occupés
+- Impôts et taxes (partiellement refacturables)
+- Assurances (sauf DI Voyageurs)
+- Fluides sur surfaces vacantes
+- Rémunération SNCF Immobilier (gestion locative)
+
+**Charges refacturées à l'occupant :**
+- Impôts et taxes : forfait annuel = quote-part taxe foncière + taxe bureau au prorata surfaces
+- Travaux d'entretien et maintenance : 30% du loyer nu (bâtiments assujettis loyer marché, révisé annuellement ILAT)
+
+**Charges incombant à l'occupant :**
+- Loyer nu (loyer marché, hors charges) — sauf cas particuliers
+- Entretien et maintenance courante
+- Travaux amélioratifs
+- Services (Facility Management)
+- Fluides (consommations énergétiques et eau)
+- Assurances (biens DI Voyageurs uniquement)
+- Autres charges récupérables
+
+### Détermination du loyer nu
+
+**Surface locative (bâtiments) :**
+- Surface utile occupée privatif + quote-part parties communes (répartition au prorata surfaces utiles)
+- Surfaces physiques localisables sur site (pas de surfaces virtuelles analytiques)
+
+**Surface locative (terrains) :**
+- Loyer de marché basé sur expertises valeur locative en poursuite d'usage
+- Terrain d'assiette = surface projetée bâtiment × 2,5 (inclus dans loyer bâtiment, pas de loyer séparé)
+- Seuls terrains non-supports de bâtiment assujettis à loyer complet
+
+**Types de loyers :**
+- Loyer nu : hors charges ou rémunération (domaine public)
+- Loyer de marché : valeur théorique du marché hors taxes/charges (Inter SA, Intra SNCF, Intra Voyageurs DI)
+- Loyer coût complet : DAP + impôts + entretien forfait + frais financiers (Intra Voyageurs inter-RG hors DI)
+
+### Charges dans les PABE (Prises à Bail Externes)
+
+**Surface locative :** Surface utile occupée + quote-part parties communes (répartition au prorata)
+
+**Postes facturés aux sous-locataires :**
+- Quote-part loyer bail externe
+- Quote-part charges communes
+- Taxes, assurances, fluides (selon contrat bail externe)
+- Rémunération SNCF Immobilier
+- Autres charges récupérables
+
+### Emménagement, libération et vacance
+
+**Prise en charge du loyer :**
+- Période aménagement nouveaux locaux : propriétaire (débute à prise de jouissance)
+- Période remise en état locaux restitués : occupant responsable (au-delà délai contractuel : propriétaire)
+
+**Libérations :**
+- Occupant quitte les lieux, état des lieux de sortie établi, propriétaire reprend possession
+- Pour PABE : sous-locataire quitte, preneur à bail principal reste responsable envers bailleur externe
+
+### Obligations des parties
+
+**Obligation de délivrance (Article 1719 Code Civil) :**
+Le bailleur doit :
+1. Délivrer le bien loué (logement décent si habitation principale)
+2. Entretenir le bien en état de servir à l'usage prévu
+3. En faire jouir paisiblement le preneur pendant durée du bail
+4. Assurer permanence et qualité des plantations
+
+**Gestion des risques immobiliers :**
+Propriétaire responsable (amiante, ICPE, IGH, etc.)
+
+**Règles en cas d'occupation irrégulière :**
+Propriétaire doit agir pour régulariser ou faire cesser l'occupation
+
+### Constructions sur sol d'autrui
+
+**Conditions :**
+- Accord préalable de SNCF Immobilier et propriétaire
+- Convention non simplifiée obligatoire
+- Doit inclure : clauses dérogatoires, descriptif détaillé destination, coût/planning travaux, durée engagement, conditions résiliation anticipée
+
+### Systèmes d'information
+
+- **IMMOSIS** : Gère inventaire physique, gestion locative, gestion technique
+- **Geoprism** : Géolocalisation inventaire physique
+- **AGIL** : Consultation taxes immobilières par bien
+
+### Points clés pour l'analyse de contrats immobiliers
+
+1. **Vérifier le type de convention :** Intra SA, Inter SA, ou PABE ?
+2. **Identifier la SA propriétaire et occupante**
+3. **Vérifier les charges facturées :**
+   - Loyer nu : doit être loyer de marché (sauf cas particuliers)
+   - Impôts/taxes : forfait annuel indexé
+   - Entretien : 30% du loyer nu (bâtiments assujettis loyer marché)
+   - Fluides : facturés au prorata surfaces occupées
+4. **Vérifier les surfaces :** Surfaces utiles + quote-part parties communes
+5. **Vérifier l'indexation :** ILAT pour charges, même rythme que loyer
+6. **Cas particuliers :**
+   - Intra Réseau/Fret : pas de loyer
+   - Intra Voyageurs inter-RG : loyer coût complet
+   - Intra SNCF RG 24051/24052 : pas de loyer (actifs sociétaux)
+   - Bâtiments vacants : charges au propriétaire
+
 Règles de réponse :
 - Réponds toujours en français
 - Sois précis et cite les références du contrat (articles CPS, annexes, pénalités P1-P19) quand c'est pertinent
