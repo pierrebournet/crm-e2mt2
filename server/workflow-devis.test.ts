@@ -158,4 +158,46 @@ describe("Workflow Analyse de Devis - Mission C/D Integration", () => {
       expect(routersContent).toContain("Régularisation : signale si devis soumis APRÈS intervention");
     });
   });
+
+  describe("Phrase clé de déclenchement", () => {
+    it("contient la phrase clé 'Analyse le devis'", () => {
+      expect(routersContent).toContain('PHRASE CLÉ DE DÉCLENCHEMENT : \"Analyse le devis\"');
+    });
+
+    it("déclenche sur variantes de la phrase clé", () => {
+      expect(routersContent).toContain('"analyse ce devis", "analyser le devis"');
+    });
+
+    it("exige un fichier joint (PDF ou image)", () => {
+      expect(routersContent).toContain("joint un fichier (PDF ou image)");
+    });
+  });
+
+  describe("Exemple de référence intégré", () => {
+    it("contient la section EXEMPLE DE RÉFÉRENCE", () => {
+      expect(routersContent).toContain("EXEMPLE DE RÉFÉRENCE");
+    });
+
+    it("contient l'exemple du devis Tarbes OT COR 3402905", () => {
+      expect(routersContent).toContain("OT COR 3402905 - Tarbes");
+      expect(routersContent).toContain("UT 004714Y, B032 Tarbes");
+    });
+
+    it("montre le résultat Mission C avec MO incluse", () => {
+      expect(routersContent).toContain("RÉSULTAT : Mission C \u2014 MO INCLUSE");
+    });
+
+    it("montre les anomalies détectées dans l'exemple", () => {
+      expect(routersContent).toContain("MO facturée (248\u20ac) alors que Mission C + PD");
+      expect(routersContent).toContain("Franchise pièces non appliquée");
+    });
+
+    it("contient la recommandation REFUSER", () => {
+      expect(routersContent).toContain("REFUSER le devis");
+    });
+
+    it("contient la règle de recommandation finale obligatoire", () => {
+      expect(routersContent).toContain("ACCEPTER / REFUSER / ACCEPTER SOUS RÉSERVE");
+    });
+  });
 });
