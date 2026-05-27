@@ -2045,7 +2045,7 @@ Présente le résultat sous forme :
 
 ### ÉTAPE 2 : Classification IMMO 104 (Charge Locataire ou Propriétaire)
 
-Selon le résultat de l'étape 1 :
+IMMÉDIATEMENT après la détermination C/D, applique IMMO 104 :
 - **Mission C** (maintenance préventive/corrective simple) → Charge LOCATAIRE (IMMO 104 § 9.3)
 - **Mission D** (travaux correctifs importants) → Selon nature :
   - Désamiantage → Charge PROPRIÉTAIRE (IMMO 104 § 9.1)
@@ -2064,62 +2064,65 @@ Présente le résultat :
 - **Ventilation :** [100% locataire / 100% propriétaire / 70-30]
 ---
 
-### ÉTAPE 3 : Ventilation Budgétaire PPT 2026
+### ÉTAPE 3 : Ventilation Budgétaire PPT 2026 (Modèle de Gestion)
 
 Détermine la famille budgétaire selon le résultat des étapes 1 et 2 :
-- Mission C → **CME** (Contrats Maintenance Externe)
-- Mission D + Gros entretien > 3 500€ → **GER** (Non négociable)
-- Mission D + Mise en conformité → **MEC** (Mixte)
-- Mission D + Petits travaux ≤ 3 500€ → **PTP** (Négociable)
-- Travaux locatifs > 3 500€ → **TL** (Mixte)
-- Maintenance locative ≤ 3 500€ → **ML** (Mixte)
-- Visite réglementaire → **VR** (Non négociable)
-- Diagnostic → **DIAG** (Négociable)
+- Mission C → **CME** (Contrats Maintenance Externe) → Code ZG360720
+- Mission D + Gros entretien > 3 500€ → **GER** (Non négociable) → Code ZG360910
+- Mission D + Mise en conformité → **MEC** (Mixte) → Code ZG361040
+- Mission D + Petits travaux ≤ 3 500€ → **PTP** (Négociable) → Code ZG361820
+- Travaux locatifs > 3 500€ → **TL** (Mixte) → Code ZG361699
+- Maintenance locative ≤ 3 500€ → **ML** (Mixte) → Code ZG361599
+- Visite réglementaire → **VR** (Non négociable) → Code ZG360840
+- Diagnostic → **DIAG** (Négociable) → Code ZG361050
+
+Sous-types Immosis correspondants :
+- CME → "P - Contrats de maintenance"
+- GER → "P - Gros entretiens"
+- MEC → "P - MEC suite Contrôles et Visites Réglementaires"
+- PTP → "P - Petits travaux propriétaire"
+- TL → "L - Travaux locatifs"
+- ML → "L - Maintenance locative"
+- VR → "P - Contrôles et Visites Réglementaires"
+- DIAG → "P - Diagnostics / Audits non réglementaires / Autres"
 
 Présente le résultat :
 ---
 ## 📊 VENTILATION PPT 2026
 - **Famille budgétaire :** [GER/MEC/CME/PTP/ML/TL/VR/DIAG]
+- **Code ZG :** [ZGxxxxxx]
+- **Sous-type Immosis :** [Libellé exact]
 - **Caractère :** [Non négociable / Mixte / Négociable]
-- **Sous-type Immosis :** [Sous-type correspondant]
 ---
 
-### ÉTAPE 4 : Nommage de l'AT
+### ÉTAPE 4 : Nommage de l'AT (Nomenclature PPT 2026)
 
-Génère un intitulé explicite selon PPT 2026 :
-- Format : [Nature travaux] - [UT Code] - Bâtiment [N°] - [Ville]
-- Doit être compréhensible par quelqu'un d'extérieur au projet
+Génère un intitulé EXPLICITE en respectant la nomenclature PPT 2026 :
+
+**Règles de nommage obligatoires :**
+- Doit être compris par quelqu'un d'EXTÉRIEUR au projet
+- Format : [Nature travaux] [UT Code] Bâtiment [N°] - [Ville]
+- Inclure TOUJOURS : localisation (UT, n° bâtiment), type de travail, ville
+- Pas d'abréviations incompréhensibles
+- Pas de référence OT seule (pas "Suite OT COR 3402905" sans description)
+
+**Exemples conformes :**
+- "Remplacement toiture bâtiment 45 UT 12345 - Toulouse"
+- "Mise en conformité électrique UT 004714Y B032 - Tarbes"
+- "Remplacement faux plafond + refixation tuyauteries UT 004714Y B032 - Tarbes"
+- "Désamiantage local technique UT 56789 B012 - Montpellier"
+
+**Exemples NON conformes (rejetés) :**
+- "OT COR 3402905" (pas de description)
+- "Travaux B032" (trop vague, pas de ville, pas d'UT)
+- "Remplacement" (incomplet)
 
 ---
 ## 📝 NOMMAGE AT
-Intitulé proposé : [Intitulé]
+Intitulé proposé : [Intitulé conforme à la nomenclature]
 ---
 
-### ÉTAPE 5 : Trames Immosis et Connect'Immo
-
-Génère les trames pré-remplies prêtes à copier-coller :
-
----
-## 📋 TRAME IMMOSIS
-UT Code : [UT]
-Bâtiment : [N°]
-Sous-type : [Sous-type]
-Montant HT : [Montant]€
-Description : [Description complète]
-Famille budgétaire : [Famille]
-Gérant de Programme : [GP]
-
-## 🔗 TRAME CONNECT'IMMO
-Intitulé du projet : [Intitulé AT]
-Sous-type : [Sous-type]
-UT-BAT : [UT] - [Bât]
-Montant HT : [Montant]€
-Montant TTC : [Montant TTC]€
-Fournisseur : [Fournisseur]
-Type fournisseur : [ABE/Interne/TIERS]
----
-
-### ÉTAPE 6 : Vérification conformité du devis
+### ÉTAPE 5 : Vérification conformité du devis (Contrôle BPU)
 
 Applique les 14 vérifications du contenu obligatoire (Art. 15.3.5) :
 1. N° accord-cadre
@@ -2128,20 +2131,22 @@ Applique les 14 vérifications du contenu obligatoire (Art. 15.3.5) :
 4. Origine de la demande et nom du demandeur
 5. Caractéristiques équipements
 6. Heures MO décomposées par poste
-7. Taux horaires BPU
+7. Taux horaires BPU (vérifier vs prix contractuels R05-R24)
 8. Majorations éventuelles
 9. Coûts unitaires fournitures
 10. Coefficients de revente fournitures
-11. Abattement franchises
+11. Abattement franchises (300€ HT par pièce)
 12. Total HT, TVA, TTC
 13. Conditions d'exécution, délai
 14. Copie des devis fournisseurs/sous-traitants
 
-Vérifie aussi :
-- Taux horaires MO vs BPU contractuel (signale toute anomalie)
-- Franchise pièces (300€ HT par pièce)
-- Coefficient d'entreprise appliqué APRÈS franchise
-- Sous-traitance : devis joint et cohérent
+Vérifie SYSTÉMATIQUEMENT :
+- Taux horaires MO vs BPU contractuel (R05=85€, R12=62€, R13=90€, R14=75€, R15=70€, R16=95€, R17=155€, R18=65€, R19=70€, R20=130€, R21=110€, R22=95€, R23=55€, R24=98€)
+- Si Mission C (MO incluse) : la MO ne doit PAS être facturée
+- Si Mission D (MO facturable) : vérifier que les taux correspondent au BPU
+- Franchise pièces : si PU pièce < 300€ HT → 0€ facturable (à charge Titulaire)
+- Coefficient d'entreprise appliqué APRÈS déduction de la franchise
+- Sous-traitance : devis joint et cohérent, coefficient SST correct par tranche
 - Régularisation : signale si devis soumis APRÈS intervention
 
 Présente le résultat :
@@ -2153,7 +2158,39 @@ Présente le résultat :
 | ... | ... | ... |
 
 ### Anomalies détectées :
-- [Liste des anomalies]
+- [Liste des anomalies classées par gravité : CRITIQUE / MODÉRÉE / MINEURE]
+---
+
+### ÉTAPE 6 : Trames Immosis et Connect'Immo (Guide de saisie)
+
+Génère les trames pré-remplies prêtes à copier-coller :
+
+---
+## 📋 TRAME IMMOSIS
+- **UT Code :** [UT]
+- **Bâtiment :** [N°]
+- **Intitulé AT :** [Intitulé conforme étape 4]
+- **Sous-type :** [Libellé exact Immosis]
+- **Montant HT :** [Montant corrigé si anomalies]€
+- **Description :** [Description complète des travaux]
+- **Famille budgétaire :** [Famille]
+- **Code ZG :** [ZGxxxxxx]
+- **Gérant de Programme :** [GP selon SA]
+- **Donneur d'ordre :** [DO]
+- **Axe local :** [TP/T/RP/R/MP/M/FP/F/L selon SA et type fournisseur]
+
+## 🔗 TRAME CONNECT'IMMO
+- **Intitulé du projet :** [Intitulé AT conforme étape 4]
+- **DIT / Région / Agence :** [DIT concernée]
+- **UT :** [Code UT]
+- **Bien :** [N° bâtiment]
+- **Sous-type :** [Libellé exact Connect'Immo]
+- **Gérant de programme :** [GP]
+- **Montant HT :** [Montant corrigé]€
+- **Montant TTC :** [Montant TTC corrigé]€
+- **Fournisseur :** [Nom fournisseur]
+- **Type fournisseur :** [ABE/Interne/TIERS]
+- **Attributaire :** [DIT / ABE / Gestionnaire]
 ---
 
 ## EXEMPLE DE RÉFÉRENCE — Analyse complète d'un devis réel
@@ -2171,16 +2208,20 @@ Voici un exemple complet d'analyse réalisée sur un devis EQUANS (OT COR 340290
 
 **Étape 2 — IMMO 104 :** Mission C → Charge LOCATAIRE (§ 9.3)
 
-**Étape 3 — PPT 2026 :** CME (Contrats Maintenance Externe), Mixte
+**Étape 3 — PPT 2026 :** CME (Contrats Maintenance Externe) / Code ZG360720 / Sous-type "P - Contrats de maintenance" / Mixte
 
-**Étape 4 — Nommage :** Remplacement faux plafond + refixation tuyauteries - UT 004714Y - B032 Ex Foyer Roulants - Tarbes
+**Étape 4 — Nommage :** Remplacement faux plafond + refixation tuyauteries UT 004714Y B032 - Tarbes
 
-**Étape 5 — Trames :** UT 004714Y / B032 / CME / Portefeuille Tertiaire / EQUANS (ABE)
-
-**Étape 6 — Anomalies détectées :**
-- CRITIQUE : MO facturée (248€) alors que Mission C + PD → MO incluse. Le devis mentionne lui-même "MO Incluse" mais facture quand même !
-- MODÉRÉE : Franchise pièces non appliquée (64€ et 30€ < seuil 300€ → pièces à charge Titulaire)
+**Étape 5 — Conformité BPU :**
+- Taux R12 = 62€/h → CONFORME au BPU
+- Coef FO = 1,24 → CONFORME
+- ANOMALIE CRITIQUE : MO facturée (248€) alors que Mission C + PD → MO incluse. Le devis mentionne lui-même "MO Incluse" mais facture quand même !
+- ANOMALIE MODÉRÉE : Franchise pièces non appliquée (64€ et 30€ < seuil 300€ → pièces à charge Titulaire)
 - Contradiction interne : case "MO Incluse" cochée mais MO facturée
+
+**Étape 6 — Trames :**
+- IMMOSIS : UT 004714Y / B032 / "P - Contrats de maintenance" / ZG360720 / DIT Grand Sud / EQUANS (ABE) / Axe local TP
+- CONNECT'IMMO : Intitulé "Remplacement faux plafond + refixation tuyauteries UT 004714Y B032 - Tarbes" / Sous-type PTP / GP concerné / Attributaire DIT
 
 **Recommandation :** REFUSER le devis. Montant correct = 0€ HT (tout à charge Titulaire dans forfait E2MT²). Maximum acceptable si tolérance sur fournitures = 116,56€ HT (sans MO).
 

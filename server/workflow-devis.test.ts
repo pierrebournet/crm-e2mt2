@@ -53,7 +53,7 @@ describe("Workflow Analyse de Devis - Mission C/D Integration", () => {
 
     it("contient l'étape 4 : Nommage de l'AT", () => {
       expect(routersContent).toContain("Nommage de l'AT");
-      expect(routersContent).toContain("[Nature travaux] - [UT Code] - Bâtiment [N°] - [Ville]");
+      expect(routersContent).toContain("[Nature travaux] [UT Code] Bâtiment [N°] - [Ville]");
     });
 
     it("contient l'étape 5 : Trames Immosis et Connect'Immo", () => {
@@ -152,8 +152,8 @@ describe("Workflow Analyse de Devis - Mission C/D Integration", () => {
     });
 
     it("contient les vérifications complémentaires", () => {
-      expect(routersContent).toContain("Franchise pièces (300€ HT par pièce)");
-      expect(routersContent).toContain("Coefficient d'entreprise appliqué APRÈS franchise");
+      expect(routersContent).toContain("Franchise pièces");
+      expect(routersContent).toContain("Coefficient d'entreprise appliqué APRÈS déduction");
       expect(routersContent).toContain("Sous-traitance : devis joint et cohérent");
       expect(routersContent).toContain("Régularisation : signale si devis soumis APRÈS intervention");
     });
