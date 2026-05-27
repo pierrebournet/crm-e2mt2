@@ -26,6 +26,8 @@ import { notifyOwner } from "./_core/notification";
 import { invokeLLM } from "./_core/llm";
 import { storagePut } from "./storage";
 import { nanoid } from "nanoid";
+import { analyserDevis, DevisInput } from "./devis-analyzer";
+import { genererRapportDevis } from "./devis-report-template";
 
 export const appRouter = router({
   system: systemRouter,
@@ -2079,9 +2081,51 @@ Règles de réponse :
 
         return { answer };
       }),
+
+    analyzeDevis: protectedProcedure
+      .input(z.object({
+        numeroDevis: z.string(),
+        dateDevis: z.date(),
+        montantHT: z.number(),
+        montantTTC: z.number(),
+        utCode: z.string(),
+        batimentNumero: z.string(),
+        batimentNom: z.string().optional(),
+        ville: z.string().optional(),
+        typesTravaux: z.array(z.string()),
+        description: z.string(),
+        typeConvention: z.enum(["Intra SA", "Inter SA", "PABE"]),
+        saPropietaire: z.enum(["SNCF", "VOYAGEURS", "RÉSEAU", "FRET", "Gares & Connexions"]),
+        saOccupante: z.enum(["SNCF", "VOYAGEURS", "RÉSEAU", "FRET", "Gares & Connexions", "Tiers"]).optional(),
+        estVacant: z.boolean().optional(),
+        estLocatif: z.boolean().optional(),
+        estDesamiantage: z.boolean().optional(),
+        estMiseEnConformite: z.boolean().optional(),
+        estMaintenanceContractuelle: z.boolean().optional(),
+        estVisiteReglementaire: z.boolean().optional(),
+        estDiagnostic: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        // Analyser le devis
+        const analyse = analyserDevis(input as DevisInput);
+        
+        // Générer le rapport Markdown
+        const rapport = genererRapportDevis(input as DevisInput, analyse);
+        
+        // Sauvegarder le rapport en S3
+        const buffer = Buffer.from(rapport, "utf-8");
+        const fileKey = `devis-analysis/${Date.now()}-${nanoid(8)}-${input.numeroDevis}.md`;
+        const { url } = await storagePut(fileKey, buffer, "text/markdown");
+        
+        return {
+          analyse,
+          rapportUrl: url,
+          rapportMarkdown: rapport,
+        };
+      }),
   }),
 
-  // ===== SUIVI (Tableau de suivi Excel) =====
+  // ===== SUIVI (Tableau de suivi Excel) ====
   suivi: router({
     uploadDevis: protectedProcedure
       .input(z.object({
