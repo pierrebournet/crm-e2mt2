@@ -23,6 +23,7 @@ import LivrablesPage from "./pages/LivrablesPage";
 import ReferentielOutilsPage from "./pages/ReferentielOutilsPage";
 import LogigrammePage from "./pages/LogigrammePage";
 import Evolutions2026Page from "./pages/Evolutions2026Page";
+import ArbreDecisionPage from "./pages/ArbreDecisionPage";
 
 function Router() {
   return (
@@ -47,6 +48,7 @@ function Router() {
         <Route path="/outils" component={ReferentielOutilsPage} />
         <Route path="/logigramme" component={LogigrammePage} />
         <Route path="/evolutions-2026" component={Evolutions2026Page} />
+        <Route path="/arbre-decision" component={ArbreDecisionPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

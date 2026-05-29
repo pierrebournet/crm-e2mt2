@@ -180,3 +180,4 @@
 - [x] Bouton "Analyser devis" sur chaque PDF dans le panneau documents (lance analyse BPU automatique)
 - [x] Bouton "Effacer" conversation avec icône Trash2
 - [x] Tests unitaires améliorations upload V2 (39 tests, 344 tests au total)
+- [x] Arbre de décision interactif (Q1-Q8) pour guider Mission C/D, sous-type et nature de travaux dans l'interface

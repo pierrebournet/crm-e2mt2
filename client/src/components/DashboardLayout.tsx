@@ -42,6 +42,7 @@ import {
   AppWindow,
   GitBranchPlus,
   AlertTriangle,
+  TreePine,
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -54,6 +55,7 @@ const menuItems = [
   { icon: Wrench, label: "Interventions", path: "/interventions" },
   { icon: PlusCircle, label: "Nouvelle intervention", path: "/interventions/new" },
   { icon: FileSearch, label: "Analyse de devis", path: "/devis" },
+  { icon: TreePine, label: "Arbre de Décision", path: "/arbre-decision" },
   { icon: Bell, label: "Alertes", path: "/alertes" },
   { icon: ClipboardList, label: "Tableau de suivi", path: "/suivi" },
   { icon: Bot, label: "Assistant IA", path: "/assistant" },
