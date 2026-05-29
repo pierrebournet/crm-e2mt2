@@ -1159,67 +1159,79 @@ Ajout du suffixe **P** en 2ème caractère pour identifier les prestations réal
 - Le gérant MAINTENANCE SUD AZUR a été créé depuis 2025 et doit être utilisé avec la famille travaux correspondante.
 - Le gérant GIE est nouveau en 2026 (SNCF Optim Services).
 
-### 5. Sous-types IMMOSIS actifs (18) — Bonnes et Mauvaises Pratiques
+### 5. Sous-types IMMOSIS actifs (18) — Bonnes et Mauvaises Pratiques (V2 - Août 2025)
 
 | Code | Sous-type | Bonnes pratiques | Mauvaises pratiques |
 |---|---|---|---|
-| VTR ACC DIAG | Accompagnement diagnostic | Accompagnement ABE pour missions hors rémunération COGC (VR ou non) | Accompagnement VRE (inclus dans rémunération VRE) |
-| CME | Contrats de Maintenance Externe | Contrat maintenance externe hors E2MT (ascenseurs, AMO Quadrim, nettoyage, gardiennage, location benne/bungalow) | Forfait ou travaux E2MT |
-| CME_CMT | Contrats de Maintenance Externe - E2MT | Forfait et prise en charge E2MT uniquement | Travaux connexes via E2MT (utiliser GE_CMT) |
-| CMI | Contrats de Maintenance Interne | NE PLUS UTILISER | MPS, PAM, maintenance postes HT/BT (utiliser EE_MPS) |
-| PTP | Contrats Petits Travaux du Propriétaire | Petits travaux < 3500 EUR hors E2MT (travaux connexes) | Travaux > 3500 EUR |
-| VTR AMIA INIT | Diagnostic Amiante | Tous diagnostics amiante : DTA, DAAT, diagnostic initial | - |
-| CA EE | Economies d'énergie, décarbonation | Télérelève, plan de comptage, audits énergétiques, étude thermique, relamping, LED, sortie fuel, PAC, RCU, GTB, isolation, recherche fuites | - |
-| EE_MPS | Energie Electrique MPS | Maintenance préventive électrique HT et BT : MPS, PAM, entretien poste HT/BT | - |
-| GE | Gros Entretiens | Tous travaux sur installations hors E2MT (travaux connexes), élagage, abatage, débroussaillage | Locations, nettoyage (→CME), MEC (→RAU ou MEC_EE), études (→VIR) |
-| GE_CMT | Gros Entretiens - par E2MT | Tous travaux sur installations via E2MT (travaux connexes) | Prise en charge/forfait E2MT (→CME_CMT), locations (→CME), MEC (→RAU) |
-| EE | Maintenance Elargie Energie Electrique | NE PLUS UTILISER | MPS, PAM (utiliser EE_MPS) |
+| VTR ACC DIAG | Accompagnement diagnostic | Accompagnement par ABE pour missions hors rémunération COGC (VR ou non) | Accompagnement VRE (inclus dans rémunération VRE, voir COGC) |
+| CME | Contrats de Maintenance Externe | Contrat maintenance externe hors E2MT (ascenseurs, AMO Quadrim, nettoyage, gardiennage, location benne/bungalow, contrat externe de service) | Forfait ou travaux E2MT |
+| CME_CMT | Contrats de Maintenance Externe - E2MT | Forfait et prise en charge E2MT UNIQUEMENT | Travaux connexes via marché E2MT (utiliser GE_CMT) |
+| CMI | Contrats de Maintenance Interne | NE PLUS UTILISER (FIGÉ) | MPS, PAM, maintenance postes HT/BT (utiliser EE_MPS) |
+| PTP | Contrats Petits Travaux du Propriétaire | Enveloppe petits travaux < 3500 EUR (voir COGC) réalisés HORS contrat E2MT (travaux connexes) | Travaux > 3500 EUR |
+| VTR AMIA INIT | Diagnostic Amiante | Tous diagnostics amiante : DTA, DAAT, diagnostic initial amiante | - |
+| CA EE | Economies d'énergie, décarbonation | Télérelève (tous fluides : élec, gaz, RCU, fuel, eau), plan de comptage, audits énergétiques, étude thermique, relamping, passage en LED, sortie du fuel, mise en place PAC, RCU, GTB, isolation, recherche de fuites | - |
+| EE_MPS | Energie Electrique MPS | Maintenance préventive dans le domaine électrique (HT et BT) : MPS, PAM, entretien poste HT/BT | - |
+| GE | Gros Entretiens | Tous travaux sur installations et équipements réalisés EN DEHORS du contrat E2MT (travaux connexes). Par extension : élagage, abatage, débroussaillage | Locations, nettoyage, gardiennage (→CME), MEC (→RAU ou MEC_EE), études/diagnostics (→VIR), contrat de service (→CME) |
+| GE_CMT | Gros Entretiens - par E2MT | Tous travaux sur installations et équipements réalisés AVEC le contrat E2MT (travaux connexes) | Prise en charge/forfait E2MT (→CME_CMT), locations/nettoyage/gardiennage (→CME), MEC (→RAU ou MEC_EE), études/diagnostics (→VIR) |
+| EE | Maintenance Elargie Energie Electrique | NE PLUS UTILISER (FIGÉ) | MPS, PAM (utiliser EE_MPS) |
 | ML | Maintenance Locative | Maintenance locative | Travaux locatifs (→TL) |
 | MEC_EE | Mise en conformité énergie électrique | MEC suite à VRE ou MPS | Autre nature de MEC (→RAU) |
-| RAU | Mise en conformité réglementaire autre (NOUVEAU) | Autres MEC que électriques (incendie, ascenseurs, chauffage...) | MEC Electriques (→MEC_EE) |
-| PTP_CMT | Petits Travaux Propriétaires - E2MT | Petits travaux < 3500 EUR via E2MT (travaux connexes) | Inclure dans même AT que forfait CME_CMT, travaux > 3500 EUR, travaux locatifs |
-| TDA | Travaux de Désamiantage | Désamiantage, traitement DVA, encapsulage | DTA, DAAT (→VTR AMIA INIT) |
+| RAU | Mise en conformité réglementaire autre (NOUVEAU) | Autres MEC que les MEC électriques (incendie, ascenseurs, chauffage...etc.) | MEC Electriques (→MEC_EE) |
+| PTP_CMT | Petits Travaux Propriétaires - E2MT | Enveloppe petits travaux < 3500 EUR (voir COGC) réalisés AVEC le contrat E2MT (travaux connexes) | Inclure dans même AT que forfait CME_CMT, travaux > 3500 EUR, travaux locatifs |
+| TDA | Travaux de Désamiantage | Désamiantage, traitement DVA, encapsulage. Associer en nature de travaux l'équipement ou partie de bâtiment concerné (clos, couvert, chauffage, sanitaire...) | DTA, DAAT, diagnostic initial amiante (→VTR AMIA INIT) |
 | TL | Travaux locatifs | Travaux locatifs | Maintenance locative (→ML) |
-| VTR_EE | Visite réglementaire énergie électrique | Uniquement visites réglementaires électriques | MEC électriques (→MEC_EE) |
-| VIR | Visite tech audit étude hors réglementaire et VG (NOUVEAU) | Visites techniques, études, audits non réglementaires et non VG | Audit énergétique (→CA EE) |
-| VTR G | Visites de Gestion | VG et diagnostics structurels bâtiments classiques | Travaux de structure (→GE) |
+| VTR_EE | Visite réglementaire énergie électrique | Uniquement les visites réglementaires électriques | MEC électriques (→MEC_EE) |
+| VIR | Visite tech audit étude hors réglementaire et VG (NOUVEAU) | Toutes visites techniques, études, audits qui ne rapportent pas à des obligations réglementaires ou à une VG | Audit énergétique (→CA EE) |
+| VTR G | Visites de Gestion | VG et diagnostics structurels sur bâtiments classiques | Travaux de structure (→GE) |
+| VTR G BNC | Visites de Gestion Bâtiments Non Courants | VG et diagnostics structurels sur bâtiments particuliers (ouvrages d'art, grandes halles, verrières) | - |
 
-### 6. Natures de Travaux IMMOSIS (24) — Guide d'affectation
+**Sous-types FIGÉS/SUPPRIMÉS (ne plus utiliser) :**
+- Contre expertise amiante → utiliser VTR AMIA INIT
+- Contrôle périodique amiante → utiliser VTR AMIA INIT
+- Gros Entretien IST CCE → utiliser GE avec gérant de programme IST
+- Groupe de visites techniques et réglementaires → sans objet
+- Maintenance élargie chauffage ventilation climat. → sans objet
+- RFF CIME GOE Autres → sans objet
+- Travaux Enlèvement Amiante Non Friable → utiliser TDA
+
+### 6. Natures de Travaux IMMOSIS (24) — Guide d'affectation (V2 - Août 2025)
 
 | Nature de travaux | Usage correct | NE PAS utiliser pour |
 |---|---|---|
 | Abris de quai et mobilier scellé | Usage G&C uniquement | DIT |
 | Aménagements intérieurs | Peinture, cloisonnement, faux plafond, escalier escamotable combles | Réfection douche (→Plomberie), isolation comble (→Clos) |
-| Assainissement / VRD / déchet / eau | Eaux usées, réseaux évacuation, stations épuration, voirie bitumage, gestion déchets, curage canalisation | Infiltration mur (→Clos), inertage fosse septique (→Plomberie), inertage cuve fioul (→CVC) |
+| Assainissement Voierie Réseau Divers, déchet, eau | Eaux usées, réseaux évacuation, stations épuration, voirie bitumage/enrobage, gestion déchets propriétaire, réseau d'eau hors plomberie bâtiment, curage canalisation | Infiltration mur/diagnostic humidité salpêtre moisissure (→Clos), inertage fosse septique (→Plomberie), inertage cuve fioul (→CVC) |
 | Audits et Etudes Energétiques (NOUVEAU) | Audits réglementaires énergétiques, études énergétiques à la demande | - |
-| Clos | Structure principale, murs, menuiseries extérieures, mise hors d'eau/hors d'air, isolation comble, ravalement façade | - |
-| Courant faible (téléphonie, automatisme, GTB) | GTB, portes automatiques, domotique | - |
-| Couvert | Toiture : réfection, étanchéité, sécurisation, démoussage | Descente EP (→VRD) |
+| Clos | Carcasse du bâtiment : structure principale, murs, menuiseries extérieures. Mise hors d'eau/hors d'air. Isolation comble (mise hors d'air). Ravalement façade | - |
+| Courant faible (téléphonie, automatisme, GTB...) | GTB, portes automatiques, domotique | - |
+| Couvert | Toiture : réfection, reprise étanchéité, sécurisation, démoussage | Descente EP (→VRD) |
 | Démolitions - suppressions bâtiments équipements | Déconstructions sélectives | - |
-| Distribution HTetMT - Postes de livr./transf. | Exclusivement HT et MT en amont des TGBT (travaux poste HT, câble, PAM HT) | Batteries onduleurs, tableau électrique (→BT), travaux clos/couvert sur bâtiment poste |
+| Distribution HTetMT - Postes de livr./transf. | Exclusivement HT et MT en amont des TGBT (travaux poste HT, câble HT, PAM HT) | Batteries onduleurs, tableau électrique (→BT), travaux clos/couvert sur bâtiment poste |
 | Eclairage et installations électriques BT | Luminaire, relamping, MEC BT, PAM BT, MEC EE, télérelève consommations électriques | VRE (→Visite surveillance), convecteur (→CVC), MEC BAES (→Sécurité incendie) |
 | Entretien quais voyageurs | Usage G&C uniquement | DIT |
-| Accessibilité (Asc, escalier méca) élévateur | Ascenseurs, escaliers mécaniques, élévateurs, monte charges | Escalier escamotable (→Aménagement intérieur), portes/fenêtres (→Clos), portail (→Espaces ext ou Courant faible) |
-| Equipements de sécurité incendie | Poteau incendie, extincteurs, RIA, sprinkler, BAES, maintenance/travaux/MEC incendie, audit incendie | - |
-| Espaces extérieurs dont élagage, abattage | Espaces verts, élagage, abatage, parking (traçage, barrières, bornes recharge) | Caniveaux (→VRD), pylône (→BT), portail/clôtures (→Vidéosurveillance) |
-| Installation hydraulique | Pompes relevages, récupérateur eau pluie, installations hydrauliques hors VRD et plomberie | Fuites eau externe (→VRD), fuites eau interne (→Plomberie), adoucisseur (→Plomberie) |
-| Installations chauffage, ventil. climatisation | Tous types chauffage, chaudières, aérothermes, VMC, PAC, clim réversible, groupe froid, RCU | Forfait E2MT (→Maintenance multi techniques), PTP E2MT (→Petits Travaux Propriétaire) |
+| Accessibilité (Asc, escalier mécanique...) élévateur | Ascenseurs, escaliers mécaniques, élévateurs, monte charges | Escalier escamotable combles (→Aménagement intérieur sauf accessibilité handicap), portes/fenêtres (→Clos), portail (→Espaces ext ou Courant faible si motorisation) |
+| Equipements de sécurité incendie | Poteau incendie, extincteurs, RIA, sprinkler, bâche à eau, BAES, maintenance/travaux/MEC incendie, audit incendie | - |
+| Espaces extérieurs dont élagage, abattage | Espaces verts, nettoyage, élagage, abatage, parking aménagement (traçage, barrières, bornes recharge). Réfection enrobée parking → plutôt VRD | Caniveaux (→VRD), pylône (→BT), portail/clôtures (→Vidéosurveillance, gardiennage, sécurisation) |
+| Installation hydraulique | Pompes relevages, récupérateur eau pluie, installations hydrauliques autres que VRD et plomberie | Fuites eau en externe (→VRD), fuites eau en interne bâtiment (→Plomberie), adoucisseur (→Plomberie) |
+| Installations chauffage, ventil. climatisation | Maintenance, travaux, MEC, études, diag de TOUS types chauffage, chaudières, aérothermes, VMC, PAC, clim réversible, groupe froid, clim, RCU etc. | Forfait E2MT (→Maintenance multi techniques - forfait E2MT), PTP E2MT (→Petits Travaux Propriétaire) |
 | Interventions anti-graffiti | Usage G&C uniquement | DIT |
 | Interventions anti-vandalisme | Usage G&C uniquement | DIT |
-| Maintenance multi techniques - forfait E2MT (NOUVEAU) | EXCLUSIVEMENT pour sous-type CME_CMT | Tout autre contrat que E2MT |
-| Petits Travaux Propriétaire | EXCLUSIVEMENT pour sous-types PTP et PTP_CMT | Tout autre contrat que E2MT |
-| Plomberie, sanitaire | Robinetterie, douches, WC, inertage fosse septique, télérelève eau, fuites eau intérieur bâtiment | Fuites eau extérieur (→VRD), conduite gaz (→CVC) |
-| Réhabilitation globale | Très rare (CAPEX), réhabilitation emportant plusieurs natures (clos+couvert+élec) | Petits travaux sur un équipement |
-| Structure | Inspection, sécurisation structure, étaiement, fissure, épaufrure, purge, filets | Dallage (→Aménagement intérieur), déconstruction (→Démolition), toiture (→Couvert), chéneaux (→VRD/Couvert), issue secours (→Clos), faux plafond (→Aménagement intérieur) |
-| Vidéosurveillance, gardiennage, sécurisation | Alarme, vidéo, gardiennage, portails, clôtures | - |
-| Visite de surveillance, contrôle, diag., étude | UNIQUEMENT si aucune nature spécifique ne correspond. VG multi-corps d'état | Quand une nature spécifique existe (clos, couvert, BT, structure...) |
+| Maintenance multi techniques - forfait E2MT (NOUVEAU) | A utiliser UNIQUEMENT pour le sous-type CME_CMT (Contrats de Maintenance Externe - E2MT) | Tout autre contrat de maintenance que le marché E2MT |
+| Petits Travaux Propriétaire | A utiliser UNIQUEMENT pour les sous-types PTP et PTP_CMT | Tout autre contrat de maintenance que le marché E2MT |
+| Plomberie, sanitaire | Robinetterie, douches, WC, inertage fosse septique, télérelève consommations eau, recherche/résorption fuites eau à l'INTÉRIEUR du bâtiment | Fuites eau à l'EXTÉRIEUR (→VRD), conduite de gaz (→CVC) |
+| Réhabilitation globale | Très rare (CAPEX), réhabilitation globale emportant plusieurs natures de travaux (clos, couvert et électricité par exemple) | Petits travaux sur un équipement |
+| Structure | Travaux, inspection et études de sécurisation de la structure ou surveillance de son état, étaiement, traitement fissure, épaufrure, purge, pose de filets | Dallage (→Aménagement intérieur), déconstruction (→Démolition), toiture (→Couvert), chéneaux (→VRD ou Couvert), issue secours (→Clos), faux plafond (→Aménagement intérieur) |
+| Vidéosurveillance, gardiennage, sécurisation | Mise sous alarme, travaux vidéo, gardiennage, maintenance et travaux sur portails et clôtures | - |
+| Visite de surveillance, contrôle, diag., étude | A UTILISER UNIQUEMENT LORSQUE la visite/étude/diagnostic/contrôle NE PEUT SE RATTACHER à une autre nature de travaux spécifique. Ex: VG multi-corps d'état. Les audits énergétiques → nature spécifique "Audits et Etudes Energétiques" | Quand une nature spécifique existe (ex: VRE → BT, audit incendie → Sécurité incendie, audit énergie → Audits Energétiques) |
 
 **REGLES CRITIQUES natures de travaux :**
 1. "Maintenance multi techniques - forfait E2MT" et "Petits Travaux Propriétaire" sont EXCLUSIVEMENT réservées aux sous-types E2MT (CME_CMT et PTP_CMT)
-2. "Abris de quai", "Entretien quais voyageurs", "Anti-graffiti", "Anti-vandalisme" = usage G&C uniquement
+2. "Abris de quai", "Entretien quais voyageurs", "Anti-graffiti", "Anti-vandalisme" = usage G&C uniquement, PAS DIT
 3. "Visite de surveillance, contrôle, diag., étude" = nature par DEFAUT → ne l'utiliser QUE si aucune nature spécifique ne correspond
 4. Toujours rattacher la nature au corps d'état PRINCIPAL concerné par l'intervention
 5. Pour désamiantage : associer en nature de travaux l'équipement ou partie de bâtiment concerné (clos, couvert, chauffage, sanitaire...)
+6. Ex: AT sous-type VRE → nature de travaux "Eclairage et installations électriques BT" (pas "Visite de surveillance")
+7. Ex: audit incendie → nature de travaux "Equipements de sécurité incendie" (pas "Visite de surveillance")
 
 ## BPU - Bordereau de Prix Unitaires (Lot 4.1 - Occitanie)
 Voici le référentiel de prix contractuel :\n${bpuContext}

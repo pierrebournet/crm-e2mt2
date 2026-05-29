@@ -38,8 +38,8 @@ describe("Sous-types et Natures de Travaux IMMOSIS", () => {
     });
 
     it("distingue E2MT des travaux connexes hors E2MT", () => {
-      expect(routersContent).toContain("CME_CMT | Contrats de Maintenance Externe - E2MT | Forfait et prise en charge E2MT uniquement");
-      expect(routersContent).toContain("GE_CMT | Gros Entretiens - par E2MT | Tous travaux sur installations via E2MT");
+      expect(routersContent).toContain("CME_CMT | Contrats de Maintenance Externe - E2MT | Forfait et prise en charge E2MT UNIQUEMENT");
+      expect(routersContent).toContain("GE_CMT | Gros Entretiens - par E2MT | Tous travaux sur installations et \u00e9quipements r\u00e9alis\u00e9s AVEC le contrat E2MT");
       expect(routersContent).toContain("PTP_CMT | Petits Travaux Propriétaires - E2MT");
     });
   });
@@ -53,7 +53,7 @@ describe("Sous-types et Natures de Travaux IMMOSIS", () => {
     it("contient les natures de travaux principales", () => {
       const natures = [
         "Aménagements intérieurs",
-        "Assainissement / VRD",
+        "Assainissement Voierie R\u00e9seau Divers, d\u00e9chet, eau",
         "Clos",
         "Couvert",
         "Eclairage et installations électriques BT",
@@ -80,7 +80,7 @@ describe("Sous-types et Natures de Travaux IMMOSIS", () => {
     });
 
     it("contient la nature par défaut avec sa règle", () => {
-      expect(routersContent).toContain("Visite de surveillance, contrôle, diag., étude | UNIQUEMENT si aucune nature spécifique ne correspond");
+      expect(routersContent).toContain("Visite de surveillance, contr\u00f4le, diag., \u00e9tude | A UTILISER UNIQUEMENT LORSQUE");
     });
   });
 
