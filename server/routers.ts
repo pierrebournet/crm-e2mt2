@@ -20,6 +20,7 @@ import {
   getDeliverables, getDeliverableById, createDeliverable, updateDeliverable, deleteDeliverable,
   getDeliverableStats, getAllDeliverablesForExport, seedDeliverables,
   getChecklistByIntervention, upsertChecklistStep, updateChecklistNote, initChecklistForIntervention, getChecklistSummaryForInterventions,
+  saveDecision, getDecisionHistory, getAllDecisionHistory, getDecisionStats,
 } from "./db";
 import { CONTRACTUAL_DELAYS } from "@shared/e2mt2";
 import { notifyOwner } from "./_core/notification";
@@ -2776,6 +2777,72 @@ Règles de réponse :
       }))
       .query(async ({ input }) => {
         return getAllInterventionsForExport(input);
+      }),
+  }),
+
+  // ===== HISTORISATION ARBRE DE DÉCISION =====
+  decisions: router({
+    save: protectedProcedure
+      .input(z.object({
+        mission: z.string().max(1),
+        missionLabel: z.string(),
+        chargeType: z.string(),
+        chargeLabel: z.string(),
+        sousTypeCode: z.string(),
+        sousType: z.string(),
+        famillebudgetaire: z.string(),
+        codeZG: z.string(),
+        moFacturable: z.boolean(),
+        moExplication: z.string().optional(),
+        natureTravauxSelectionnee: z.string().optional(),
+        montantDevis: z.string().optional(),
+        parcours: z.array(z.object({
+          questionId: z.string(),
+          answer: z.string(),
+          label: z.string(),
+        })),
+        recommandations: z.array(z.string()),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const result = await saveDecision({
+          userId: ctx.user.id,
+          mission: input.mission,
+          missionLabel: input.missionLabel,
+          chargeType: input.chargeType,
+          chargeLabel: input.chargeLabel,
+          sousTypeCode: input.sousTypeCode,
+          sousType: input.sousType,
+          famillebudgetaire: input.famillebudgetaire,
+          codeZG: input.codeZG,
+          moFacturable: input.moFacturable ? 1 : 0,
+          moExplication: input.moExplication || null,
+          natureTravauxSelectionnee: input.natureTravauxSelectionnee || null,
+          montantDevis: input.montantDevis || null,
+          parcours: input.parcours,
+          recommandations: input.recommandations,
+        });
+        return result;
+      }),
+
+    list: protectedProcedure
+      .input(z.object({
+        limit: z.number().min(1).max(200).default(50),
+      }).optional())
+      .query(async ({ ctx, input }) => {
+        return getDecisionHistory(ctx.user.id, input?.limit ?? 50);
+      }),
+
+    listAll: protectedProcedure
+      .input(z.object({
+        limit: z.number().min(1).max(200).default(100),
+      }).optional())
+      .query(async ({ input }) => {
+        return getAllDecisionHistory(input?.limit ?? 100);
+      }),
+
+    stats: protectedProcedure
+      .query(async ({ ctx }) => {
+        return getDecisionStats(ctx.user.id);
       }),
   }),
 });

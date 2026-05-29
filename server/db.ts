@@ -5,6 +5,7 @@ import {
   lots, buildings, workTypes, interventions, comments, interventionHistory, alerts,
   bpuItems, interventionBpuLines,
   devisAnalyses, devisLines, suiviEntries, deliverables, interventionChecklist,
+  decisionHistory, type InsertDecisionHistory,
   type InsertBuilding, type InsertIntervention, type InsertInterventionBpuLine,
   type InsertDevisAnalyse, type InsertDevisLine, type InsertSuiviEntry, type InsertDeliverable,
   type InsertInterventionChecklist,
@@ -1026,4 +1027,53 @@ export async function getChecklistSummaryForInterventions(interventionIds: numbe
     completed: interventionChecklist.completed,
   }).from(interventionChecklist)
     .where(inArray(interventionChecklist.interventionId, interventionIds));
+}
+
+
+// ===== HISTORISATION ARBRE DE DÉCISION =====
+
+export async function saveDecision(data: InsertDecisionHistory) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const [inserted] = await db.insert(decisionHistory).values(data).$returningId();
+  return inserted;
+}
+
+export async function getDecisionHistory(userId: number, limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(decisionHistory)
+    .where(eq(decisionHistory.userId, userId))
+    .orderBy(desc(decisionHistory.createdAt))
+    .limit(limit);
+}
+
+export async function getAllDecisionHistory(limit = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(decisionHistory)
+    .orderBy(desc(decisionHistory.createdAt))
+    .limit(limit);
+}
+
+export async function getDecisionStats(userId?: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const baseQuery = userId
+    ? db.select({
+        total: count(),
+        missionC: sql<number>`SUM(CASE WHEN mission = 'C' THEN 1 ELSE 0 END)`,
+        missionD: sql<number>`SUM(CASE WHEN mission = 'D' THEN 1 ELSE 0 END)`,
+        chargeLocataire: sql<number>`SUM(CASE WHEN chargeType = 'locataire' THEN 1 ELSE 0 END)`,
+        chargeProprietaire: sql<number>`SUM(CASE WHEN chargeType = 'proprietaire' THEN 1 ELSE 0 END)`,
+      }).from(decisionHistory).where(eq(decisionHistory.userId, userId))
+    : db.select({
+        total: count(),
+        missionC: sql<number>`SUM(CASE WHEN mission = 'C' THEN 1 ELSE 0 END)`,
+        missionD: sql<number>`SUM(CASE WHEN mission = 'D' THEN 1 ELSE 0 END)`,
+        chargeLocataire: sql<number>`SUM(CASE WHEN chargeType = 'locataire' THEN 1 ELSE 0 END)`,
+        chargeProprietaire: sql<number>`SUM(CASE WHEN chargeType = 'proprietaire' THEN 1 ELSE 0 END)`,
+      }).from(decisionHistory);
+  const [stats] = await baseQuery;
+  return stats;
 }

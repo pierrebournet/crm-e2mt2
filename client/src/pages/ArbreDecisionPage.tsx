@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -434,6 +435,66 @@ export default function ArbreDecisionPage() {
   const [selectedNature, setSelectedNature] = useState<string>("");
   const [showCorpsEtat, setShowCorpsEtat] = useState(false);
   const [, setLocation] = useLocation();
+  const [montantDevis, setMontantDevis] = useState<string>("");
+  const [montantApplied, setMontantApplied] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const saveMutation = trpc.decisions.save.useMutation({
+    onSuccess: () => {
+      setSaved(true);
+      toast.success("Décision sauvegardée dans l'historique");
+    },
+    onError: () => {
+      // Silently fail - non-blocking
+    },
+  });
+
+  // Affinage du sous-type selon le montant
+  const adjustedResult = useMemo(() => {
+    if (!result || !montantApplied) return result;
+    const montant = parseFloat(montantDevis);
+    if (isNaN(montant) || montant <= 0) return result;
+
+    // Règles d'affinage selon le montant
+    if (result.mission === "D") {
+      if (montant <= 3500) {
+        // < 3500€ : PTP (Petits Travaux Ponctuels)
+        if (result.sousTypeCode === "GE" || result.sousTypeCode === "GE_CMT") {
+          return {
+            ...result,
+            sousType: result.sousTypeCode === "GE_CMT" ? "Petits Travaux Ponctuels - par E2MT" : "Petits Travaux Ponctuels",
+            sousTypeCode: result.sousTypeCode === "GE_CMT" ? "PTP_CMT" : "PTP",
+            famillebudgetaire: "PTP",
+            codeZG: "ZG361510",
+            recommandations: [
+              ...result.recommandations.filter(r => !r.includes("3 500")),
+              `Montant ${montant.toLocaleString("fr-FR")}€ ≤ 3 500€ → sous-type PTP (pas de validation GP requise)`,
+            ],
+          };
+        }
+      } else if (montant > 3500 && montant <= 15000) {
+        // 3500€ - 15000€ : GE avec validation GP
+        return {
+          ...result,
+          recommandations: [
+            ...result.recommandations.filter(r => !r.includes("3 500") && !r.includes("15 000")),
+            `Montant ${montant.toLocaleString("fr-FR")}€ > 3 500€ → validation GP requise`,
+            `Montant ${montant.toLocaleString("fr-FR")}€ ≤ 15 000€ → pas de réception formelle`,
+          ],
+        };
+      } else if (montant > 15000) {
+        // > 15000€ : GE avec réception formelle
+        return {
+          ...result,
+          recommandations: [
+            ...result.recommandations.filter(r => !r.includes("3 500") && !r.includes("15 000")),
+            `Montant ${montant.toLocaleString("fr-FR")}€ > 15 000€ → réception formelle obligatoire`,
+            `Montant ${montant.toLocaleString("fr-FR")}€ > 3 500€ → validation GP requise`,
+          ],
+        };
+      }
+    }
+    return result;
+  }, [result, montantDevis, montantApplied]);
 
   const currentQuestion = questions[currentQuestionId];
 
@@ -480,26 +541,52 @@ export default function ArbreDecisionPage() {
     setResult(null);
     setSelectedNature("");
     setShowCorpsEtat(false);
+    setMontantDevis("");
+    setMontantApplied(false);
+    setSaved(false);
+  };
+
+  const handleSaveDecision = () => {
+    const r = adjustedResult;
+    if (!r) return;
+    saveMutation.mutate({
+      mission: r.mission,
+      missionLabel: r.missionLabel,
+      chargeType: r.chargeType,
+      chargeLabel: r.chargeLabel,
+      sousTypeCode: r.sousTypeCode,
+      sousType: r.sousType,
+      famillebudgetaire: r.famillebudgetaire,
+      codeZG: r.codeZG,
+      moFacturable: r.moFacturable,
+      moExplication: r.moExplication,
+      natureTravauxSelectionnee: selectedNature || r.natureTravauxSuggestions[0] || "",
+      montantDevis: montantApplied ? montantDevis : undefined,
+      parcours: answers,
+      recommandations: r.recommandations,
+    });
   };
 
   const handleCopyResult = () => {
-    if (!result) return;
+    const r = adjustedResult;
+    if (!r) return;
     const text = `
 ═══ RÉSULTAT ARBRE DE DÉCISION ═══
 
-📋 MISSION : ${result.mission} — ${result.missionLabel}
-💰 CHARGE : ${result.chargeLabel}
-📁 SOUS-TYPE : ${result.sousTypeCode} — ${result.sousType}
-🏷️ FAMILLE BUDGÉTAIRE : ${result.famillebudgetaire} (${result.codeZG})
-👷 MO : ${result.moFacturable ? "FACTURABLE" : "NON FACTURABLE (incluse forfait)"}
-   → ${result.moExplication}
+📋 MISSION : ${r.mission} — ${r.missionLabel}
+💰 CHARGE : ${r.chargeLabel}
+📁 SOUS-TYPE : ${r.sousTypeCode} — ${r.sousType}
+🏷️ FAMILLE BUDGÉTAIRE : ${r.famillebudgetaire} (${r.codeZG})
+👷 MO : ${r.moFacturable ? "FACTURABLE" : "NON FACTURABLE (incluse forfait)"}
+   → ${r.moExplication}
+${montantApplied ? `💶 MONTANT DEVIS : ${parseFloat(montantDevis).toLocaleString("fr-FR")}€ HT` : ""}
 
 📌 NATURE DE TRAVAUX SUGGÉRÉE :
-${result.natureTravauxSuggestions.map((n) => `   • ${n}`).join("\n")}
+${r.natureTravauxSuggestions.map((n) => `   • ${n}`).join("\n")}
 ${selectedNature ? `   ✅ Sélectionnée : ${selectedNature}` : ""}
 
 ⚠️ RECOMMANDATIONS :
-${result.recommandations.map((r) => `   • ${r}`).join("\n")}
+${r.recommandations.map((rec) => `   • ${rec}`).join("\n")}
 
 ═══ PARCOURS DE DÉCISION ═══
 ${answers.map((a, i) => `${i + 1}. ${questions[a.questionId]?.text} → ${a.label}`).join("\n")}
@@ -509,15 +596,17 @@ ${answers.map((a, i) => `${i + 1}. ${questions[a.questionId]?.text} → ${a.labe
   };
 
   const handleSendToAssistant = () => {
-    if (!result) return;
+    const r = adjustedResult;
+    if (!r) return;
     const context = `
 Résultat arbre de décision :
-- Mission : ${result.mission} (${result.missionLabel})
-- Charge : ${result.chargeLabel}
-- Sous-type : ${result.sousTypeCode} (${result.sousType})
-- Famille budgétaire : ${result.famillebudgetaire} (${result.codeZG})
-- MO : ${result.moFacturable ? "Facturable" : "Non facturable"}
-- Nature de travaux : ${selectedNature || result.natureTravauxSuggestions[0]}
+- Mission : ${r.mission} (${r.missionLabel})
+- Charge : ${r.chargeLabel}
+- Sous-type : ${r.sousTypeCode} (${r.sousType})
+- Famille budgétaire : ${r.famillebudgetaire} (${r.codeZG})
+- MO : ${r.moFacturable ? "Facturable" : "Non facturable"}
+- Nature de travaux : ${selectedNature || r.natureTravauxSuggestions[0]}
+${montantApplied ? `- Montant devis : ${parseFloat(montantDevis).toLocaleString("fr-FR")}€ HT` : ""}
 
 Analyse le devis en tenant compte de ces paramètres.
 `.trim();
@@ -627,6 +716,55 @@ Analyse le devis en tenant compte de ces paramètres.
       {/* Résultat */}
       {result && (
         <div className="space-y-4">
+          {/* Seuil montant */}
+          {result.mission === "D" && (
+            <Card className="border-blue-200 bg-blue-50/50">
+              <CardContent className="py-4 px-5">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex-1 min-w-[200px]">
+                    <label className="text-xs font-medium text-blue-700 uppercase tracking-wide block mb-1">
+                      Montant du devis HT (optionnel)
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        value={montantDevis}
+                        onChange={(e) => {
+                          setMontantDevis(e.target.value);
+                          setMontantApplied(false);
+                        }}
+                        placeholder="Ex: 2500"
+                        className="w-40 px-3 py-2 rounded-md border border-blue-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      />
+                      <span className="text-sm text-blue-600 font-medium">€ HT</span>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setMontantApplied(true)}
+                        disabled={!montantDevis || parseFloat(montantDevis) <= 0}
+                        className="border-blue-300 text-blue-700 hover:bg-blue-100"
+                      >
+                        Appliquer
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="text-xs text-blue-600">
+                    <p>• ≤ 3 500€ → PTP (pas de validation GP)</p>
+                    <p>• 3 500€ - 15 000€ → GE + validation GP</p>
+                    <p>• &gt; 15 000€ → GE + réception formelle</p>
+                  </div>
+                </div>
+                {montantApplied && adjustedResult && adjustedResult.sousTypeCode !== result.sousTypeCode && (
+                  <div className="mt-3 p-2 rounded bg-blue-100 border border-blue-200">
+                    <p className="text-sm font-medium text-blue-800">
+                      ✅ Sous-type ajusté : <span className="font-bold">{result.sousTypeCode}</span> → <span className="font-bold">{adjustedResult.sousTypeCode}</span>
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
           {/* Résultat principal */}
           <Card className="border-2 border-emerald-300 shadow-lg bg-gradient-to-br from-emerald-50 to-white">
             <CardHeader>
@@ -678,36 +816,39 @@ Analyse le devis en tenant compte de ces paramètres.
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-4 rounded-lg bg-white border border-slate-200">
                   <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Sous-type IMMOSIS</div>
-                  <div className="font-bold text-lg text-slate-900">{result.sousTypeCode}</div>
-                  <p className="text-sm text-slate-600">{result.sousType}</p>
+                  <div className="font-bold text-lg text-slate-900">{(adjustedResult || result).sousTypeCode}</div>
+                  <p className="text-sm text-slate-600">{(adjustedResult || result).sousType}</p>
+                  {montantApplied && adjustedResult && adjustedResult.sousTypeCode !== result.sousTypeCode && (
+                    <Badge className="mt-1 bg-blue-100 text-blue-700 border-blue-200 text-xs">Ajusté par montant</Badge>
+                  )}
                 </div>
 
                 <div className="p-4 rounded-lg bg-white border border-slate-200">
                   <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Famille budgétaire</div>
-                  <div className="font-bold text-lg text-slate-900">{result.famillebudgetaire}</div>
-                  <p className="text-sm text-slate-600">{result.codeZG}</p>
+                  <div className="font-bold text-lg text-slate-900">{(adjustedResult || result).famillebudgetaire}</div>
+                  <p className="text-sm text-slate-600">{(adjustedResult || result).codeZG}</p>
                 </div>
               </div>
 
               {/* MO */}
               <div
                 className={`p-4 rounded-lg border-2 ${
-                  result.moFacturable
+                  (adjustedResult || result).moFacturable
                     ? "bg-green-50 border-green-200"
                     : "bg-red-50 border-red-200"
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1">
-                  {result.moFacturable ? (
+                  {(adjustedResult || result).moFacturable ? (
                     <CheckCircle2 className="h-5 w-5 text-green-600" />
                   ) : (
                     <XCircle className="h-5 w-5 text-red-600" />
                   )}
                   <span className="font-bold text-lg">
-                    MO {result.moFacturable ? "FACTURABLE" : "NON FACTURABLE"}
+                    MO {(adjustedResult || result).moFacturable ? "FACTURABLE" : "NON FACTURABLE"}
                   </span>
                 </div>
-                <p className="text-sm text-slate-700 ml-7">{result.moExplication}</p>
+                <p className="text-sm text-slate-700 ml-7">{(adjustedResult || result).moExplication}</p>
               </div>
 
               <Separator />
@@ -773,7 +914,7 @@ Analyse le devis en tenant compte de ces paramètres.
                   </span>
                 </div>
                 <ul className="space-y-1">
-                  {result.recommandations.map((rec, i) => (
+                  {(adjustedResult || result).recommandations.map((rec, i) => (
                     <li key={i} className="text-sm text-slate-700 flex items-start gap-2">
                       <span className="text-amber-500 mt-0.5">•</span>
                       {rec}
@@ -793,6 +934,20 @@ Analyse le devis en tenant compte de ces paramètres.
             <Button onClick={handleSendToAssistant} className="gap-2 bg-emerald-600 hover:bg-emerald-700">
               <Send className="h-4 w-4" />
               Envoyer à l'Assistant IA pour analyse de devis
+            </Button>
+            <Button
+              onClick={handleSaveDecision}
+              variant="outline"
+              className="gap-2 border-blue-300 text-blue-700 hover:bg-blue-50"
+              disabled={saved || saveMutation.isPending}
+            >
+              {saved ? (
+                <><CheckCircle2 className="h-4 w-4" /> Sauvegardé</>
+              ) : saveMutation.isPending ? (
+                <>Sauvegarde...</>
+              ) : (
+                <>Sauvegarder dans l'historique</>
+              )}
             </Button>
             <Button variant="ghost" onClick={handleReset} className="gap-2">
               <RotateCcw className="h-4 w-4" />

@@ -1,6 +1,6 @@
 import { trpc } from "@/lib/trpc";
 import { AIChatBox, type Message, type Attachment } from "@/components/AIChatBox";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { FileText, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,21 @@ const SUGGESTED_PROMPTS = [
 export default function AssistantPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const prefillSent = useRef(false);
+
+  // Read prefill context from Arbre de Décision (via sessionStorage)
+  useEffect(() => {
+    if (prefillSent.current) return;
+    const prefill = sessionStorage.getItem("assistant_prefill");
+    if (prefill) {
+      prefillSent.current = true;
+      sessionStorage.removeItem("assistant_prefill");
+      // Auto-send the prefilled message
+      setTimeout(() => {
+        handleSendMessage(prefill);
+      }, 300);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const uploadMutation = trpc.assistant.uploadFile.useMutation();
 

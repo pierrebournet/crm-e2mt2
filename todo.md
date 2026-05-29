@@ -181,3 +181,6 @@
 - [x] Bouton "Effacer" conversation avec icône Trash2
 - [x] Tests unitaires améliorations upload V2 (39 tests, 344 tests au total)
 - [x] Arbre de décision interactif (Q1-Q8) pour guider Mission C/D, sous-type et nature de travaux dans l'interface
+- [x] Connexion Assistant IA ↔ Arbre de décision (pré-remplissage chat via sessionStorage)
+- [x] Mode seuil montant dans l'arbre de décision (affinage sous-type < 3500€ → PTP_CMT)
+- [x] Historisation des décisions de l'arbre en base de données (table + procédures tRPC)

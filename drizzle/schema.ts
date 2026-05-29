@@ -337,3 +337,29 @@ export const interventionChecklist = mysqlTable("intervention_checklist", {
 
 export type InterventionChecklist = typeof interventionChecklist.$inferSelect;
 export type InsertInterventionChecklist = typeof interventionChecklist.$inferInsert;
+
+/**
+ * Historique des décisions de l'arbre de décision
+ */
+export const decisionHistory = mysqlTable("decision_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  mission: varchar("mission", { length: 1 }).notNull(), // C ou D
+  missionLabel: varchar("missionLabel", { length: 255 }).notNull(),
+  chargeType: varchar("chargeType", { length: 20 }).notNull(), // locataire, proprietaire, mixte
+  chargeLabel: varchar("chargeLabel", { length: 100 }).notNull(),
+  sousTypeCode: varchar("sousTypeCode", { length: 20 }).notNull(),
+  sousType: varchar("sousType", { length: 100 }).notNull(),
+  famillebudgetaire: varchar("famillebudgetaire", { length: 20 }).notNull(),
+  codeZG: varchar("codeZG", { length: 20 }).notNull(),
+  moFacturable: int("moFacturable").default(0).notNull(),
+  moExplication: text("moExplication"),
+  natureTravauxSelectionnee: varchar("natureTravauxSelectionnee", { length: 200 }),
+  montantDevis: decimal("montantDevis", { precision: 12, scale: 2 }),
+  parcours: json("parcours"), // JSON array of {questionId, answer, label}
+  recommandations: json("recommandations"), // JSON array of strings
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type DecisionHistory = typeof decisionHistory.$inferSelect;
+export type InsertDecisionHistory = typeof decisionHistory.$inferInsert;

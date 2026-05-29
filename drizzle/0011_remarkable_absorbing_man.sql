@@ -1,0 +1,20 @@
+CREATE TABLE `decision_history` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`userId` int NOT NULL,
+	`mission` varchar(1) NOT NULL,
+	`missionLabel` varchar(255) NOT NULL,
+	`chargeType` varchar(20) NOT NULL,
+	`chargeLabel` varchar(100) NOT NULL,
+	`sousTypeCode` varchar(20) NOT NULL,
+	`sousType` varchar(100) NOT NULL,
+	`famillebudgetaire` varchar(20) NOT NULL,
+	`codeZG` varchar(20) NOT NULL,
+	`moFacturable` int NOT NULL DEFAULT 0,
+	`moExplication` text,
+	`natureTravauxSelectionnee` varchar(200),
+	`montantDevis` decimal(12,2),
+	`parcours` json,
+	`recommandations` json,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `decision_history_id` PRIMARY KEY(`id`)
+);
