@@ -142,7 +142,7 @@ describe("Amélioration 3: Historisation des décisions", () => {
   describe("Frontend - Bouton sauvegarder", () => {
     it("Le bouton Sauvegarder est présent", () => {
       expect(arbreDecisionPage).toContain("handleSaveDecision");
-      expect(arbreDecisionPage).toContain("Sauvegarder dans l'historique");
+      expect(arbreDecisionPage).toContain("Sauvegarder (mise à jour)");
     });
 
     it("Le mutation trpc.decisions.save est utilisé", () => {

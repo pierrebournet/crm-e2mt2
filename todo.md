@@ -184,3 +184,6 @@
 - [x] Connexion Assistant IA ↔ Arbre de décision (pré-remplissage chat via sessionStorage)
 - [x] Mode seuil montant dans l'arbre de décision (affinage sous-type < 3500€ → PTP_CMT)
 - [x] Historisation des décisions de l'arbre en base de données (table + procédures tRPC)
+- [x] Page Historique des décisions avec tableau filtrable (mission, charge, date) et statistiques globales
+- [x] Export CSV de l'historique des décisions
+- [x] Sauvegarde automatique des décisions + compteur "X décisions ce mois" dans la sidebar

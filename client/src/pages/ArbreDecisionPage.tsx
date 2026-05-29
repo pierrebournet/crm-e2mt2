@@ -496,6 +496,41 @@ export default function ArbreDecisionPage() {
     return result;
   }, [result, montantDevis, montantApplied]);
 
+  // Sauvegarde automatique quand un résultat est déterminé
+  const autoSaveRef = useRef(false);
+  useEffect(() => {
+    if (result && !autoSaveRef.current && !saved) {
+      autoSaveRef.current = true;
+      // Sauvegarder automatiquement après un court délai pour laisser le rendu se stabiliser
+      const timer = setTimeout(() => {
+        saveMutation.mutate({
+          mission: result.mission,
+          missionLabel: result.missionLabel,
+          chargeType: result.chargeType,
+          chargeLabel: result.chargeLabel,
+          sousTypeCode: result.sousTypeCode,
+          sousType: result.sousType,
+          famillebudgetaire: result.famillebudgetaire,
+          codeZG: result.codeZG,
+          moFacturable: result.moFacturable,
+          moExplication: result.moExplication,
+          natureTravauxSelectionnee: result.natureTravauxSuggestions[0] || "",
+          montantDevis: undefined,
+          parcours: answers,
+          recommandations: result.recommandations,
+        });
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [result]);
+
+  // Reset autoSave ref on reset
+  useEffect(() => {
+    if (!result) {
+      autoSaveRef.current = false;
+    }
+  }, [result]);
+
   const currentQuestion = questions[currentQuestionId];
 
   const handleAnswer = (option: Option) => {
@@ -942,11 +977,11 @@ Analyse le devis en tenant compte de ces paramètres.
               disabled={saved || saveMutation.isPending}
             >
               {saved ? (
-                <><CheckCircle2 className="h-4 w-4" /> Sauvegardé</>
+                <><CheckCircle2 className="h-4 w-4" /> Sauvegardé automatiquement</>
               ) : saveMutation.isPending ? (
                 <>Sauvegarde...</>
               ) : (
-                <>Sauvegarder dans l'historique</>
+                <>Sauvegarder (mise à jour)</>
               )}
             </Button>
             <Button variant="ghost" onClick={handleReset} className="gap-2">
