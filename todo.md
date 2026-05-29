@@ -187,3 +187,5 @@
 - [x] Page Historique des décisions avec tableau filtrable (mission, charge, date) et statistiques globales
 - [x] Export CSV de l'historique des décisions
 - [x] Sauvegarde automatique des décisions + compteur "X décisions ce mois" dans la sidebar
+- [x] Ajouter VTR G BNC dans l'arbre de décision pour bâtiments non courants (ouvrages d'art, grandes halles)
+- [x] Module de vérification croisée sous-type ↔ nature de travaux (compatibilité automatique)

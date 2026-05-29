@@ -184,6 +184,43 @@ const questions: Record<string, Question> = {
       {
         label: "Oui (niveau 5 — remplacement complet)",
         value: "oui",
+        nextQuestion: "q3_batiment_type",
+      },
+      { label: "Non (niveaux 1 à 4)", value: "non", nextQuestion: "q4" },
+    ],
+  },
+  q3_batiment_type: {
+    id: "q3_batiment_type",
+    text: "Le bâtiment est-il un ouvrage d'art, une grande halle ou un bâtiment non courant (BNC) ?",
+    helpText: "BNC = bâtiments atypiques : ouvrages d'art (ponts, tunnels, viaducs), grandes halles industrielles, bâtiments classés, structures exceptionnelles nécessitant des compétences spécifiques",
+    options: [
+      {
+        label: "Oui (Bâtiment Non Courant — ouvrage d'art, grande halle, structure atypique)",
+        value: "oui",
+        result: {
+          mission: "D",
+          missionLabel: "Mission D — Remplacement complet sur Bâtiment Non Courant (BNC)",
+          chargeType: "proprietaire",
+          chargeLabel: "Charge Propriétaire",
+          sousType: "Visite technique Gros Bâtiments Non Courants",
+          sousTypeCode: "VTR G BNC",
+          natureTravauxSuggestions: ["Structure", "Couvert", "Clos", "Selon corps d'état principal concerné"],
+          famillebudgetaire: "GER",
+          codeZG: "ZG360910",
+          moFacturable: true,
+          moExplication: "MO facturable car Mission D (travaux correctifs niveau 5 sur BNC)",
+          recommandations: [
+            "Sous-type VTR G BNC réservé aux bâtiments non courants (ouvrages d'art, grandes halles)",
+            "Vérifier si le montant dépasse 15 000€ (seuil réception formelle)",
+            "Si > 3 500€ : nécessite validation GP",
+            "Joindre le diagnostic justifiant le remplacement complet",
+            "Vérifier si des compétences spécifiques sont nécessaires (bureau d'études structure)",
+          ],
+        },
+      },
+      {
+        label: "Non (bâtiment courant — bureaux, ateliers, gares standards)",
+        value: "non",
         result: {
           mission: "D",
           missionLabel: "Mission D — Remplacement complet (niveau 5)",
@@ -203,7 +240,6 @@ const questions: Record<string, Question> = {
           ],
         },
       },
-      { label: "Non (niveaux 1 à 4)", value: "non", nextQuestion: "q4" },
     ],
   },
   q4: {
@@ -407,6 +443,110 @@ const questions: Record<string, Question> = {
     ],
   },
 };
+
+// Vérification croisée sous-type ↔ nature de travaux
+const compatibilitesSousTypeNature: Record<string, { compatibles: string[]; exclusives?: boolean; message?: string }> = {
+  CME_CMT: {
+    compatibles: ["Maintenance multi techniques - forfait E2MT"],
+    exclusives: true,
+    message: "CME_CMT est EXCLUSIVEMENT réservé à la nature 'Maintenance multi techniques - forfait E2MT'",
+  },
+  PTP_CMT: {
+    compatibles: [
+      "Aménagements intérieurs", "Clos", "Couvert", "Eclairage et installations électriques BT",
+      "Installations chauffage, ventil. climatisation", "Plomberie, sanitaire", "Structure",
+      "Accessibilité (Asc, escalier méca) élévateur", "Equipements de sécurité incendie",
+      "Courant faible (téléphonie, automatisme, GTB)", "Espaces extérieurs dont élagage, abattage",
+      "Assainissement Voierie Réseau Divers, déchet, eau", "Vidéosurveillance, gardiennage, sécurisation",
+      "Distribution HTetMT - Postes de livr./transf.",
+    ],
+    exclusives: false,
+    message: "PTP_CMT : toutes natures sauf celles réservées G&C ou E2MT",
+  },
+  GE_CMT: {
+    compatibles: [
+      "Aménagements intérieurs", "Clos", "Couvert", "Eclairage et installations électriques BT",
+      "Installations chauffage, ventil. climatisation", "Plomberie, sanitaire", "Structure",
+      "Accessibilité (Asc, escalier méca) élévateur", "Equipements de sécurité incendie",
+      "Courant faible (téléphonie, automatisme, GTB)", "Espaces extérieurs dont élagage, abattage",
+      "Assainissement Voierie Réseau Divers, déchet, eau", "Vidéosurveillance, gardiennage, sécurisation",
+      "Distribution HTetMT - Postes de livr./transf.", "Démolitions - suppressions bâtiments équipements",
+    ],
+    exclusives: false,
+    message: "GE_CMT : toutes natures sauf celles réservées G&C",
+  },
+  MEC_EE: {
+    compatibles: ["Eclairage et installations électriques BT", "Distribution HTetMT - Postes de livr./transf."],
+    exclusives: true,
+    message: "MEC_EE est réservé aux natures électriques (BT ou HT/MT)",
+  },
+  RAU: {
+    compatibles: [
+      "Equipements de sécurité incendie", "Accessibilité (Asc, escalier méca) élévateur",
+      "Installations chauffage, ventil. climatisation", "Plomberie, sanitaire",
+    ],
+    exclusives: false,
+    message: "RAU : natures liées à la conformité réglementaire (incendie, accessibilité, thermique)",
+  },
+  ML: {
+    compatibles: [
+      "Aménagements intérieurs", "Clos", "Eclairage et installations électriques BT",
+      "Plomberie, sanitaire", "Espaces extérieurs dont élagage, abattage",
+    ],
+    exclusives: false,
+    message: "ML : natures courantes pour maintenance locative",
+  },
+  "VTR G BNC": {
+    compatibles: ["Structure", "Couvert", "Clos", "Aménagements intérieurs"],
+    exclusives: false,
+    message: "VTR G BNC : natures liées aux bâtiments non courants (structure, couvert, clos)",
+  },
+  VTR_EE: {
+    compatibles: ["Eclairage et installations électriques BT", "Distribution HTetMT - Postes de livr./transf."],
+    exclusives: true,
+    message: "VTR_EE est réservé aux natures électriques",
+  },
+  "CA EE": {
+    compatibles: ["Eclairage et installations électriques BT", "Distribution HTetMT - Postes de livr./transf."],
+    exclusives: true,
+    message: "CA EE est réservé aux natures électriques",
+  },
+  EE_MPS: {
+    compatibles: ["Eclairage et installations électriques BT", "Distribution HTetMT - Postes de livr./transf."],
+    exclusives: true,
+    message: "EE_MPS est réservé aux natures électriques",
+  },
+  "VTR ACC DIAG": {
+    compatibles: ["Visite de surveillance, contrôle, diag., étude"],
+    exclusives: true,
+    message: "VTR ACC DIAG est EXCLUSIVEMENT réservé à la nature 'Visite de surveillance, contrôle, diag., étude'",
+  },
+  VIR: {
+    compatibles: ["Visite de surveillance, contrôle, diag., étude", "Audits et Etudes Energétiques"],
+    exclusives: true,
+    message: "VIR est réservé aux natures de visite/audit hors réglementaire",
+  },
+};
+
+// Fonction de vérification croisée
+function verifierCompatibilite(sousTypeCode: string, natureSelectionnee: string): {
+  compatible: boolean;
+  message: string;
+  naturesCompatibles: string[];
+} {
+  const regle = compatibilitesSousTypeNature[sousTypeCode];
+  if (!regle) {
+    return { compatible: true, message: "Aucune restriction connue pour ce sous-type", naturesCompatibles: [] };
+  }
+  const estCompatible = regle.compatibles.some(n => natureSelectionnee.includes(n) || n.includes(natureSelectionnee));
+  return {
+    compatible: estCompatible,
+    message: estCompatible
+      ? `✅ Compatible : ${regle.message}`
+      : `⚠️ INCOMPATIBLE : ${regle.message}. Natures autorisées : ${regle.compatibles.join(", ")}`,
+    naturesCompatibles: regle.compatibles,
+  };
+}
 
 // Nature de travaux helper
 const naturesParCorpsEtat: Record<string, string[]> = {
@@ -908,6 +1048,44 @@ Analyse le devis en tenant compte de ces paramètres.
                     </div>
                   ))}
                 </div>
+
+                {/* Vérification croisée */}
+                {selectedNature && (adjustedResult || result) && (() => {
+                  const check = verifierCompatibilite((adjustedResult || result)!.sousTypeCode, selectedNature);
+                  return (
+                    <div className={`mt-3 p-3 rounded-lg border ${check.compatible ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}>
+                      <div className="flex items-center gap-2">
+                        {check.compatible ? (
+                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-600" />
+                        )}
+                        <span className={`text-sm font-medium ${check.compatible ? "text-green-800" : "text-red-800"}`}>
+                          {check.compatible ? "Nature compatible" : "Nature INCOMPATIBLE"}
+                        </span>
+                      </div>
+                      <p className={`text-xs mt-1 ${check.compatible ? "text-green-700" : "text-red-700"}`}>
+                        {check.message}
+                      </p>
+                      {!check.compatible && check.naturesCompatibles.length > 0 && (
+                        <div className="mt-2 pt-2 border-t border-red-200">
+                          <p className="text-xs font-medium text-red-700 mb-1">Natures autorisées :</p>
+                          <div className="flex flex-wrap gap-1">
+                            {check.naturesCompatibles.map((n, i) => (
+                              <button
+                                key={i}
+                                onClick={() => setSelectedNature(n)}
+                                className="text-xs px-2 py-0.5 rounded bg-red-100 text-red-700 hover:bg-red-200 cursor-pointer"
+                              >
+                                {n}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
 
                 {/* Sélection par corps d'état */}
                 <button
