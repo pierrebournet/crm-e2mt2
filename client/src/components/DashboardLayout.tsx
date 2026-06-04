@@ -70,6 +70,7 @@ const menuItems = [
   { icon: GitBranchPlus, label: "Logigramme", path: "/logigramme" },
   { icon: AlertTriangle, label: "Évolutions 2026", path: "/evolutions-2026" },
   { icon: FileSpreadsheet, label: "Export", path: "/export" },
+  { icon: AlertTriangle, label: "Pénalités COSUI", path: "/penalites" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

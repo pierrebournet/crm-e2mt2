@@ -25,6 +25,7 @@ import LogigrammePage from "./pages/LogigrammePage";
 import Evolutions2026Page from "./pages/Evolutions2026Page";
 import ArbreDecisionPage from "./pages/ArbreDecisionPage";
 import HistoriqueDecisionsPage from "./pages/HistoriqueDecisionsPage";
+import PenalitesTableauPage from "./pages/PenalitesTableauPage";
 
 function Router() {
   return (
@@ -51,6 +52,7 @@ function Router() {
         <Route path="/evolutions-2026" component={Evolutions2026Page} />
         <Route path="/arbre-decision" component={ArbreDecisionPage} />
         <Route path="/historique-decisions" component={HistoriqueDecisionsPage} />
+        <Route path="/penalites" component={PenalitesTableauPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
