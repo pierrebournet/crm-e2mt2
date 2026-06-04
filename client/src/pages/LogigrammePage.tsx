@@ -203,8 +203,9 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     details: [
       "Onglet TECHNIQUE dans IMMOSIS > Créer une nouvelle AT",
       "Nommer l'AT selon la convention : [Région]-[Année]-[SA]-[Sous-type]-[Description]-[UT]-[BAT]",
-      "Exemple : 47-25-DI-VOY INDUS ISM-PTP E2MT-003818H-254",
-      "Remplir : Gérant de programme, DIT, informations supplémentaires",
+      "Exemple 2026 : 47-26-DI-VOY INDUS ISM-PTP E2MT-003818H-254",
+      "Remplir : Gérant de programme (voir référentiel 2026 par SA), DIT, informations supplémentaires",
+      "Évolutions 2026 : 6+2 familles budgétaires (GER, MEC, CME, PTP, ML, TL + VR, DIAG), nouveaux codes comptables ZG",
       "Choisir le type IMMOSIS parmi les 40 types répartis en 4 budgets (GE, Amiante/VR TVX, VR, CME/PTP)",
       "Contractualiser l'AT : renseigner le montant et les éléments budgétaires",
       "Changements d'état : CRÉÉE → EN COURS → CONTRACTUALISÉE",
@@ -212,7 +213,7 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     tips: [
       "Utiliser le Nommage AT du CRM pour générer automatiquement le nom normalisé",
       "Pour les AT annuelles (génériques) : le nom suit un format simplifié",
-      "Vérifier l'axe local dans l'onglet Suivi Budgétaire",
+      "Vérifier l'axe local dans l'onglet Suivi Budgétaire (2026 : axes locaux communiqués par ERP selon type fournisseur ABE/non-ABE)",
     ],
     warnings: [
       "Ne pas oublier de contractualiser l'AT avant de passer à Connect'Immo",
@@ -241,7 +242,7 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
       "Vérifier que l'axe central et l'axe local apparaissent dans la commande",
     ],
     tips: [
-      "AT génériques 2025 : 47-25-0019 (DIVOY INDUS, 25k€), 47-25-0020 (DI-VOY PTP, 20k€)",
+      "AT génériques 2026 : vérifier les numéros AT annuelles dans IMMOSIS (format 47-26-XXXX)",
       "Le N° de projet Connect'Immo commence toujours par \"P-\"",
       "Utiliser les rapports Connect'Immo pour le suivi global des engagements",
     ],
