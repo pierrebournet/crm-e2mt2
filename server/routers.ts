@@ -2176,12 +2176,12 @@ Génère le nommage IMMOSIS en respectant la convention officielle :
 
 **STRUCTURE DU NOMMAGE IMMOSIS :**
 Chaque élément est séparé par un tiret (-). Format :
-[Code région]-[Année]-[Prestataire]-[Propriétaire Portefeuille]-[Particularité]-[UT-BAT]-[N° devis si ESBE]-[Nature opération]
+[Code région]-[Année]-[Émetteur DI]-[Propriétaire Portefeuille]-[Particularité]-[UT-BAT]-[Nature opération]
 
 **Éléments obligatoires pour TOUTES les AT :**
 - Code région : 2 chiffres (Occitanie Ouest = 47, PACA = 58, Occitanie Est = 59)
 - Année : 2 chiffres (ex: 26 pour 2026)
-- Prestataire : DI ou ESBE
+- Émetteur : DI (Direction de l'Immobilier) — TOUJOURS DI pour le pilote DIT, jamais ESBE (ESBE = ABE qui crée ses propres AT)
 - Propriétaire et portefeuille : RES TERTIAIRE, MOBI INDUS, TETE RHIST, RES FERRO, MOBI SOCIAL, FRET, etc.
 
 **Pour les AT ANNUELLES (ajouter après propriétaire) :**
@@ -2191,17 +2191,17 @@ Chaque élément est séparé par un tiret (-). Format :
 **Pour les AT PONCTUELLES (ajouter après propriétaire) :**
 - Particularité éventuelle : OPS (travaux locatifs OPTIM'SERVICES), FRUG (frugalité énergétique), VG (suite visite de gestion)
 - UT-BAT : 7 + 4 caractères (ex: 005737JB010)
-- Si ESBE : ajouter le N° du devis
+- Si besoin : ajouter le N° du devis (optionnel)
 - Nature de l'opération : descriptif court et explicite
 
 **EXEMPLES CONFORMES :**
-- 47-23-ESBE-RESO FERRO-005654VB061-Brochage de fissures
+- 47-23-DI-RESO FERRO-005654VB061-Brochage de fissures
 - 59-23-DI-MOBI INDUS TER-005737JB010-Rplct 2 BAES CMPP
 - 58-23-DI-MOBI SOCIAL-OPS-005737JB010-Rplct 2 BAES CMPP
-- 59-23-ESBE-RES FERRO-005654VB061-MP 220 2022-Brochage de fissures
-- 59-23-ESBE-RES INDUS-MPS ELEC-ANNUEL
+- 59-23-DI-RES FERRO-005654VB061-MP 220 2022-Brochage de fissures
+- 59-23-DI-RES INDUS-MPS ELEC-ANNUEL
 - 58-23-DI-FRET-PTP E2MT-ANNUEL
-- 47-26-ESBE-RES TERTIAIRE-004714YB032-Rplct faux plafond + refixation tuyauteries
+- 47-26-DI-RES TERTIAIRE-004714YB032-Rplct faux plafond + refixation tuyauteries
 
 **TYPE À CHOISIR DANS IMMOSIS :**
 | Nature dépense | Type IMMOSIS | Libellé | Budget |
@@ -2344,7 +2344,7 @@ Voici un exemple complet d'analyse réalisée sur un devis EQUANS (OT COR 340290
 **Étape 3 — PPT 2026 :** CME (Contrats Maintenance Externe) / Code ZG360720 / Sous-type "P - Contrats de maintenance" / Mixte
 
 **Étape 4 — Nommage IMMOSIS :**
-- Nommage complet : 47-26-ESBE-RES TERTIAIRE-004714YB032-Rplct faux plafond + refixation tuyauteries
+- Nommage complet : 47-26-DI-RES TERTIAIRE-004714YB032-Rplct faux plafond + refixation tuyauteries
 - Type IMMOSIS : CME_CMT (Contrats maintenance externe - CMT)
 - Budget impacté : CME
 

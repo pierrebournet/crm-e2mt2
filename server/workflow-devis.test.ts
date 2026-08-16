@@ -54,7 +54,7 @@ describe("Workflow Analyse de Devis - Mission C/D Integration", () => {
     it("contient l'étape 4 : Nommage de l'AT (convention IMMOSIS)", () => {
       expect(routersContent).toContain("Nommage de l'AT");
       expect(routersContent).toContain("STRUCTURE DU NOMMAGE IMMOSIS");
-      expect(routersContent).toContain("[Code région]-[Année]-[Prestataire]-[Propriétaire Portefeuille]");
+      expect(routersContent).toContain("[Code région]-[Année]-[Émetteur DI]-[Propriétaire Portefeuille]");
     });
 
     it("contient l'étape 5 : Trames Immosis et Connect'Immo", () => {
