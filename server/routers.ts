@@ -2275,6 +2275,25 @@ Présente le résultat :
 - [Liste des anomalies classées par gravité : CRITIQUE / MODÉRÉE / MINEURE]
 ---
 
+### CONTRÔLE CDC E2MT² — Pièces obligatoires du devis (Cahier des Charges)
+
+Le Cahier des Charges E2MT² précise qu'à la remise de sa proposition tarifaire, le prestataire doit à minima fournir les éléments suivants. Vérifie SYSTÉMATIQUEMENT leur présence :
+
+| N° | Exigence CDC | Statut | Observation |
+|---|---|---|---|
+| CDC-1 | Cadre de décomposition du prix (prix unitaires fournitures, quantités, temps unitaires MO, coûts MO) | ✅/❌ | ... |
+| CDC-2 | Durée de validité de la proposition tarifaire | ✅/❌ | ... |
+| CDC-3 | Notice descriptive (matériaux, matériels principaux, dispositions constructives) | ✅/❌ | ... |
+| CDC-4 | Délai total d'exécution avec planning détaillé (études, approvisionnements, mise en œuvre, réception) | ✅/❌ | ... |
+| CDC-5 | Coupures ou arrêts d'installations nécessaires | ✅/❌/SO | ... |
+| CDC-6 | Copie des devis fournisseur et/ou sous-traitant | ✅/❌/SO | ... |
+| CDC-7 | Date prévisionnelle d'engagement (dans le devis) | ✅/❌ | ... |
+| CDC-8 | Date prévisionnelle d'engagement renseignée dans IGO (champ "date de fin prévue") | ⚠️ À vérifier | Non vérifiable sur le devis seul — rappeler au pilote |
+
+**Règle :** Si CDC-1 à CDC-4 ou CDC-7 sont absents → signaler comme ANOMALIE MODÉRÉE et demander au prestataire de compléter son devis avant validation.
+**Rappel :** La date prévisionnelle d'engagement doit figurer dans le devis ET être reportée dans IGO (champ "date de fin prévue").
+---
+
 ### ÉTAPE 6 : Trames Immosis et Connect'Immo (Guide de saisie)
 
 Génère les trames pré-remplies prêtes à copier-coller :
@@ -2359,7 +2378,48 @@ Règles de réponse :
 - Si sous-traitance : vérifie que le devis du sous-traitant est joint et cohérent
 - Si régularisation : signale que le devis aurait dû être soumis AVANT l'intervention
 - Termine TOUJOURS par une RECOMMANDATION claire : ACCEPTER / REFUSER / ACCEPTER SOUS RÉSERVE avec le montant correct
-- Rappelle que E2MT n'est PAS un marché de travaux quand pertinent`,
+- Rappelle que E2MT n'est PAS un marché de travaux quand pertinent
+
+## INSTRUCTIONS SPÉCIALES — GÉNÉRATION TRAMES IMMOSIS & CONNECT'IMMO
+
+Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou envoie un devis avec cette instruction, tu dois analyser le devis et pré-remplir TOUS les champs nécessaires pour créer l'AT dans Immosis et le projet dans Connect'Immo.
+
+### RÈGLES DE REMPLISSAGE IMMOSIS (NETiKA - immosis.sncf.fr) :
+
+**Identification :**
+- Gérant de programmes : déterminé par le propriétaire interne du bâtiment (lookup UT-BAT → propriétaire → gérant)
+- Type : se décline en fonction du gérant (GE, PTP, CME, VRE, MEC, etc.)
+- Nom : TOUJOURS format 47-26-xxxx (47=code région, 26=année). Émetteur = DI (jamais ABE)
+- Exercice : 2026 | DTI/DEX : DTI Méditerranée | Etat : PROPOSE | Stratégie : NON DEFINIE | Priorité : 3
+
+**Nature (codes 83xx-89xx) :** 8301 Assainissement, 8302 Hydraulique, 8303 Plomberie, 8311 Distribution HT/MT, 8312 Électricité BT, 8313 Courant faible/GTB, 8320 CVC, 8330 Accessibilité/Ascenseur, 8341 Sécurité incendie, 8342 Vidéosurveillance, 8350 Audits énergétiques, 8410 Espaces extérieurs, 8420 Quais voyageurs, 8430 Abris de quai, 8501 Structure, 8502 Clos, 8503 Couvert, 8510 Aménagements intérieurs, 8550 Anti-graffiti, 8560 Anti-vandalisme, 8600 Petits Travaux Propriétaire, 8610 Maintenance E2MT, 8700 Visite/contrôle/diag, 8800 Démolitions, 8900 Réhabilitation
+
+**Ventilation B/D Propriétaire (selon gérant → SA → B/D) :**
+- ISM TER OCCITANIE / PACA / TGV / AUTRE VOYAGEUR → SNCF VOYAGEURS
+- RESEAU FERROVIAIRE / INDUSTRIEL / TERTIAIRE / SOCIAL → SNCF RESEAU
+- HEXAFRET / FRET ISM / C32 / TECHNIS → FRET TRANSPORTS LOGISTIQUE
+- COMBUSTIBLE / TRACTION / DI POUR RH → SNCF
+- OPTIM SERVICES (ex GIE) → TOUJOURS 100% DIRECTION DE L'IMMOBILIER
+
+**Gérants disponibles :** AUTRE VOYAGEUR, C32, COMBUSTIBLE, DI POUR RH L, DI POUR RH/IST, FRET ISM, HEXAFRET, HORS ISM TER, HORS ISM TGV, ISM INTERCITE, ISM TER OCCITANIE, ISM TER PROVENCE ALPES COTE D AZUR, ISM TGV AXE ATLANTIQUE, ISM TGV AXE SUD EST, MAINTENANCE LOCATIVE INDUSTRIEL ET FERROVIAIRE, MAINTENANCE LOCATIVE TERTIAIRE ET SOCIAL, MAINTENANCE SUD AZUR, MATERIEL AUTRES, MATERIEL ISM, MATERIEL TI NEVERS LANGUEDOC, OPTIM SERVICES, RESEAU FERROVIAIRE, RESEAU INDUSTRIEL, RESEAU SOCIAL, RESEAU TERTIAIRE, RESEAU TRAVAUX A LA DEMANDE, TECHNIS, TRACTION, VOYAGEURS TRAVAUX A LA DEMANDE
+
+### RÈGLES DE REMPLISSAGE CONNECT'IMMO (V11) :
+
+**Champs obligatoires :** DIT*=DIT Grand Sud, Région*, Agence*, UT*, Bien*, Intitulé du projet*, Origine*, Sous-Types*, Gérant de programme*, Attributaire*=DIT
+
+**Origine :** ABE, Activité/Occupant, Administration, Agence EDT, DTA, Fluides, Gestion Immobilière, Gestionnaire, Mainteneur, Référent Environnement, Référent RTSII, Référent TE, Sinistre, Tiers, VGT, VR, Proposition GT, Valorisation, Connect-IS, Gestionnaire d'actif, FEX
+
+**Sous-Types Connect'Immo :** Accompagnement diagnostic, B1. Gestion du risque incendie, B2. Gestion du risque amiante, C4. Connaissance des actifs, Compte sinistre, Contrats de Maintenance Externe, Contrats de Maintenance Externe - E2MT, Contrats de Maintenance Interne, Contrats Petits Travaux du Propriétaire, D2. Contrats locatifs, Déconstructions Sélectives SNCF, Diagnostic Amiante, Economies d'énergie décarbonation, Energie Electrique MPS, Gros Entretien IST CCE, Gros Entretiens, Gros Entretiens - par E2MT, Investissement, Maintenance Elargie Energie Electrique, Maintenance Locative, Mise en conformité énergie électrique, Mise en conformité réglementaire autre, Petits Travaux Propriétaires - E2MT, Travaux de Désamiantage, Travaux Locatifs, Vérifications Réglementaires, Visite cellule APE, Visite réglementaire énergie électrique, Visite tech audit étude, Visites de Gestion
+
+**Correspondance sous-type IMMOSIS → Connect'Immo :** GE→"Gros Entretiens - par E2MT", PTP→"Petits Travaux Propriétaires - E2MT", CME→"Contrats de Maintenance Externe - E2MT", VRE→"Vérifications Réglementaires", MEC→"Mise en conformité réglementaire autre", ML→"Maintenance Locative", TL→"Travaux Locatifs"
+
+**Attributaire :** ABE, Gestionnaire, DIT, A renseigner → pour E2MT² lot 4.1 = DIT
+
+**Les 7 onglets Connect'Immo :** 1.Emergence (intitulé, statut, origine, sous-type, priorité, urgence, dates, estimation) 2.Emergence suite (pilote, occupant, PJ) 3.Prévision pluriannuelle 4.Ouverture AT/OS (N° AT donné par Immosis, montant, date, état) 5.Synthèse commandes (axe central + axe local donnés par Immosis) 6.Demande de devis (N° devis, fournisseur, montant) 7.Vie de la commande (N° DA, N° CDA, N° réception, PV)
+
+**Workflow facturation :** IMMOSIS (AT→axe local+central) → CONNECT'IMMO (projet+AT/OS+axes) → ERP (DA+CDA+Réception) → PSFOUR (Facture)
+
+**Format JSON obligatoire quand demandé :** Réponds UNIQUEMENT en JSON valide sans markdown avec : {"immosis":{"gerant":"","type":"","nom":"47-26-xxxx","region":"","etat":"PROPOSE","exercice":"2026","debut":"","fin":"","ut":"","batIf":"","nature":"","codeNature":"","ventilationBD":"","pourcentageBD":"100","montant":"","description":"","strategie":"NON DEFINIE","priorite":"3"},"connectImmo":{"intituleProjet":"","dit":"DIT Grand Sud","region":"","agence":"","ut":"","bien":"","origine":"","sousType":"","gerantProgramme":"","attributaire":"DIT","estimation":"","debutExercice":"2026","finExercice":"2026","debutTravaux":"","finTravaux":"","priorite":"1","urgence":"U3","fournisseur":"","typeFournisseur":"ABE","pilote":"","responsableBudget":"EDT"},"notes":"","warnings":[]}`,
           },
         ];
 

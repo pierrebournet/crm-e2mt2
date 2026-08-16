@@ -189,3 +189,11 @@
 - [x] Sauvegarde automatique des décisions + compteur "X décisions ce mois" dans la sidebar
 - [x] Ajouter VTR G BNC dans l'arbre de décision pour bâtiments non courants (ouvrages d'art, grandes halles)
 - [x] Module de vérification croisée sous-type ↔ nature de travaux (compatibilité automatique)
+- [x] Créer le nouvel onglet "Immosis & Connect'Immo" dans la sidebar du CRM
+- [x] Page frontend avec upload de devis + affichage des trames pré-remplies Immosis et Connect'Immo
+- [x] Backend tRPC : procédure spécialisée pour générer les trames Immosis/Connect'Immo à partir d'un devis
+- [x] Intégrer la base de connaissances complète : listes déroulantes Connect'Immo (Origine, Sous-types, Gérants, Attributaire), champs Immosis (Gérants, Types/Nature 83xx-89xx, Ventilation B/D), règles métier (OPTIM SERVICES, nommage 47-26-xxxx, DI toujours)
+- [x] Intégrer l'inventaire UT-BAT avec gérants de programme pour lookup automatique
+- [x] Intégrer les 7 onglets Connect'Immo (Emergence, Prévision, AT/OS, Synthèse commande, Demande de devis, Vie de la commande) dans les trames générées
+- [x] Intégrer les exigences CDC E2MT² (6 points obligatoires + date prévisionnelle) dans l'étape 5 du workflow analyse devis
+- [x] Tests unitaires pour le nouvel onglet Immosis/Connect'Immo (36 tests, 628 tests au total)
