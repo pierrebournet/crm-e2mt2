@@ -22,8 +22,9 @@ describe("Immosis & Connect'Immo - Base de connaissances dans le prompt", () => 
     });
 
     it("contient le format de nommage AT 47-26-xxxx", () => {
-      expect(routerContent).toContain("47-26-xxxx");
-      expect(routerContent).toContain("Émetteur = DI (jamais ABE)");
+      expect(routerContent).toContain("47-26-DI-");
+      expect(routerContent).toContain("ÉMETTEUR = DI OBLIGATOIREMENT");
+      expect(routerContent).toContain("JAMAIS ESBE");
     });
 
     it("contient la règle OPTIM SERVICES", () => {

@@ -2389,7 +2389,7 @@ Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou
 **Identification :**
 - Gérant de programmes : déterminé par le propriétaire interne du bâtiment (lookup UT-BAT → propriétaire → gérant)
 - Type : se décline en fonction du gérant (GE, PTP, CME, VRE, MEC, etc.)
-- Nom : TOUJOURS format 47-26-xxxx (47=code région, 26=année). Émetteur = DI (jamais ABE)
+- Nom : TOUJOURS format 47-26-DI-[PORTEFEUILLE]-[UT-BAT]-[Description intervention] (47=code région, 26=année). ⚠️ ÉMETTEUR = DI OBLIGATOIREMENT (JAMAIS ESBE, JAMAIS le nom du prestataire). Exemple correct : "47-26-DI-RES TERTIAIRE-004714YB032-Rplct plaques faux plafond"
 - Exercice : 2026 | DTI/DEX : DTI Méditerranée | Etat : PROPOSE | Stratégie : NON DEFINIE | Priorité : 3
 
 **Nature (codes 83xx-89xx) :** 8301 Assainissement, 8302 Hydraulique, 8303 Plomberie, 8311 Distribution HT/MT, 8312 Électricité BT, 8313 Courant faible/GTB, 8320 CVC, 8330 Accessibilité/Ascenseur, 8341 Sécurité incendie, 8342 Vidéosurveillance, 8350 Audits énergétiques, 8410 Espaces extérieurs, 8420 Quais voyageurs, 8430 Abris de quai, 8501 Structure, 8502 Clos, 8503 Couvert, 8510 Aménagements intérieurs, 8550 Anti-graffiti, 8560 Anti-vandalisme, 8600 Petits Travaux Propriétaire, 8610 Maintenance E2MT, 8700 Visite/contrôle/diag, 8800 Démolitions, 8900 Réhabilitation
@@ -2419,7 +2419,9 @@ Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou
 
 **Workflow facturation :** IMMOSIS (AT→axe local+central) → CONNECT'IMMO (projet+AT/OS+axes) → ERP (DA+CDA+Réception) → PSFOUR (Facture)
 
-**Format JSON obligatoire quand demandé :** Réponds UNIQUEMENT en JSON valide sans markdown avec : {"immosis":{"gerant":"","type":"","nom":"47-26-xxxx","region":"","etat":"PROPOSE","exercice":"2026","debut":"","fin":"","ut":"","batIf":"","nature":"","codeNature":"","ventilationBD":"","pourcentageBD":"100","montant":"","description":"","strategie":"NON DEFINIE","priorite":"3"},"connectImmo":{"intituleProjet":"","dit":"DIT Grand Sud","region":"","agence":"","ut":"","bien":"","origine":"","sousType":"","gerantProgramme":"","attributaire":"DIT","estimation":"","debutExercice":"2026","finExercice":"2026","debutTravaux":"","finTravaux":"","priorite":"1","urgence":"U3","fournisseur":"","typeFournisseur":"ABE","pilote":"","responsableBudget":"EDT"},"notes":"","warnings":[]}`,
+⚠️ RÈGLE ABSOLUE NOMMAGE : Le champ "nom" de l'AT doit TOUJOURS commencer par "47-26-DI-" suivi du portefeuille, de l'UT-BAT et de la description de l'intervention. JAMAIS "ESBE", JAMAIS le nom du prestataire (EQUANS, AXIMA, etc.). Exemple : "47-26-DI-RES TERTIAIRE-004714YB032-Rplct plaques faux plafond + refixation tuyauteries"
+
+**Format JSON obligatoire quand demandé :** Réponds UNIQUEMENT en JSON valide sans markdown avec : {"immosis":{"gerant":"","type":"","nom":"47-26-DI-[PORTEFEUILLE]-[UTBAT]-[Description intervention]","region":"","etat":"PROPOSE","exercice":"2026","debut":"","fin":"","ut":"","batIf":"","nature":"","codeNature":"","ventilationBD":"","pourcentageBD":"100","montant":"","description":"","strategie":"NON DEFINIE","priorite":"3"},"connectImmo":{"intituleProjet":"","dit":"DIT Grand Sud","region":"","agence":"","ut":"","bien":"","origine":"","sousType":"","gerantProgramme":"","attributaire":"DIT","estimation":"","debutExercice":"2026","finExercice":"2026","debutTravaux":"","finTravaux":"","priorite":"1","urgence":"U3","fournisseur":"","typeFournisseur":"ABE","pilote":"","responsableBudget":"EDT"},"notes":"","warnings":[]}`,
           },
         ];
 
