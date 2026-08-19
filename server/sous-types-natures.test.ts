@@ -8,19 +8,19 @@ const routersContent = readFileSync(
 );
 
 describe("Sous-types et Natures de Travaux IMMOSIS", () => {
-  describe("Section 5 : Sous-types actifs (18)", () => {
+  describe("Section 5 : Sous-types actifs (22)", () => {
     it("contient la section des sous-types avec bonnes/mauvaises pratiques", () => {
-      expect(routersContent).toContain("Sous-types IMMOSIS actifs (18)");
+      expect(routersContent).toContain("Sous-types IMMOSIS actifs (22)");
       expect(routersContent).toContain("Bonnes pratiques");
       expect(routersContent).toContain("Mauvaises pratiques");
     });
 
-    it("contient les 18 codes de sous-types", () => {
+    it("contient les 22 codes de sous-types", () => {
       const sousTypes = [
         "VTR ACC DIAG", "CME", "CME_CMT", "CMI", "PTP",
         "VTR AMIA INIT", "CA EE", "EE_MPS", "GE", "GE_CMT",
-        "EE", "ML", "MEC_EE", "RAU", "PTP_CMT",
-        "TDA", "TL", "VTR_EE", "VIR", "VTR G"
+        "EE", "ML", "MEC_EE", "MEC_RAU", "PTP_CMT",
+        "TDA", "TL", "VTR PR", "VTR_EE", "VTR NR", "VTR G", "VTR GBNC"
       ];
       for (const code of sousTypes) {
         expect(routersContent).toContain(code);
@@ -28,19 +28,31 @@ describe("Sous-types et Natures de Travaux IMMOSIS", () => {
     });
 
     it("identifie les sous-types à ne plus utiliser", () => {
-      expect(routersContent).toContain("CMI | Contrats de Maintenance Interne | NE PLUS UTILISER");
-      expect(routersContent).toContain("EE | Maintenance Elargie Energie Electrique | NE PLUS UTILISER");
+      expect(routersContent).toContain("NE PLUS UTILISER");
+      expect(routersContent).toContain("CMI");
+      expect(routersContent).toContain("Contrats de Maintenance Interne");
     });
 
     it("identifie les nouveaux sous-types 2026", () => {
-      expect(routersContent).toContain("RAU | Mise en conformité réglementaire autre (NOUVEAU)");
-      expect(routersContent).toContain("VIR | Visite tech audit étude hors réglementaire et VG (NOUVEAU)");
+      expect(routersContent).toContain("MEC_RAU");
+      expect(routersContent).toContain("Mise en conformité réglementaire autre");
+      expect(routersContent).toContain("VTR NR");
+      expect(routersContent).toContain("Visite tech audit étude (hors réglementaire et VG)");
     });
 
     it("distingue E2MT des travaux connexes hors E2MT", () => {
-      expect(routersContent).toContain("CME_CMT | Contrats de Maintenance Externe - E2MT | Forfait et prise en charge E2MT UNIQUEMENT");
-      expect(routersContent).toContain("GE_CMT | Gros Entretiens - par E2MT | Tous travaux sur installations et \u00e9quipements r\u00e9alis\u00e9s AVEC le contrat E2MT");
-      expect(routersContent).toContain("PTP_CMT | Petits Travaux Propriétaires - E2MT");
+      expect(routersContent).toContain("CME_CMT");
+      expect(routersContent).toContain("Forfait et prise en charge E2MT UNIQUEMENT");
+      expect(routersContent).toContain("GE_CMT");
+      expect(routersContent).toContain("AVEC contrat E2MT");
+      expect(routersContent).toContain("PTP_CMT");
+      expect(routersContent).toContain("AVEC contrat E2MT");
+    });
+
+    it("distingue ML (Maintenance Locative) de TL (Travaux Locatifs)", () => {
+      expect(routersContent).toContain("ML = entretien");
+      expect(routersContent).toContain("TL = travaux");
+      expect(routersContent).toContain("Ne pas confondre");
     });
   });
 

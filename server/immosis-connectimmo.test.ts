@@ -87,9 +87,14 @@ describe("Immosis & Connect'Immo - Base de connaissances dans le prompt", () => 
     });
 
     it("contient la correspondance sous-type IMMOSIS → Connect'Immo", () => {
-      expect(routerContent).toContain('GE→"Gros Entretiens - par E2MT"');
-      expect(routerContent).toContain('PTP→"Petits Travaux Propriétaires - E2MT"');
-      expect(routerContent).toContain('CME→"Contrats de Maintenance Externe - E2MT"');
+      expect(routerContent).toContain('GE → "Gros Entretiens"');
+      expect(routerContent).toContain('GE_CMT → "Gros Entretiens - par E2MT"');
+      expect(routerContent).toContain('PTP → "Contrats Petits Travaux du Propriétaire"');
+      expect(routerContent).toContain('PTP_CMT → "Petits Travaux Propriétaires - E2MT"');
+      expect(routerContent).toContain('CME → "Contrats de Maintenance Externe"');
+      expect(routerContent).toContain('CME_CMT → "Contrats de Maintenance Externe - E2MT"');
+      expect(routerContent).toContain('ML → "Maintenance Locative"');
+      expect(routerContent).toContain('TL → "Travaux Locatifs"');
     });
   });
 
@@ -228,13 +233,20 @@ describe("Base de connaissances structurée (fichier knowledge)", () => {
     expect(knowledge.NOMMAGE_AT_CONFIG.emetteur).toBe("DI");
   });
 
-  it("exporte les correspondances sous-types", async () => {
-    const knowledge = await import("./immosis-connectimmo-knowledge");
-    expect(knowledge.CORRESPONDANCE_SOUS_TYPES).toBeDefined();
-    expect(knowledge.CORRESPONDANCE_SOUS_TYPES["GE"]).toBe("Gros Entretiens - par E2MT");
-    expect(knowledge.CORRESPONDANCE_SOUS_TYPES["PTP"]).toBe("Petits Travaux Propriétaires - E2MT");
-    expect(knowledge.CORRESPONDANCE_SOUS_TYPES["CME"]).toBe("Contrats de Maintenance Externe - E2MT");
-  });
+    it("exporte les correspondances sous-types", async () => {
+      const knowledge = await import("./immosis-connectimmo-knowledge");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES).toBeDefined();
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["GE"]).toBe("Gros Entretiens");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["GE_CMT"]).toBe("Gros Entretiens - par E2MT");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["PTP"]).toBe("Contrats Petits Travaux du Propriétaire");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["PTP_CMT"]).toBe("Petits Travaux Propriétaires - E2MT");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["CME"]).toBe("Contrats de Maintenance Externe");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["CME_CMT"]).toBe("Contrats de Maintenance Externe - E2MT");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["ML"]).toBe("Maintenance Locative");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["TL"]).toBe("Travaux Locatifs");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["MEC_RAU"]).toBe("Mise en conformité réglementaire autre");
+      expect(knowledge.CORRESPONDANCE_SOUS_TYPES["VTR NR"]).toBe("Visite tech audit étude (hors réglementaire et VG)");
+    });
 
   it("exporte les correspondances gérant → SA", async () => {
     const knowledge = await import("./immosis-connectimmo-knowledge");

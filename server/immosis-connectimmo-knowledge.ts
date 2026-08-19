@@ -236,19 +236,26 @@ export const NOMMAGE_AT_CONFIG = {
  */
 export const CORRESPONDANCE_SOUS_TYPES: Record<string, string> = {
   // Sous-type IMMOSIS → Sous-type Connect'Immo
-  "GE": "Gros Entretiens - par E2MT",
-  "PTP": "Petits Travaux Propriétaires - E2MT",
-  "CME": "Contrats de Maintenance Externe - E2MT",
-  "VRE": "Vérifications Réglementaires",
-  "MEC": "Mise en conformité réglementaire autre",
+  "VTR ACC DIAG": "Accompagnement diagnostic",
+  "CME": "Contrats de Maintenance Externe",
+  "CME_CMT": "Contrats de Maintenance Externe - E2MT",
+  "PTP": "Contrats Petits Travaux du Propriétaire",
+  "PTP_CMT": "Petits Travaux Propriétaires - E2MT",
+  "VTR AMIA INIT": "Diagnostic Amiante",
+  "CA EE": "Economies d'énergie, décarbonation",
+  "EE_MPS": "Energie Electrique MPS",
+  "GE": "Gros Entretiens",
+  "GE_CMT": "Gros Entretiens - par E2MT",
   "ML": "Maintenance Locative",
   "TL": "Travaux Locatifs",
-  "VTR_G_BNC": "Gros Entretiens",
-  "EE_MPS": "Energie Electrique MPS",
-  "AM_VR_TVX": "Travaux de Désamiantage",
-  "C4": "C4. Connaissance des actifs",
-  "B1": "B1. Gestion du risque incendie",
-  "B2": "B2. Gestion du risque amiante",
+  "MEC_EE": "Mise en conformité énergie électrique",
+  "MEC_RAU": "Mise en conformité réglementaire autre",
+  "TDA": "Travaux de Désamiantage",
+  "VTR PR": "Vérifications Réglementaires",
+  "VTR_EE": "Visite réglementaire énergie électrique",
+  "VTR NR": "Visite tech audit étude (hors réglementaire et VG)",
+  "VTR G": "Visites de Gestion",
+  "VTR GBNC": "Visites de Gestion des Bâtiments Non Courants",
 };
 
 /**

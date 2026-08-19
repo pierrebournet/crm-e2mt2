@@ -1161,31 +1161,52 @@ Ajout du suffixe **P** en 2ème caractère pour identifier les prestations réal
 - Le gérant MAINTENANCE SUD AZUR a été créé depuis 2025 et doit être utilisé avec la famille travaux correspondante.
 - Le gérant GIE est nouveau en 2026 (SNCF Optim Services).
 
-### 5. Sous-types IMMOSIS actifs (18) — Bonnes et Mauvaises Pratiques (V2 - Août 2025)
+### 5. Sous-types IMMOSIS actifs (22) — Bonnes et Mauvaises Pratiques (V2 - Août 2025) + Nomenclature ZG officielle
 
-| Code | Sous-type | Bonnes pratiques | Mauvaises pratiques |
-|---|---|---|---|
-| VTR ACC DIAG | Accompagnement diagnostic | Accompagnement par ABE pour missions hors rémunération COGC (VR ou non) | Accompagnement VRE (inclus dans rémunération VRE, voir COGC) |
-| CME | Contrats de Maintenance Externe | Contrat maintenance externe hors E2MT (ascenseurs, AMO Quadrim, nettoyage, gardiennage, location benne/bungalow, contrat externe de service) | Forfait ou travaux E2MT |
-| CME_CMT | Contrats de Maintenance Externe - E2MT | Forfait et prise en charge E2MT UNIQUEMENT | Travaux connexes via marché E2MT (utiliser GE_CMT) |
-| CMI | Contrats de Maintenance Interne | NE PLUS UTILISER (FIGÉ) | MPS, PAM, maintenance postes HT/BT (utiliser EE_MPS) |
-| PTP | Contrats Petits Travaux du Propriétaire | Enveloppe petits travaux < 3500 EUR (voir COGC) réalisés HORS contrat E2MT (travaux connexes) | Travaux > 3500 EUR |
-| VTR AMIA INIT | Diagnostic Amiante | Tous diagnostics amiante : DTA, DAAT, diagnostic initial amiante | - |
-| CA EE | Economies d'énergie, décarbonation | Télérelève (tous fluides : élec, gaz, RCU, fuel, eau), plan de comptage, audits énergétiques, étude thermique, relamping, passage en LED, sortie du fuel, mise en place PAC, RCU, GTB, isolation, recherche de fuites | - |
-| EE_MPS | Energie Electrique MPS | Maintenance préventive dans le domaine électrique (HT et BT) : MPS, PAM, entretien poste HT/BT | - |
-| GE | Gros Entretiens | Tous travaux sur installations et équipements réalisés EN DEHORS du contrat E2MT (travaux connexes). Par extension : élagage, abatage, débroussaillage | Locations, nettoyage, gardiennage (→CME), MEC (→RAU ou MEC_EE), études/diagnostics (→VIR), contrat de service (→CME) |
-| GE_CMT | Gros Entretiens - par E2MT | Tous travaux sur installations et équipements réalisés AVEC le contrat E2MT (travaux connexes) | Prise en charge/forfait E2MT (→CME_CMT), locations/nettoyage/gardiennage (→CME), MEC (→RAU ou MEC_EE), études/diagnostics (→VIR) |
-| EE | Maintenance Elargie Energie Electrique | NE PLUS UTILISER (FIGÉ) | MPS, PAM (utiliser EE_MPS) |
-| ML | Maintenance Locative | Maintenance locative | Travaux locatifs (→TL) |
-| MEC_EE | Mise en conformité énergie électrique | MEC suite à VRE ou MPS | Autre nature de MEC (→RAU) |
-| RAU | Mise en conformité réglementaire autre (NOUVEAU) | Autres MEC que les MEC électriques (incendie, ascenseurs, chauffage...etc.) | MEC Electriques (→MEC_EE) |
-| PTP_CMT | Petits Travaux Propriétaires - E2MT | Enveloppe petits travaux < 3500 EUR (voir COGC) réalisés AVEC le contrat E2MT (travaux connexes) | Inclure dans même AT que forfait CME_CMT, travaux > 3500 EUR, travaux locatifs |
-| TDA | Travaux de Désamiantage | Désamiantage, traitement DVA, encapsulage. Associer en nature de travaux l'équipement ou partie de bâtiment concerné (clos, couvert, chauffage, sanitaire...) | DTA, DAAT, diagnostic initial amiante (→VTR AMIA INIT) |
-| TL | Travaux locatifs | Travaux locatifs | Maintenance locative (→ML) |
-| VTR_EE | Visite réglementaire énergie électrique | Uniquement les visites réglementaires électriques | MEC électriques (→MEC_EE) |
-| VIR | Visite tech audit étude hors réglementaire et VG (NOUVEAU) | Toutes visites techniques, études, audits qui ne rapportent pas à des obligations réglementaires ou à une VG | Audit énergétique (→CA EE) |
-| VTR G | Visites de Gestion | VG et diagnostics structurels sur bâtiments classiques | Travaux de structure (→GE) |
-| VTR G BNC | Visites de Gestion Bâtiments Non Courants | VG et diagnostics structurels sur bâtiments particuliers (ouvrages d'art, grandes halles, verrières) | - |
+⚠️ RÈGLE FONDAMENTALE ML ≠ TL :
+- **ML (Maintenance Locative)** = entretien locatif courant (famille ZG361599). JAMAIS pour des travaux locatifs.
+- **TL (Travaux Locatifs)** = travaux locatifs (réparations, améliorations) (famille ZG361699). JAMAIS pour de la maintenance locative.
+- Si le devis concerne de l'ENTRETIEN courant locatif → ML. Si le devis concerne des TRAVAUX de réparation/amélioration locatifs → TL.
+
+⚠️ RÈGLE FONDAMENTALE GE vs GE_CMT :
+- **GE** = travaux > 3500€ réalisés HORS contrat E2MT (travaux connexes)
+- **GE_CMT** = travaux > 3500€ réalisés AVEC le contrat E2MT
+- Si le prestataire est EQUANS (E2MT lot 4.1) → GE_CMT. Si le prestataire est un autre → GE.
+
+⚠️ RÈGLE FONDAMENTALE CME vs CME_CMT :
+- **CME** = contrats de maintenance externe HORS E2MT (ascenseurs, nettoyage, gardiennage, location benne)
+- **CME_CMT** = forfait et prise en charge E2MT UNIQUEMENT
+- Si c'est le forfait E2MT → CME_CMT. Si c'est un autre contrat externe → CME.
+
+⚠️ RÈGLE FONDAMENTALE PTP vs PTP_CMT :
+- **PTP** = petits travaux ≤ 3500€ réalisés HORS contrat E2MT
+- **PTP_CMT** = petits travaux ≤ 3500€ réalisés AVEC le contrat E2MT
+- Seuil : 3500€ HT. Au-dessus → GE ou GE_CMT.
+
+| Code IMMOSIS | Sous-type | Famille budgétaire ZG | Bonnes pratiques | Mauvaises pratiques (NE PAS utiliser pour) |
+|---|---|---|---|---|
+| VTR ACC DIAG | Accompagnement diagnostic | ZG360840 P-Contrôles et VR | Accompagnement par ABE pour missions hors rémunération COGC (VR ou non) | ❌ Accompagnement VRE (inclus dans rémunération VRE, voir COGC) |
+| CME | Contrats de Maintenance Externe | ZG360720 P-Contrats de maintenance | Contrat maintenance externe HORS E2MT : ascenseurs, AMO Quadrim, nettoyage, gardiennage, location benne/bungalow, contrat externe de service | ❌ Forfait ou travaux E2MT (→CME_CMT ou GE_CMT) |
+| CME_CMT | Contrats de Maintenance Externe - E2MT | ZG360720 P-Contrats de maintenance | Forfait et prise en charge E2MT UNIQUEMENT | ❌ Travaux connexes via marché E2MT (→GE_CMT) |
+| CMI | Contrats de Maintenance Interne | - | ⚠️ NE PLUS UTILISER (FIGÉ) | ❌ MPS, PAM, maintenance postes HT/BT (→EE_MPS) |
+| PTP | Contrats Petits Travaux du Propriétaire | ZG361820 P-Petits travaux propriétaire | Petits travaux ≤ 3500€ HORS contrat E2MT | ❌ Travaux > 3500€ (→GE) |
+| VTR AMIA INIT | Diagnostic Amiante | ZG360840 P-Contrôles et VR | Tous diagnostics amiante : DTA, DAAT, diagnostic initial amiante | - |
+| CA EE | Economies d'énergie, décarbonation | ZG361050 P-Diag/audit non régl. | Télérelève (tous fluides), plan comptage, audits énergétiques, étude thermique, relamping, LED, sortie fuel, PAC, RCU, GTB, isolation, recherche fuites | - |
+| EE_MPS | Energie Electrique MPS | ZG360720 P-Contrats de maintenance | Maintenance préventive électrique HT et BT : MPS, PAM, entretien postes HT/BT | - |
+| GE | Gros Entretiens | ZG360910 P-Gros entretiens | Tous travaux > 3500€ sur installations/équipements HORS contrat E2MT. Élagage, abattage, débroussaillage | ❌ Locations/nettoyage/gardiennage (→CME), ❌ MEC (→MEC_RAU ou MEC_EE), ❌ études/diagnostics (→VTR NR), ❌ contrat de service (→CME) |
+| GE_CMT | Gros Entretiens - par E2MT | ZG360910 P-Gros entretiens | Tous travaux > 3500€ sur installations/équipements AVEC contrat E2MT (travaux connexes) | ❌ Travaux hors E2MT (→GE), ❌ forfait/prise en charge E2MT (→CME_CMT), ❌ locations/nettoyage (→CME), ❌ MEC (→MEC_RAU ou MEC_EE), ❌ études (→VTR NR) |
+| EE | Maintenance Elargie Energie Electrique | - | ⚠️ NE PLUS UTILISER (FIGÉ) | ❌ MPS, PAM (→EE_MPS) |
+| ML | Maintenance Locative | ZG361599 MAINTENANCE LOCATIVE | ✅ Maintenance locative courante (entretien courant locatif) | ❌ Travaux locatifs (→TL). ⚠️ ML = entretien, TL = travaux. Ne pas confondre ! |
+| MEC_EE | Mise en conformité énergie électrique | ZG361040 P-MEC suite Contrôles et VR | MEC suite à VRE ou MPS | ❌ Autre nature de MEC (→MEC_RAU) |
+| MEC_RAU | Mise en conformité réglementaire autre | ZG361040 P-MEC suite Contrôles et VR | Autres MEC que électriques : incendie, ascenseurs, chauffage, etc. | ❌ MEC Electriques (→MEC_EE) |
+| PTP_CMT | Petits Travaux Propriétaires - E2MT | ZG361820 P-Petits travaux propriétaire | Petits travaux ≤ 3500€ AVEC contrat E2MT | ❌ Inclure dans même AT que forfait CME_CMT, ❌ travaux > 3500€ (→GE_CMT), ❌ travaux locatifs |
+| TDA | Travaux de Désamiantage | ZG360910 P-Gros entretiens | Désamiantage, traitement DVA, encapsulage. Nature = équipement/partie bâtiment concerné (clos, couvert, chauffage, sanitaire) | ❌ DTA, DAAT, diagnostic initial amiante (→VTR AMIA INIT) |
+| TL | Travaux locatifs | ZG361699 TRAVAUX LOCATIFS | ✅ Travaux locatifs (réparations, améliorations locatives) | ❌ Maintenance locative courante (→ML). ⚠️ TL = travaux, ML = entretien. Ne pas confondre ! |
+| VTR PR | Vérifications Réglementaires | ZG360840 P-Contrôles et VR | Vérifications réglementaires (hors VRE) | - |
+| VTR_EE | Visite réglementaire énergie électrique | ZG360840 P-Contrôles et VR | Uniquement les visites réglementaires électriques | ❌ MEC électriques (→MEC_EE) |
+| VTR NR | Visite tech audit étude (hors réglementaire et VG) | ZG361050 P-Diag/audit non régl. | ✅ NOUVEAU. Toutes visites techniques, études, audits hors obligations réglementaires ou VG | ❌ Audit énergétique (→CA EE) |
+| VTR G | Visites de Gestion | ZG361050 P-Diag/audit non régl. | VG et diagnostics structurels sur bâtiments classiques | ❌ Travaux de structure (→GE) |
+| VTR GBNC | Visites de Gestion Bâtiments Non Courants | ZG360840 P-Contrôles et VR | VG et diagnostics structurels sur bâtiments particuliers (ouvrages d'art, grandes halles, verrières, châteaux d'eau, portée > 10m et surface > 150m²) | - |
 
 **Sous-types FIGÉS/SUPPRIMÉS (ne plus utiliser) :**
 - Contre expertise amiante → utiliser VTR AMIA INIT
@@ -2413,7 +2434,37 @@ Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou
 
 **Sous-Types Connect'Immo :** Accompagnement diagnostic, B1. Gestion du risque incendie, B2. Gestion du risque amiante, C4. Connaissance des actifs, Compte sinistre, Contrats de Maintenance Externe, Contrats de Maintenance Externe - E2MT, Contrats de Maintenance Interne, Contrats Petits Travaux du Propriétaire, D2. Contrats locatifs, Déconstructions Sélectives SNCF, Diagnostic Amiante, Economies d'énergie décarbonation, Energie Electrique MPS, Gros Entretien IST CCE, Gros Entretiens, Gros Entretiens - par E2MT, Investissement, Maintenance Elargie Energie Electrique, Maintenance Locative, Mise en conformité énergie électrique, Mise en conformité réglementaire autre, Petits Travaux Propriétaires - E2MT, Travaux de Désamiantage, Travaux Locatifs, Vérifications Réglementaires, Visite cellule APE, Visite réglementaire énergie électrique, Visite tech audit étude, Visites de Gestion
 
-**Correspondance sous-type IMMOSIS → Connect'Immo :** GE→"Gros Entretiens - par E2MT", PTP→"Petits Travaux Propriétaires - E2MT", CME→"Contrats de Maintenance Externe - E2MT", VRE→"Vérifications Réglementaires", MEC→"Mise en conformité réglementaire autre", ML→"Maintenance Locative", TL→"Travaux Locatifs"
+**Correspondance sous-type IMMOSIS → Connect'Immo (COMPLÈTE) :**
+- VTR ACC DIAG → "Accompagnement diagnostic"
+- CME → "Contrats de Maintenance Externe" (HORS E2MT)
+- CME_CMT → "Contrats de Maintenance Externe - E2MT" (forfait E2MT)
+- PTP → "Contrats Petits Travaux du Propriétaire" (≤3500€ HORS E2MT)
+- PTP_CMT → "Petits Travaux Propriétaires - E2MT" (≤3500€ AVEC E2MT)
+- VTR AMIA INIT → "Diagnostic Amiante"
+- CA EE → "Economies d'énergie, décarbonation"
+- EE_MPS → "Energie Electrique MPS"
+- GE → "Gros Entretiens" (>3500€ HORS E2MT)
+- GE_CMT → "Gros Entretiens - par E2MT" (>3500€ AVEC E2MT)
+- ML → "Maintenance Locative" (⚠️ entretien locatif courant, PAS travaux)
+- TL → "Travaux Locatifs" (⚠️ travaux locatifs, PAS maintenance courante)
+- MEC_EE → "Mise en conformité énergie électrique"
+- MEC_RAU → "Mise en conformité réglementaire autre"
+- TDA → "Travaux de Désamiantage"
+- VTR PR → "Vérifications Réglementaires"
+- VTR_EE → "Visite réglementaire énergie électrique"
+- VTR NR → "Visite tech audit étude (hors réglementaire et VG)"
+- VTR G → "Visites de Gestion"
+- VTR GBNC → "Visites de Gestion des Bâtiments Non Courants"
+
+⚠️ LOGIQUE DE SÉLECTION DU SOUS-TYPE :
+1. Le prestataire est-il E2MT (EQUANS lot 4.1) ? → suffixe _CMT (CME_CMT, GE_CMT, PTP_CMT)
+2. Le montant est-il ≤ 3500€ ? → PTP ou PTP_CMT
+3. Le montant est-il > 3500€ ? → GE ou GE_CMT
+4. C'est un forfait/prise en charge E2MT ? → CME_CMT
+5. C'est un contrat externe hors E2MT ? → CME
+6. C'est de la maintenance locative COURANTE ? → ML (entretien)
+7. C'est des travaux locatifs ? → TL (travaux/réparations)
+8. Ne JAMAIS confondre ML et TL !
 
 **Attributaire :** ABE, Gestionnaire, DIT, A renseigner → pour E2MT² lot 4.1 = DIT
 

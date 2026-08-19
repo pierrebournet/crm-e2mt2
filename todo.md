@@ -204,3 +204,4 @@
 - [x] Création automatique d'une ligne de suivi depuis l'onglet Immosis/Connect'Immo (après génération trames)
 - [x] Vérification de dédoublonnage : ne pas créer de ligne si OT ou N° devis existe déjà (findSuiviByDevisOrOT)
 - [x] Tests unitaires COTECH + suivi auto (21 tests, 649 tests au total)
+- [x] Corriger les erreurs IMMOSIS : intégrer toutes les bonnes/mauvaises pratiques des 22 sous-types dans le prompt IA (ML≠TL, GE≠GE_CMT, CMI/EE supprimés, etc.)
