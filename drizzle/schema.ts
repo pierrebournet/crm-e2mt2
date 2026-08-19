@@ -363,3 +363,33 @@ export const decisionHistory = mysqlTable("decision_history", {
 
 export type DecisionHistory = typeof decisionHistory.$inferSelect;
 export type InsertDecisionHistory = typeof decisionHistory.$inferInsert;
+
+/**
+ * Questions COTECH — Questions à poser en réunion COTECH avec suivi des réponses
+ */
+export const cotechQuestions = mysqlTable("cotech_questions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  // Question
+  question: text("question").notNull(),
+  // Contexte optionnel (référence OT, devis, bâtiment)
+  reference: varchar("reference", { length: 200 }),
+  category: varchar("category", { length: 100 }),
+  // Réponse
+  reponse: text("reponse"),
+  reponseDate: bigint("reponseDate", { mode: "number" }),
+  // Statut
+  resolved: int("resolved").default(0).notNull(),
+  resolvedAt: bigint("resolvedAt", { mode: "number" }),
+  // Archivage
+  archived: int("archived").default(0).notNull(),
+  archivedAt: bigint("archivedAt", { mode: "number" }),
+  // Priorité
+  priority: mysqlEnum("priority", ["haute", "moyenne", "basse"]).default("moyenne").notNull(),
+  // Tracking
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CotechQuestion = typeof cotechQuestions.$inferSelect;
+export type InsertCotechQuestion = typeof cotechQuestions.$inferInsert;

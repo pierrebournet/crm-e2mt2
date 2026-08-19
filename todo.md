@@ -197,3 +197,10 @@
 - [x] Intégrer les 7 onglets Connect'Immo (Emergence, Prévision, AT/OS, Synthèse commande, Demande de devis, Vie de la commande) dans les trames générées
 - [x] Intégrer les exigences CDC E2MT² (6 points obligatoires + date prévisionnelle) dans l'étape 5 du workflow analyse devis
 - [x] Tests unitaires pour le nouvel onglet Immosis/Connect'Immo (36 tests, 628 tests au total)
+- [x] Nouvel onglet "Questions COTECH" : formulaire de saisie, encart réponse, checkbox résolu, archivage des questions traitées
+- [x] Table BDD cotech_questions (question, réponse, résolu, archivé, date, référence OT/devis)
+- [x] Page frontend Questions COTECH avec liste filtrable (en cours / archivées), ajout, édition réponse, checkbox
+- [x] Tableau de suivi des devis/OT : table BDD suivi_entries existante réutilisée avec helpers auto-création
+- [x] Création automatique d'une ligne de suivi depuis l'onglet Immosis/Connect'Immo (après génération trames)
+- [x] Vérification de dédoublonnage : ne pas créer de ligne si OT ou N° devis existe déjà (findSuiviByDevisOrOT)
+- [x] Tests unitaires COTECH + suivi auto (21 tests, 649 tests au total)

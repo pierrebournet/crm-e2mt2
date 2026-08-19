@@ -85,6 +85,13 @@
       "when": 1780028881989,
       "tag": "0011_remarkable_absorbing_man",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1787121613516,
+      "tag": "0012_hot_molten_man",
+      "breakpoints": true
     }
   ]
 }

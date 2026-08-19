@@ -27,6 +27,7 @@ import ArbreDecisionPage from "./pages/ArbreDecisionPage";
 import HistoriqueDecisionsPage from "./pages/HistoriqueDecisionsPage";
 import PenalitesTableauPage from "./pages/PenalitesTableauPage";
 import ImmosisConnectImmoPage from "./pages/ImmosisConnectImmoPage";
+import CotechQuestionsPage from "./pages/CotechQuestionsPage";
 
 function Router() {
   return (
@@ -54,6 +55,7 @@ function Router() {
         <Route path="/arbre-decision" component={ArbreDecisionPage} />
         <Route path="/historique-decisions" component={HistoriqueDecisionsPage} />
         <Route path="/immosis-connectimmo" component={ImmosisConnectImmoPage} />
+        <Route path="/cotech" component={CotechQuestionsPage} />
         <Route path="/penalites" component={PenalitesTableauPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

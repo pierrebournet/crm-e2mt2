@@ -45,6 +45,7 @@ import {
   TreePine,
   History,
   Database,
+  MessageSquare,
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -58,6 +59,7 @@ const menuItems = [
   { icon: PlusCircle, label: "Nouvelle intervention", path: "/interventions/new" },
   { icon: FileSearch, label: "Analyse de devis", path: "/devis" },
   { icon: Database, label: "Immosis & Connect'Immo", path: "/immosis-connectimmo" },
+  { icon: MessageSquare, label: "Questions COTECH", path: "/cotech" },
   { icon: TreePine, label: "Arbre de Décision", path: "/arbre-decision" },
   { icon: History, label: "Historique Décisions", path: "/historique-decisions" },
   { icon: Bell, label: "Alertes", path: "/alertes" },

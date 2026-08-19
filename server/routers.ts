@@ -21,6 +21,8 @@ import {
   getDeliverableStats, getAllDeliverablesForExport, seedDeliverables,
   getChecklistByIntervention, upsertChecklistStep, updateChecklistNote, initChecklistForIntervention, getChecklistSummaryForInterventions,
   saveDecision, getDecisionHistory, getAllDecisionHistory, getDecisionStats,
+  createCotechQuestion, getCotechQuestions, updateCotechQuestion, deleteCotechQuestion,
+  createSuiviEntryAuto, findSuiviByDevisOrOT,
 } from "./db";
 import { CONTRACTUAL_DELAYS } from "@shared/e2mt2";
 import { notifyOwner } from "./_core/notification";
@@ -2917,6 +2919,139 @@ Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou
     stats: protectedProcedure
       .query(async ({ ctx }) => {
         return getDecisionStats(ctx.user.id);
+      }),
+  }),
+
+  // =============================================
+  // COTECH QUESTIONS
+  // =============================================
+  cotech: router({
+    list: protectedProcedure
+      .input(z.object({
+        archived: z.boolean().optional(),
+      }).optional())
+      .query(async ({ ctx, input }) => {
+        return getCotechQuestions({
+          archived: input?.archived,
+          userId: ctx.user.id,
+        });
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        question: z.string().min(1),
+        reference: z.string().optional(),
+        category: z.string().optional(),
+        priority: z.enum(["haute", "moyenne", "basse"]).optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const id = await createCotechQuestion({
+          userId: ctx.user.id,
+          question: input.question,
+          reference: input.reference || null,
+          category: input.category || null,
+          priority: input.priority || "moyenne",
+        });
+        return { id };
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        question: z.string().optional(),
+        reponse: z.string().nullable().optional(),
+        resolved: z.boolean().optional(),
+        archived: z.boolean().optional(),
+        priority: z.enum(["haute", "moyenne", "basse"]).optional(),
+        reference: z.string().nullable().optional(),
+        category: z.string().nullable().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const data: Record<string, any> = {};
+        if (input.question !== undefined) data.question = input.question;
+        if (input.reponse !== undefined) data.reponse = input.reponse;
+        if (input.priority !== undefined) data.priority = input.priority;
+        if (input.reference !== undefined) data.reference = input.reference;
+        if (input.category !== undefined) data.category = input.category;
+        if (input.resolved !== undefined) {
+          data.resolved = input.resolved ? 1 : 0;
+          data.resolvedAt = input.resolved ? Date.now() : null;
+        }
+        if (input.archived !== undefined) {
+          data.archived = input.archived ? 1 : 0;
+          data.archivedAt = input.archived ? Date.now() : null;
+        }
+        if (input.reponse !== undefined && input.reponse) {
+          data.reponseDate = Date.now();
+        }
+        await updateCotechQuestion(input.id, data);
+        return { success: true };
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteCotechQuestion(input.id);
+        return { success: true };
+      }),
+
+    archiveResolved: protectedProcedure
+      .mutation(async ({ ctx }) => {
+        const questions = await getCotechQuestions({ archived: false, userId: ctx.user.id });
+        let count = 0;
+        for (const q of questions) {
+          if (q.resolved === 1) {
+            await updateCotechQuestion(q.id, { archived: 1, archivedAt: Date.now() });
+            count++;
+          }
+        }
+        return { archivedCount: count };
+      }),
+  }),
+
+  // =============================================
+  // SUIVI AUTO-CREATION
+  // =============================================
+  suiviAuto: router({
+    createFromDevis: protectedProcedure
+      .input(z.object({
+        prestataire: z.string().optional(),
+        ut: z.string().optional(),
+        bat: z.string().optional(),
+        intitule: z.string().optional(),
+        numDevis: z.string().optional(),
+        dateDevis: z.string().optional(),
+        montant: z.string().optional(),
+        numAT: z.string().optional(),
+        commentaires: z.string().optional(),
+        devisUrl: z.string().optional(),
+        devisFilename: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const result = await createSuiviEntryAuto({
+          prestataire: input.prestataire || null,
+          ut: input.ut || null,
+          bat: input.bat || null,
+          intitule: input.intitule || null,
+          numDevis: input.numDevis || null,
+          dateDevis: input.dateDevis || null,
+          montant: input.montant || null,
+          numAT: input.numAT || null,
+          commentaires: input.commentaires || null,
+          devisUrl: input.devisUrl || null,
+          devisFilename: input.devisFilename || null,
+        });
+        return result;
+      }),
+
+    checkExists: protectedProcedure
+      .input(z.object({
+        numDevis: z.string().optional(),
+        numAT: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        const existing = await findSuiviByDevisOrOT(input.numDevis, input.numAT);
+        return { exists: !!existing, entry: existing };
       }),
   }),
 });

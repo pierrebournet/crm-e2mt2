@@ -9,6 +9,7 @@ import {
   type InsertBuilding, type InsertIntervention, type InsertInterventionBpuLine,
   type InsertDevisAnalyse, type InsertDevisLine, type InsertSuiviEntry, type InsertDeliverable,
   type InsertInterventionChecklist,
+  cotechQuestions, type InsertCotechQuestion,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1076,4 +1077,80 @@ export async function getDecisionStats(userId?: number) {
       }).from(decisionHistory);
   const [stats] = await baseQuery;
   return stats;
+}
+// =============================================
+// COTECH QUESTIONS
+// =============================================
+
+export async function createCotechQuestion(data: InsertCotechQuestion) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const [result] = await db.insert(cotechQuestions).values(data);
+  return result.insertId;
+}
+
+export async function getCotechQuestions(options: { archived?: boolean; userId?: number } = {}) {
+  const db = await getDb();
+  if (!db) return [];
+  const conditions = [];
+  if (options.archived !== undefined) {
+    conditions.push(eq(cotechQuestions.archived, options.archived ? 1 : 0));
+  }
+  if (options.userId) {
+    conditions.push(eq(cotechQuestions.userId, options.userId));
+  }
+  const query = conditions.length > 0
+    ? db.select().from(cotechQuestions).where(and(...conditions)).orderBy(desc(cotechQuestions.createdAt))
+    : db.select().from(cotechQuestions).orderBy(desc(cotechQuestions.createdAt));
+  return query;
+}
+
+export async function updateCotechQuestion(id: number, data: Partial<{
+  question: string;
+  reponse: string | null;
+  reponseDate: number | null;
+  resolved: number;
+  resolvedAt: number | null;
+  archived: number;
+  archivedAt: number | null;
+  priority: "haute" | "moyenne" | "basse";
+  reference: string | null;
+  category: string | null;
+}>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(cotechQuestions).set(data).where(eq(cotechQuestions.id, id));
+}
+
+export async function deleteCotechQuestion(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(cotechQuestions).where(eq(cotechQuestions.id, id));
+}
+
+// =============================================
+// SUIVI AUTO-CREATION (dédoublonnage)
+// =============================================
+
+export async function findSuiviByDevisOrOT(numDevis?: string, numAT?: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const conditions = [];
+  if (numDevis) conditions.push(eq(suiviEntries.numDevis, numDevis));
+  if (numAT) conditions.push(eq(suiviEntries.numAT, numAT));
+  if (conditions.length === 0) return null;
+  const [existing] = await db.select().from(suiviEntries).where(or(...conditions)).limit(1);
+  return existing || null;
+}
+
+export async function createSuiviEntryAuto(data: InsertSuiviEntry) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  // Dédoublonnage : vérifier si l'entrée existe déjà
+  const existing = await findSuiviByDevisOrOT(data.numDevis || undefined, data.numAT || undefined);
+  if (existing) {
+    return { id: existing.id, alreadyExists: true };
+  }
+  const [result] = await db.insert(suiviEntries).values(data);
+  return { id: result.insertId, alreadyExists: false };
 }

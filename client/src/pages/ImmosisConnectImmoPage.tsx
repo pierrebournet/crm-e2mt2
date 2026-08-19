@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Upload, FileText, Copy, CheckCircle2, AlertCircle, Database, Globe, Loader2, X, Info } from "lucide-react";
+import { Upload, FileText, Copy, CheckCircle2, AlertCircle, Database, Globe, Loader2, X, Info, ListPlus } from "lucide-react";
 import { Streamdown } from "streamdown";
 
 interface TrameResult {
@@ -66,6 +66,8 @@ export default function ImmosisConnectImmoPage() {
 
   const uploadMutation = trpc.assistant.uploadFile.useMutation();
   const askMutation = trpc.assistant.ask.useMutation();
+  const suiviAutoMutation = trpc.suiviAuto.createFromDevis.useMutation();
+  const [suiviCreated, setSuiviCreated] = useState(false);
 
   const handleFileSelect = async (selectedFile: File) => {
     const allowedTypes = ["application/pdf", "image/png", "image/jpeg", "image/webp"];
@@ -562,6 +564,49 @@ Responsable budget : ${c.responsableBudget}`;
               </Card>
             </TabsContent>
           </Tabs>
+
+          {/* Bouton Ajouter au suivi */}
+          {!suiviCreated && (
+            <Button
+              onClick={async () => {
+                if (!result) return;
+                try {
+                  const res = await suiviAutoMutation.mutateAsync({
+                    prestataire: result.connectImmo.fournisseur || undefined,
+                    ut: result.immosis.ut || undefined,
+                    bat: result.immosis.batIf || undefined,
+                    intitule: result.connectImmo.intituleProjet || undefined,
+                    montant: result.immosis.montant || undefined,
+                    numAT: result.immosis.nom || undefined,
+                    dateDevis: result.immosis.debut || undefined,
+                    devisUrl: fileUrl || undefined,
+                    devisFilename: file?.name || undefined,
+                    commentaires: `Généré automatiquement depuis Immosis/Connect'Immo`,
+                  });
+                  if (res.alreadyExists) {
+                    toast.info("Cette entrée existe déjà dans le tableau de suivi.");
+                  } else {
+                    toast.success("Ligne ajoutée au tableau de suivi !");
+                  }
+                  setSuiviCreated(true);
+                } catch {
+                  toast.error("Erreur lors de l'ajout au suivi.");
+                }
+              }}
+              variant="outline"
+              className="w-full gap-2"
+              disabled={suiviAutoMutation.isPending}
+            >
+              <ListPlus className="h-4 w-4" />
+              {suiviAutoMutation.isPending ? "Ajout en cours..." : "Ajouter au tableau de suivi"}
+            </Button>
+          )}
+          {suiviCreated && (
+            <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg border border-green-200">
+              <CheckCircle2 className="h-4 w-4 text-green-600" />
+              <span className="text-sm text-green-700">Ajouté au tableau de suivi</span>
+            </div>
+          )}
 
           {/* Quick Info */}
           <Card className="border-blue-200 bg-blue-50/50">
