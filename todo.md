@@ -206,3 +206,10 @@
 - [x] Tests unitaires COTECH + suivi auto (21 tests, 649 tests au total)
 - [x] Corriger les erreurs IMMOSIS : intégrer toutes les bonnes/mauvaises pratiques des 22 sous-types dans le prompt IA (ML≠TL, GE≠GE_CMT, CMI/EE supprimés, etc.)
 - [x] Importer inventaire UT-BAT (39 469 lignes) en BDD avec lookup automatique du gérant de programme
+- [x] Créer table ref_sous_types (22 sous-types actifs avec code, libellé, famille ZG, bonnes/mauvaises pratiques, sous-type Connect'Immo)
+- [x] Créer table ref_natures_travaux (codes 83xx-89xx avec libellé et compatibilité sous-type)
+- [x] Créer table ref_gerants_programme (gérants valides avec SA, B/D propriétaire, code BUPO)
+- [x] Créer table ref_ventilation_bd (règles gérant → SA → B/D avec %)
+- [x] Créer table ref_correspondance_connectimmo (mapping sous-type IMMOSIS → sous-type Connect'Immo)
+- [x] Peupler les 5 tables avec les données officielles
+- [x] Intégrer les lookups BDD dans le workflow IA (remplacer les données en dur du prompt)

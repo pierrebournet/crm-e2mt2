@@ -99,6 +99,13 @@
       "when": 1787198424467,
       "tag": "0013_ambiguous_jackpot",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1787209612299,
+      "tag": "0014_light_mindworm",
+      "breakpoints": true
     }
   ]
 }

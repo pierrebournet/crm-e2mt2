@@ -24,6 +24,7 @@ import {
   createCotechQuestion, getCotechQuestions, updateCotechQuestion, deleteCotechQuestion,
   createSuiviEntryAuto, findSuiviByDevisOrOT,
   lookupGerantByUtBat, searchUtByLibelle,
+  lookupCompletPourIA, getAllRefSousTypes, getAllRefNaturesTravaux, getVentilationBDByGerant, getCorrespondanceByImmosis,
 } from "./db";
 import { CONTRACTUAL_DELAYS } from "@shared/e2mt2";
 import { notifyOwner } from "./_core/notification";
@@ -2521,12 +2522,26 @@ Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou
         const utMatch = input.question.match(/\b(\d{6}[A-Z])\b/i);
         const batMatch = input.question.match(/\b[Bb]\s?(\d{3})\b/);
         if (utMatch) {
-          const gerantInfo = await lookupGerantByUtBat(utMatch[1], batMatch ? `B${batMatch[1]}` : undefined);
-          if (gerantInfo) {
-            const infoStr = Array.isArray(gerantInfo)
-              ? `[LOOKUP BDD] UT ${utMatch[1]} — Bâtiments trouvés :\n${gerantInfo.map(g => `  - ${g.utBat} | ${g.libelleBatiment} | Gérant: ${g.nomGerant} | Portefeuille: ${g.portefeuille} | Propriétaire: ${g.proprietaireInterne}`).join('\n')}`
-              : `[LOOKUP BDD] UT ${utMatch[1]} BAT ${gerantInfo.codeBatiment} — Gérant: ${gerantInfo.nomGerant} | Portefeuille: ${gerantInfo.portefeuille} | Propriétaire: ${gerantInfo.proprietaireInterne} | Libellé UT: ${gerantInfo.libelleUt} | Libellé BAT: ${gerantInfo.libelleBatiment}`;
-            messages.push({ role: "system" as const, content: infoStr });
+          const lookupResult = await lookupCompletPourIA(utMatch[1], batMatch ? `B${batMatch[1]}` : undefined);
+          let lookupStr = '';
+          if (lookupResult.batiment && !Array.isArray(lookupResult.batiment)) {
+            const bat = lookupResult.batiment;
+            lookupStr = `[LOOKUP BDD COMPLET]\n`;
+            lookupStr += `  Bâtiment: UT=${bat.codeUt} | BAT=${bat.codeBatiment} | Libellé UT=${bat.libelleUt} | Libellé BAT=${bat.libelleBatiment} | Portefeuille=${bat.portefeuille}\n`;
+            lookupStr += `  Gérant de programme: ${bat.nomGerant}\n`;
+            lookupStr += `  Propriétaire interne: ${bat.proprietaireInterne}\n`;
+            if (lookupResult.gerant) {
+              lookupStr += `  SA: ${lookupResult.gerant.sa} | B/D Propriétaire: ${lookupResult.gerant.bdProprietaire} | BUPO: ${lookupResult.gerant.codeBupo}\n`;
+            }
+            if (lookupResult.ventilation) {
+              lookupStr += `  Ventilation B/D: ${lookupResult.ventilation.bdProprietaire} à ${lookupResult.ventilation.pourcentage}%\n`;
+            }
+            lookupStr += `  ⚠️ UTILISE CES DONNÉES pour remplir la trame Immosis (gérant, ventilation B/D) et Connect'Immo.`;
+          } else if (lookupResult.batiment && Array.isArray(lookupResult.batiment)) {
+            lookupStr = `[LOOKUP BDD] UT ${utMatch[1]} — Bâtiments trouvés :\n${lookupResult.batiment.map(g => `  - ${g.utBat} | ${g.libelleBatiment} | Gérant: ${g.nomGerant} | Portefeuille: ${g.portefeuille}`).join('\n')}`;
+          }
+          if (lookupStr) {
+            messages.push({ role: "system" as const, content: lookupStr });
           }
         }
 

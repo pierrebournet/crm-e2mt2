@@ -11,6 +11,7 @@ import {
   type InsertInterventionChecklist,
   cotechQuestions, type InsertCotechQuestion,
   inventaireUtbat,
+  refSousTypes, refNaturesTravaux, refGerantsProgramme, refVentilationBD, refCorrespondanceConnectImmo,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1203,4 +1204,98 @@ export async function searchUtByLibelle(search: string) {
     .limit(20);
   
   return results;
+}
+
+// ============================================================
+// TABLES DE RÉFÉRENCE — Lookups pour l'IA
+// ============================================================
+
+/** Récupère tous les sous-types actifs */
+export async function getAllRefSousTypes() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(refSousTypes).where(eq(refSousTypes.estActif, 1));
+}
+
+/** Récupère un sous-type par code */
+export async function getRefSousTypeByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(refSousTypes).where(eq(refSousTypes.code, code)).limit(1);
+  return results[0] || null;
+}
+
+/** Récupère toutes les natures de travaux */
+export async function getAllRefNaturesTravaux() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(refNaturesTravaux);
+}
+
+/** Récupère une nature par code */
+export async function getRefNatureByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(refNaturesTravaux).where(eq(refNaturesTravaux.code, code)).limit(1);
+  return results[0] || null;
+}
+
+/** Récupère tous les gérants de programme */
+export async function getAllRefGerants() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(refGerantsProgramme);
+}
+
+/** Récupère un gérant par nom */
+export async function getRefGerantByNom(nom: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(refGerantsProgramme)
+    .where(sql`UPPER(nom) = UPPER(${nom})`)
+    .limit(1);
+  return results[0] || null;
+}
+
+/** Récupère la ventilation B/D pour un gérant */
+export async function getVentilationBDByGerant(gerant: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(refVentilationBD)
+    .where(sql`UPPER(gerant) = UPPER(${gerant})`)
+    .limit(1);
+  return results[0] || null;
+}
+
+/** Récupère toutes les correspondances sous-type IMMOSIS → Connect'Immo */
+export async function getAllRefCorrespondances() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(refCorrespondanceConnectImmo);
+}
+
+/** Récupère la correspondance Connect'Immo pour un sous-type IMMOSIS */
+export async function getCorrespondanceByImmosis(sousTypeImmosis: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(refCorrespondanceConnectImmo)
+    .where(eq(refCorrespondanceConnectImmo.sousTypeImmosis, sousTypeImmosis))
+    .limit(1);
+  return results[0] || null;
+}
+
+/**
+ * Lookup complet pour l'IA : à partir d'un code UT et BAT, retourne toutes les infos nécessaires
+ * pour remplir Immosis et Connect'Immo (gérant, ventilation, sous-type, correspondance)
+ */
+export async function lookupCompletPourIA(codeUt: string, codeBatiment?: string) {
+  const batInfo = await lookupGerantByUtBat(codeUt, codeBatiment);
+  if (!batInfo || Array.isArray(batInfo)) {
+    return { batiment: batInfo, gerant: null, ventilation: null };
+  }
+  
+  const gerant = await getRefGerantByNom(batInfo.nomGerant);
+  const ventilation = gerant ? await getVentilationBDByGerant(batInfo.nomGerant) : null;
+  
+  return { batiment: batInfo, gerant, ventilation };
 }

@@ -412,3 +412,86 @@ export const inventaireUtbat = mysqlTable("inventaire_utbat", {
 });
 export type InventaireUtbat = typeof inventaireUtbat.$inferSelect;
 export type InsertInventaireUtbat = typeof inventaireUtbat.$inferInsert;
+
+// ============================================================
+// TABLES DE RÉFÉRENCE — Données métier IMMOSIS / Connect'Immo
+// ============================================================
+
+/**
+ * Sous-types IMMOSIS actifs (22 sous-types)
+ * Source : PDF "Accompagnement usage sous-types et nature de travaux" V2 + Nomenclature ZG
+ */
+export const refSousTypes = mysqlTable("ref_sous_types", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 30 }).notNull().unique(),
+  libelle: varchar("libelle", { length: 200 }).notNull(),
+  familleZG: varchar("famille_zg", { length: 100 }),
+  budgetImpacte: varchar("budget_impacte", { length: 100 }),
+  description: text("description"),
+  bonnesPratiques: text("bonnes_pratiques"),
+  mauvaisesPratiques: text("mauvaises_pratiques"),
+  sousTypeConnectImmo: varchar("sous_type_connect_immo", { length: 200 }),
+  estActif: int("est_actif").default(1).notNull(),
+  estE2MT: int("est_e2mt").default(0).notNull(),
+  seuilMontantMin: decimal("seuil_montant_min", { precision: 12, scale: 2 }),
+  seuilMontantMax: decimal("seuil_montant_max", { precision: 12, scale: 2 }),
+});
+export type RefSousType = typeof refSousTypes.$inferSelect;
+
+/**
+ * Natures de travaux IMMOSIS (codes 83xx-89xx)
+ * Source : Captures Immosis + PDF sous-types V2
+ */
+export const refNaturesTravaux = mysqlTable("ref_natures_travaux", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 10 }).notNull().unique(),
+  libelle: varchar("libelle", { length: 200 }).notNull(),
+  sousTypesCompatibles: text("sous_types_compatibles"),
+  description: text("description"),
+});
+export type RefNatureTravaux = typeof refNaturesTravaux.$inferSelect;
+
+/**
+ * Gérants de programme valides pour ouverture AT
+ * Source : CSV "2026-Gérants de programme valides pour ouv AT" + inventaire
+ */
+export const refGerantsProgramme = mysqlTable("ref_gerants_programme", {
+  id: int("id").autoincrement().primaryKey(),
+  nom: varchar("nom", { length: 200 }).notNull().unique(),
+  codeImmosis: varchar("code_immosis", { length: 100 }),
+  sa: varchar("sa", { length: 100 }),
+  bdProprietaire: varchar("bd_proprietaire", { length: 200 }),
+  codeBupo: varchar("code_bupo", { length: 20 }),
+  portefeuille: varchar("portefeuille", { length: 100 }),
+  estValideOuvAT: int("est_valide_ouv_at").default(1).notNull(),
+  remarques: text("remarques"),
+});
+export type RefGerantProgramme = typeof refGerantsProgramme.$inferSelect;
+
+/**
+ * Règles de ventilation B/D Propriétaire
+ * Source : MDG 2026 + Mode Emploi PPT 2026
+ */
+export const refVentilationBD = mysqlTable("ref_ventilation_bd", {
+  id: int("id").autoincrement().primaryKey(),
+  gerant: varchar("gerant", { length: 200 }).notNull(),
+  sa: varchar("sa", { length: 100 }).notNull(),
+  bdProprietaire: varchar("bd_proprietaire", { length: 200 }).notNull(),
+  pourcentage: int("pourcentage").default(100).notNull(),
+  codeBupo: varchar("code_bupo", { length: 20 }),
+  remarques: text("remarques"),
+});
+export type RefVentilationBD = typeof refVentilationBD.$inferSelect;
+
+/**
+ * Correspondance sous-type IMMOSIS → sous-type Connect'Immo
+ * Source : Captures Connect'Immo + PDF sous-types V2
+ */
+export const refCorrespondanceConnectImmo = mysqlTable("ref_correspondance_connect_immo", {
+  id: int("id").autoincrement().primaryKey(),
+  sousTypeImmosis: varchar("sous_type_immosis", { length: 30 }).notNull(),
+  sousTypeConnectImmo: varchar("sous_type_connect_immo", { length: 200 }).notNull(),
+  origineConnectImmo: varchar("origine_connect_immo", { length: 200 }),
+  remarques: text("remarques"),
+});
+export type RefCorrespondanceConnectImmo = typeof refCorrespondanceConnectImmo.$inferSelect;
