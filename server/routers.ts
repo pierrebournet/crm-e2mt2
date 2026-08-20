@@ -23,6 +23,7 @@ import {
   saveDecision, getDecisionHistory, getAllDecisionHistory, getDecisionStats,
   createCotechQuestion, getCotechQuestions, updateCotechQuestion, deleteCotechQuestion,
   createSuiviEntryAuto, findSuiviByDevisOrOT,
+  lookupGerantByUtBat, searchUtByLibelle,
 } from "./db";
 import { CONTRACTUAL_DELAYS } from "@shared/e2mt2";
 import { notifyOwner } from "./_core/notification";
@@ -2410,7 +2411,7 @@ Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou
 ### RÈGLES DE REMPLISSAGE IMMOSIS (NETiKA - immosis.sncf.fr) :
 
 **Identification :**
-- Gérant de programmes : déterminé par le propriétaire interne du bâtiment (lookup UT-BAT → propriétaire → gérant)
+- Gérant de programmes : ⚠️ OBLIGATOIRE — déterminé automatiquement par lookup BDD (table inventaire_utbat). Quand tu identifies l'UT et le BAT dans le devis, le système fait un lookup pour trouver le gérant exact. Si le lookup retourne un résultat, UTILISER ce gérant. Si pas de résultat, déduire du portefeuille/propriétaire interne.
 - Type : se décline en fonction du gérant (GE, PTP, CME, VRE, MEC, etc.)
 - Nom : TOUJOURS format 47-26-DI-[PORTEFEUILLE]-[UT-BAT]-[Description intervention] (47=code région, 26=année). ⚠️ ÉMETTEUR = DI OBLIGATOIREMENT (JAMAIS ESBE, JAMAIS le nom du prestataire). Exemple correct : "47-26-DI-RES TERTIAIRE-004714YB032-Rplct plaques faux plafond"
 - Exercice : 2026 | DTI/DEX : DTI Méditerranée | Etat : PROPOSE | Stratégie : NON DEFINIE | Priorité : 3
@@ -2513,7 +2514,20 @@ Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou
           }
           messages.push({ role: "user" as const, content: contentParts });
         } else {
-          messages.push({ role: "user" as const, content: input.question });
+        messages.push({ role: "user" as const, content: input.question });
+        }
+
+        // Lookup automatique du gérant si l'utilisateur mentionne un code UT dans sa question
+        const utMatch = input.question.match(/\b(\d{6}[A-Z])\b/i);
+        const batMatch = input.question.match(/\b[Bb]\s?(\d{3})\b/);
+        if (utMatch) {
+          const gerantInfo = await lookupGerantByUtBat(utMatch[1], batMatch ? `B${batMatch[1]}` : undefined);
+          if (gerantInfo) {
+            const infoStr = Array.isArray(gerantInfo)
+              ? `[LOOKUP BDD] UT ${utMatch[1]} — Bâtiments trouvés :\n${gerantInfo.map(g => `  - ${g.utBat} | ${g.libelleBatiment} | Gérant: ${g.nomGerant} | Portefeuille: ${g.portefeuille} | Propriétaire: ${g.proprietaireInterne}`).join('\n')}`
+              : `[LOOKUP BDD] UT ${utMatch[1]} BAT ${gerantInfo.codeBatiment} — Gérant: ${gerantInfo.nomGerant} | Portefeuille: ${gerantInfo.portefeuille} | Propriétaire: ${gerantInfo.proprietaireInterne} | Libellé UT: ${gerantInfo.libelleUt} | Libellé BAT: ${gerantInfo.libelleBatiment}`;
+            messages.push({ role: "system" as const, content: infoStr });
+          }
         }
 
         const result = await invokeLLM({ messages });
@@ -2976,6 +2990,29 @@ Quand l'utilisateur demande de "GÉNÉRER LES TRAMES IMMOSIS ET CONNECT'IMMO" ou
   // =============================================
   // COTECH QUESTIONS
   // =============================================
+
+  // =============================================
+  // INVENTAIRE UT-BAT — Lookup gérant de programme
+  // =============================================
+  inventaire: router({
+    lookupGerant: protectedProcedure
+      .input(z.object({
+        codeUt: z.string(),
+        codeBatiment: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        const result = await lookupGerantByUtBat(input.codeUt, input.codeBatiment);
+        return result;
+      }),
+    searchUt: protectedProcedure
+      .input(z.object({
+        search: z.string().min(2),
+      }))
+      .query(async ({ input }) => {
+        return searchUtByLibelle(input.search);
+      }),
+  }),
+
   cotech: router({
     list: protectedProcedure
       .input(z.object({

@@ -393,3 +393,22 @@ export const cotechQuestions = mysqlTable("cotech_questions", {
 
 export type CotechQuestion = typeof cotechQuestions.$inferSelect;
 export type InsertCotechQuestion = typeof cotechQuestions.$inferInsert;
+
+/**
+ * Inventaire UT-BAT avec gérant de programme — Référence pour déterminer
+ * automatiquement le gérant de programme à partir de l'UT-BAT d'un devis
+ */
+export const inventaireUtbat = mysqlTable("inventaire_utbat", {
+  id: int("id").autoincrement().primaryKey(),
+  codeUt: varchar("code_ut", { length: 20 }).notNull(),
+  utBat: varchar("ut_bat", { length: 30 }).notNull(),
+  libelleUt: varchar("libelle_ut", { length: 200 }).notNull(),
+  codeBatiment: varchar("code_batiment", { length: 20 }).notNull(),
+  libelleBatiment: varchar("libelle_batiment", { length: 200 }),
+  portefeuille: varchar("portefeuille", { length: 100 }),
+  nomGerant: varchar("nom_gerant", { length: 200 }).notNull(),
+  codeGerant: varchar("code_gerant", { length: 100 }),
+  proprietaireInterne: varchar("proprietaire_interne", { length: 200 }),
+});
+export type InventaireUtbat = typeof inventaireUtbat.$inferSelect;
+export type InsertInventaireUtbat = typeof inventaireUtbat.$inferInsert;

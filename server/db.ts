@@ -10,6 +10,7 @@ import {
   type InsertDevisAnalyse, type InsertDevisLine, type InsertSuiviEntry, type InsertDeliverable,
   type InsertInterventionChecklist,
   cotechQuestions, type InsertCotechQuestion,
+  inventaireUtbat,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1153,4 +1154,53 @@ export async function createSuiviEntryAuto(data: InsertSuiviEntry) {
   }
   const [result] = await db.insert(suiviEntries).values(data);
   return { id: result.insertId, alreadyExists: false };
+}
+
+// ============================================================
+// INVENTAIRE UT-BAT — Lookup gérant de programme
+// ============================================================
+
+/**
+ * Recherche le gérant de programme à partir du code UT et optionnellement du code bâtiment
+ */
+export async function lookupGerantByUtBat(codeUt: string, codeBatiment?: string) {
+  const db = await getDb();
+  if (!db) return null;
+
+  if (codeBatiment) {
+    const utBatClean = `${codeUt}_${codeBatiment.replace(/\s+/g, '')}`;
+    const results = await db.select().from(inventaireUtbat)
+      .where(sql`ut_bat = ${utBatClean} OR REPLACE(ut_bat, ' ', '') = ${utBatClean}`)
+      .limit(1);
+    if (results.length > 0) return results[0];
+  }
+
+  const results = await db.select().from(inventaireUtbat)
+    .where(eq(inventaireUtbat.codeUt, codeUt))
+    .limit(10);
+  
+  return results.length > 0 ? results : null;
+}
+
+/**
+ * Recherche par libellé d'UT (recherche partielle)
+ */
+export async function searchUtByLibelle(search: string) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const results = await db.select({
+    codeUt: inventaireUtbat.codeUt,
+    utBat: inventaireUtbat.utBat,
+    libelleUt: inventaireUtbat.libelleUt,
+    codeBatiment: inventaireUtbat.codeBatiment,
+    libelleBatiment: inventaireUtbat.libelleBatiment,
+    nomGerant: inventaireUtbat.nomGerant,
+    portefeuille: inventaireUtbat.portefeuille,
+    proprietaireInterne: inventaireUtbat.proprietaireInterne,
+  }).from(inventaireUtbat)
+    .where(sql`libelle_ut LIKE ${`%${search}%`} OR libelle_batiment LIKE ${`%${search}%`}`)
+    .limit(20);
+  
+  return results;
 }
